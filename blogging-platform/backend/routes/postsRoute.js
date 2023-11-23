@@ -1,5 +1,5 @@
 import express from 'express';
-import { Post } from '../modals/postsModal';
+import { Post } from '../modals/postsModal.js';
 
 const router = express.Router();
 // route to add new post
