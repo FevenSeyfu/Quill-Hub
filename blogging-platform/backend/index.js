@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'
 import dotenv from 'dotenv'; 
+import usersRoute from './routes/usersRoute';
+import postsRoute from './routes/postsRoute';
 
 dotenv.config()
 const app = express();
@@ -16,6 +18,9 @@ app.use(cors())
 app.get('/',(req,res)=>{
     return res.status(234).send('welcome to our awesome blogging site')
 })
+// define routes
+app.use('/users',usersRoute);
+app.use('/posts',postsRoute);
 
 // lets connect to db
 mongoose.connect(process.env.DATABASE_URL).then(()=>{
