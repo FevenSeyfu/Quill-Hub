@@ -81,7 +81,7 @@ router.put('/:id', async (request,response)=>{
 router.delete('/:id', async (request,response)=>{
     try{
         const {id} = request.params;
-        const result = await Book.findByIdAndDelete(id);
+        const result = await Post.findByIdAndDelete(id);
         if(!result){
             return response.status(404).json({message: 'Post not found'})
         }
