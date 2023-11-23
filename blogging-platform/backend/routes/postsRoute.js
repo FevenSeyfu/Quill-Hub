@@ -1,4 +1,4 @@
-import express, { request, response } from 'express';
+import express from 'express';
 import { Post } from '../modals/postsModal';
 
 const router = express.Router();
@@ -46,7 +46,7 @@ router.get('/',async (request,response)=>{
 router.get('/:id', async (request,response)=>{
     try{
         const {id} = request.params;
-        const post = await Posts.findById(id);
+        const post = await Post.findById(id);
         return response.status(200).json({
             data:post
         }
