@@ -3,7 +3,7 @@ import PostCard from './PostCard'
 
 const PostsList = () => {
   return (
-    <div>
+    <div className="w-3/4">
       <PostCard />
       <PostCard />
     </div>

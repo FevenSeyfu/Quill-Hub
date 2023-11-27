@@ -30,11 +30,15 @@ const Home = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <div>
+        <div className="flex flex-row h-full">
             <SideBar />
-            <Header />
-            <PostsList />
-            <LeftSideBar />
+            <div className="columns-7 flex flex-col">
+              <Header/>
+              <div className="container columns-7 flex flex-row w-full">
+                <PostsList />
+                <LeftSideBar/>
+              </div>
+            </div>
         </div>
       )}
     </div>
