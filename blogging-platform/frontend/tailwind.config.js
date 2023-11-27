@@ -12,10 +12,11 @@ export default {
     },
     colors: {
       "purple-telemagnet": '#C53678',
-      "mint-green": '#C53678',
-      "soft-white": '#C53678',
-      "soft-orange": '#C53678',
-      "white" : '#fff'
+      "mint-green": '#98FB98',
+      "soft-white": '#F8F8FF',
+      "soft-orange": '#FF6F61',
+      "white" : '#fff',
+      "gray":'#111827'
     },
     fontFamily: {
 

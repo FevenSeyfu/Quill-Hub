@@ -6,7 +6,7 @@ import Spinner from "../../components/Spinner";
 import SideBar from "../../components/Home/Side/SideBar";
 import Header from "../../components/Home/Header/Header";
 import PostsList from "../../components/Home/Main/PostsList";
-import LeftSideBar from "../../components/Home/Side/LeftSideBar";
+import RightSideBar from "../../components/Home/Side/RightSideBar";
 
 const Home = () => {
    const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const Home = () => {
               <Header/>
               <div className="flex flex-row w-full">
                 <PostsList />
-                <LeftSideBar/>
+                <RightSideBar/>
               </div>
             </div>
         </div>
