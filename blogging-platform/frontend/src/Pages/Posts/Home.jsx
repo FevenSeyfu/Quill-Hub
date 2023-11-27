@@ -32,9 +32,9 @@ const Home = () => {
       ) : (
         <div className="flex flex-row h-full">
             <SideBar />
-            <div className="columns-7 flex flex-col">
+            <div className="flex flex-col w-full">
               <Header/>
-              <div className="container columns-7 flex flex-row w-full">
+              <div className="flex flex-row w-full">
                 <PostsList />
                 <LeftSideBar/>
               </div>
