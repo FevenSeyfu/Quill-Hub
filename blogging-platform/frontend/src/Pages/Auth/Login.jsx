@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { IoLogoGoogle } from 'react-icons/io5';
+import { GoogleIcon } from "../../assets/Google.jsx";
 
 const Login = () => {
   return (
@@ -51,18 +51,23 @@ const Login = () => {
                 name="rememberMe"
                 className="mr-2"
               />
-            <div className="flex flex-row ">
-                <label htmlFor="rememberMe" className="text-sm font-medium text-gray mr-6">Remember me</label>
+              <div className="flex flex-row ">
+                <label
+                  htmlFor="rememberMe"
+                  className="text-sm font-medium text-gray mr-6"
+                >
+                  Remember me
+                </label>
                 <p className="text-sm text-gray">
-                    <a href="#">Forgot Password?</a>
+                  <a href="#">Forgot Password?</a>
                 </p>
-            </div>
+              </div>
             </div>
             <button
-            type="submit"
-            className="w-full  text-white  bg-soft-orange rounded-2xl py-2 mr-2"
+              type="submit"
+              className="w-full  text-white  bg-soft-orange rounded-2xl py-2 mr-2"
             >
-            Login
+              Login
             </button>
           </form>
           <hr className="my-6 border-t border-gray-300" />
@@ -70,15 +75,21 @@ const Login = () => {
             <p className="text-sm font-medium text-gray-600 mb-2">
               Or Login with
             </p>
-            <div type=" flex items-center justify-center">
-               <IoLogoGoogle/> Sign in with Google
+            <div>
+              <a
+                href="#"
+                className="flex flex-row items-center justify-around  m-2"
+              >
+                <GoogleIcon />
+              </a>
             </div>
           </div>
-          <p>Don't have an accound?
+          <p>
+            Don't have an accound?
             <Link to="/login" className="text-soft-orange hover:underline">
-                Register
+              Register
             </Link>
-        </p>
+          </p>
         </div>
         {/* Right side - Welcome message and illustration */}
         <div className="hidden md:block w-full md:w-4/6 pt-8  rounded-lg text-soft-white  bg-soft-orange">
