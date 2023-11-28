@@ -11,8 +11,11 @@ import RightSideBar from "../../components/Home/Side/RightSideBar";
 const Home = () => {
    const [loading, setLoading] = useState(false);
    const [posts, setPosts] = useState([]);
-
+   const [sidebarVisible, setSidebarVisible] = useState(true);
   useEffect(() => {
+
+    setSidebarVisible(window.innerWidth > 768); 
+
     setLoading(true);
     axios
       .get("http://localhost:5555/posts")
@@ -31,11 +34,11 @@ const Home = () => {
         <Spinner />
       ) : (
         <div className="flex flex-row h-full">
-            <SideBar />
-            <div className="flex flex-col w-full">
-              <Header/>
+            <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible}/>
+            <div className="flex flex-col ">
+              <Header sidebarVisible={sidebarVisible}/>
               <div className="flex flex-row w-full">
-                <PostsList />
+                <PostsList sidebarVisible={sidebarVisible}/>
                 <RightSideBar/>
               </div>
             </div>

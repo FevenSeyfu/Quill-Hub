@@ -1,7 +1,7 @@
 import React from 'react'
 import PostCard from './PostCard'
 
-const PostsList = () => {
+const PostsList = ({sidebarVisible}) => {
   const posts = [
     {
       title: 'Lorem ipsum dolor sit amet consectetur', 
@@ -56,7 +56,7 @@ const PostsList = () => {
     }
   ]
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+    <div className={`grid ${posts.length === 1 ? 'grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-3'} gap-4 p-4 ${sidebarVisible ? 'ml-64' : 'ml-16'}`}> 
       {posts.map((post, index) => (
         <PostCard key={index} post={post} />
       ))}
