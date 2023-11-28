@@ -6,7 +6,7 @@ const PostsList = ({sidebarVisible}) => {
     {
       title: 'Lorem ipsum dolor sit amet consectetur', 
       author: 'Author 1',
-      date: new Date(),
+      date: new Date().toJSON().slice(0, 10),
       votes: 3,
       description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maiores ea eos eveniet, tempora corrupti similique. ',
       imageUrl:'https://source.unsplash.com/user/wsanter',
@@ -15,7 +15,7 @@ const PostsList = ({sidebarVisible}) => {
     {
       title: 'Lorem ipsum dolor sit amet consectetur', 
       author: 'Author 1',
-      date: new Date(),
+      date: new Date().toJSON().slice(0, 10),
       votes: 3,
       description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maiores ea eos eveniet, tempora corrupti similique. ',
       imageUrl:'https://source.unsplash.com/user/wsanter',
@@ -24,7 +24,7 @@ const PostsList = ({sidebarVisible}) => {
     {
       title: 'Lorem ipsum dolor sit amet consectetur', 
       author: 'Author 1',
-      date: new Date(),
+      date: new Date().toJSON().slice(0, 10),
       votes: 3,
       description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maiores ea eos eveniet, tempora corrupti similique. ',
       imageUrl:'https://source.unsplash.com/user/wsanter',
@@ -32,23 +32,7 @@ const PostsList = ({sidebarVisible}) => {
     },{
       title: 'Lorem ipsum dolor sit amet consectetur', 
       author: 'Author 1',
-      date: new Date(),
-      votes: 3,
-      description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maiores ea eos eveniet, tempora corrupti similique. ',
-      imageUrl:'https://source.unsplash.com/user/wsanter',
-      tag : 'food'
-    },{
-      title: 'Lorem ipsum dolor sit amet consectetur', 
-      author: 'Author 1',
-      date: new Date(),
-      votes: 3,
-      description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maiores ea eos eveniet, tempora corrupti similique. ',
-      imageUrl:'https://source.unsplash.com/user/wsanter',
-      tag : 'food'
-    },{
-      title: 'Lorem ipsum dolor sit amet consectetur', 
-      author: 'Author 1',
-      date: new Date(),
+      date: new Date().toJSON().slice(0, 10),
       votes: 3,
       description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem maiores ea eos eveniet, tempora corrupti similique. ',
       imageUrl:'https://source.unsplash.com/user/wsanter',
