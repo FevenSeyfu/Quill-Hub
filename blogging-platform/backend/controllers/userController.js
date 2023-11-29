@@ -39,8 +39,18 @@ export const registerUser = async (request,response) => {
 }
 
 export const loginUser = async (request,response) => {
+    const {password,email} = request.body
     try{
-        return response.status(201).send('login success');
+        // check for user email
+        const user = await User.findOne({email})
+        if(user && (await bcrypt.compare(password,user.password))){
+            return response.status(201).json({
+                userName: user.userName,
+                email:user.email
+            });
+        }else{
+            response.status(400).send('invalid credential');
+        }
     }catch(error){
         console.log(error.message);
         response.status(500).send({message : error.message});
