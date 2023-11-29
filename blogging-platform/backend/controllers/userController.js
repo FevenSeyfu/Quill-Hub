@@ -66,8 +66,17 @@ export const loginUser = async (request,response) => {
 }
 
 export const getMe = async (request,response)=>{
+    const {_id,firstName,lastName,birthDate,userName,profileImage,email} = await User.findById(request.user.id)
     try{
-        return response.status(201).send('fetch user info');
+        return response.status(200).json({
+            id:_id,
+            firstName,
+            lastName,
+            birthDate,
+            profileImage,
+            userName,
+            email,
+        });
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });

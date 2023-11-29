@@ -7,12 +7,12 @@ export const createPosts = async (request,response) => {
             !request.body.author || 
             !request.body.content ||
             !request.body.catagory ){
-            return response.status(400).send({ message: 'send all required fields: title,post,catagory'});
+            return response.status(400).send({ message: 'Please fill all required fields'});
         }
         const newPost = {
             title:request.body.title,
             content:request.body.content,
-            author:request.body.author,
+            author:request.user.id,
             tags:request.body.tags,
             Image:request.body.Image,
             catagory:request.body.catagory,
@@ -28,7 +28,7 @@ export const createPosts = async (request,response) => {
 
 export const getPosts = async (request,response)=>{
     try{
-        const posts = await Post.find({});
+        const posts = await Post.find({user: request.user.id});
         return response.status(200).json({
             count: posts.length,
             data:posts
