@@ -2,9 +2,9 @@ import mongoose from 'mongoose'
 
 const commentSchema = mongoose.Schema(
     {
-        post : {type: mongoose.Schema.ObjectId, ref: "Post"},
-        userId : {type: mongoose.Schema.ObjectId, ref: "User"},
-        content :  { type : Date, required: true},
+        post : {type: mongoose.Schema.Types.ObjectId, required: true, ref: "Post"},
+        userId : {type: mongoose.Schema.Types.ObjectId,required: true, ref: "User"},
+        content :  { type : String, required: true},
     },
     {
         timestamps: true,
