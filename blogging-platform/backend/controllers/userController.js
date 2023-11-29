@@ -31,7 +31,12 @@ export const registerUser = async (request,response) => {
             password:hashedPassword,
         }
         const user = await User.create(newUser);
-        return response.status(201).send(user);
+        return response.status(201)
+        .json({
+            message:'User registered Successfully!',success: true, 
+            user:user,
+            token: generateToken(user._id)
+        });
     }catch(error){
         console.log(error.message);
         response.status(500).send({message : error.message});
@@ -46,7 +51,10 @@ export const loginUser = async (request,response) => {
         if(user && (await bcrypt.compare(password,user.password))){
             return response.status(201).json({
                 userName: user.userName,
-                email:user.email
+                id:user._id,
+                email:user.email,
+                token: generateToken(user._id),
+                message:'Signed in Successfully!',success: true,
             });
         }else{
             response.status(400).send('invalid credential');
@@ -64,4 +72,12 @@ export const getMe = async (request,response)=>{
         console.log(error.message);
         response.status(500).send({ message: error.message });
     }
+}
+
+// Generate Token
+
+const generateToken = (id)=>{
+    return jwt.sign({id},process.env.JWT_SECRET,{
+        expiresIn: '30d',
+    })
 }
