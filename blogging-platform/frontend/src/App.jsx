@@ -11,6 +11,7 @@ import DeletePosts from './Pages/Posts/DeletePosts'
 // Auth page
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
+import UserProfile from './Pages/Auth/UserProfile'
 
 
 const App = () => {
@@ -23,8 +24,9 @@ const App = () => {
       <Route path='/posts/details/:id' element={<ShowPosts />} />
       <Route path='/posts/edit/:id' element={<EditPosts />} />
       <Route path='/posts/delete/:id' element={<DeletePosts />} />
-      <Route path="/login" element={<Login/>} />
-      <Route path="/register" element={<Register/>} />
+      <Route path="/users/" element={<Register/>} />
+      <Route path="/users/login" element={<Login/>} />
+      <Route path="/users/profile" element={<UserProfile/>} />
     </Routes>
   )
 }

@@ -10,7 +10,7 @@ router.post('/',registerUser );
 
 router.post('/login', loginUser)
 
-router.get('/me',protect, getMe )
+router.get('/profile',protect, getMe )
 
 
 export default router;
