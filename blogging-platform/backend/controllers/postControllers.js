@@ -1,21 +1,20 @@
 import { Post } from '../models/postsModel.js';
+import { User } from '../models/userModel.js';
 
 export const createPosts = async (request,response) => {
+    const {title,content,catagory,tags,Image,} = request.body;
     try{
         if(
-            !request.body.title || 
-            !request.body.author || 
-            !request.body.content ||
-            !request.body.catagory ){
+            !title ||!content || !catagory ){
             return response.status(400).send({ message: 'Please fill all required fields'});
         }
         const newPost = {
-            title:request.body.title,
-            content:request.body.content,
+            title,
+            content,
             author:request.user.id,
-            tags:request.body.tags,
-            Image:request.body.Image,
-            catagory:request.body.catagory,
+            tags,
+            Image,
+            catagory,
             status: 'posted',
         }
         const post = await Post.create(newPost);
@@ -33,7 +32,7 @@ export const getPosts = async (request,response)=>{
             count: posts.length,
             data:posts
         }
-        );
+        ); 
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });
@@ -57,14 +56,24 @@ export const getPost = async (request,response)=>{
 export const updatePost = async (request,response)=>{
     try{
         if(
-            !request.body.title || 
-            !request.body.author || 
+            !request.body.title ||  
             !request.body.content ||
             !request.body.catagory ){
             return response.status(400).send({ message: 'send all required fields: title,post,catagory'});
         }
         const {id} = request.params;
+        const post = await Post.findById(id);
+        const user = await User.findById(request.user.id)
+
+        if(!user){
+            response.status(401).send({message: 'user not found'})
+        } 
+        if(post.author.toString() !== user.id){
+            response.status(401).send({message: 'User not Authorized'})
+        }
+
         const result = await Post.findByIdAndUpdate(id,request.body);
+
         if(!result){
             return response.status(404).json({message: 'Post not found'})
         }
@@ -78,6 +87,15 @@ export const updatePost = async (request,response)=>{
 export const deletePost = async (request,response)=>{
     try{
         const {id} = request.params;
+        const post = await Post.findById(id);
+        const user = await User.findById(request.user.id)
+
+        if(!user){
+            response.status(401).send({message: 'user not found'})
+        } 
+        if(post.author.toString() !== user.id){
+            response.status(401).send({message: 'User not Authorized'})
+        }
         const result = await Post.findByIdAndDelete(id);
         if(!result){
             return response.status(404).json({message: 'Post not found'})
