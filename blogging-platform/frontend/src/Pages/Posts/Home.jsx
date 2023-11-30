@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux'
 import Spinner from "../../components/Spinner";
 
 // components
@@ -9,17 +10,22 @@ import PostsList from "../../components/Home/Main/PostsList";
 import RightSideBar from "../../components/Home/Side/RightSideBar";
 
 const Home = () => {
-   const [loading, setLoading] = useState(false);
-   const [posts, setPosts] = useState([]);
-   const [sidebarVisible, setSidebarVisible] = useState(true);
-  useEffect(() => {
+  const { user } = useSelector((state) => state.auth)
+  const [posts, setPosts] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
     setSidebarVisible(window.innerWidth > 768); 
 
     setLoading(true);
     axios
       .get("http://localhost:5555/posts")
       .then((response) => {
+        console.log(response.data)
         setPosts(response.data.data);
         setLoading(false);
       })

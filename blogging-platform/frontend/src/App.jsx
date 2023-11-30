@@ -20,7 +20,7 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={isUserSignedIn ? <Home /> : <Navigate to="/login" />}>
+        <Route exact path="/posts" element={isUserSignedIn ? <Home /> : <Navigate to="/login" />}>
         </Route>
         <Route path='/posts/create' element={<CreatePosts />} />
         <Route path='/posts/details/:id' element={<ShowPosts />} />
