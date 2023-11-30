@@ -16,9 +16,7 @@ const Register = () => {
       email:'',
       password : '',
   })
-  // birthDate.toISOString().slice(0, 10)
   const {firstName,lastName,birthDate,userName,email,profileImage,password} = formData;
-  // const [profileImage, setProfileImage] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,10 +35,27 @@ const Register = () => {
   },[user, isError,isSuccess,message,navigate,dispatch])
   
   const onChange = (e) =>{
-    setFormData((prevState)=>({
-      ...prevState,
-      [e.target.name]:e.target.value,
-    }))
+    if (e.target.name === "profileImage") {
+      const file = e.target.files[0];
+  
+      if (file) {
+        const reader = new FileReader();
+  
+        reader.onloadend = () => {
+          setFormData((prevState) => ({
+            ...prevState,
+            profileImage: reader.result,
+          }));
+        };
+  
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
   }
   const onSubmit = (e)=>{
     e.preventDefault();
