@@ -38,7 +38,7 @@ const Home = () => {
             <div className="flex flex-col ">
               <Header sidebarVisible={sidebarVisible}/>
               <div className="flex flex-row w-full">
-                <PostsList sidebarVisible={sidebarVisible}/>
+                <PostsList sidebarVisible={sidebarVisible} posts={posts}/>
                 <RightSideBar/>
               </div>
             </div>

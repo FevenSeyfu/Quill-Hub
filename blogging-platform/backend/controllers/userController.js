@@ -33,7 +33,7 @@ export const registerUser = async (request,response) => {
         const user = await User.create(newUser);
         return response.status(201)
         .json({
-            message:'User registered Successfully!',success: true, 
+            // message:'User registered Successfully!',success: true, 
             user:user,
             token: generateToken(user._id)
         });

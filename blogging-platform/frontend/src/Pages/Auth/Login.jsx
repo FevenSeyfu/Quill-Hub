@@ -86,7 +86,7 @@ const Login = () => {
           </div>
           <p>
             Don't have an accound?
-            <Link to="/register" className="text-soft-orange hover:underline">
+            <Link to="/users/" className="text-soft-orange hover:underline">
               Register
             </Link>
           </p>
