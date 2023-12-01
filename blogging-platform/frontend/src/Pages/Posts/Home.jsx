@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from "../../components/Spinner";
-
+import { useNavigate } from "react-router-dom";
 // components
 import SideBar from "../../components/Home/Side/SideBar";
 import Header from "../../components/Home/Header/Header";
@@ -11,13 +11,14 @@ import RightSideBar from "../../components/Home/Side/RightSideBar";
 
 const Home = () => {
   const { user } = useSelector((state) => state.auth)
+  const navigate = useNavigate();
   const [posts, setPosts] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   useEffect(() => {
     if (!user) {
-      navigate('/login')
+      navigate('/users/login')
     }
     setSidebarVisible(window.innerWidth > 768); 
 
@@ -42,8 +43,8 @@ const Home = () => {
         <div className="flex flex-row h-full">
             <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible}/>
             <div className="flex flex-col ">
-              <Header sidebarVisible={sidebarVisible}/>
-              <div className="flex flex-row w-full">
+              <Header sidebarVisible={sidebarVisible} />
+              <div className="flex flex-row w-full mt-4">
                 <PostsList sidebarVisible={sidebarVisible} posts={posts}/>
                 <RightSideBar/>
               </div>
