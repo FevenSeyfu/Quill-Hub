@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 
 dotenv.config()
 const app = express();
-app.use(express.json());
+
 
 app.use(bodyParser.json({limit: '35mb'}));
 
@@ -19,6 +19,7 @@ app.use(
     parameterLimit: 50000,
   }),
 );
+app.use(express.json());
 // middleware to handle cors policy
 // allow all origins for now
 

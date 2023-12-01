@@ -7,9 +7,10 @@ const API_URL = 'http://localhost:5555/posts/'
 const createPost = async(postData,token) =>{
     const config = {
         headers: {
-            Authorizstion: `Bearer ${token}`
-        }
+            Authorization: `Bearer ${token}`,
+        },
     }
+    console.log(postData)
     const response = await axios.post(API_URL,postData,config)
     return response.data
 }

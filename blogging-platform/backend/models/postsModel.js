@@ -8,7 +8,7 @@ const postSchema = mongoose.Schema(
     tags: { type: [String] },
     createdAt: { type: Date, default: Date.now },
     Image: { type: String },
-    catagory: { type: String },
+    category: { type: String },
     status: { type: String, default: "draft" },
     votesCount: { type: Number, default: 0 },
     comments: { type: mongoose.Schema.ObjectId, ref: "Comment" },

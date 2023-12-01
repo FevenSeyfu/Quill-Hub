@@ -13,11 +13,12 @@ const CreatePosts = () => {
     title: "",
     content: "",
     tags: "",
-    image: "",
-    category: "",
+    Image: "",
+    catagory: "",
   });
 
-  const { title, content, tags, image, category } = formData;
+  const { title, content, tags, Image, catagory } = formData;
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   
   const {posts,isLoading, isError,isSuccess,message} = useSelector((state)=>state.post);
@@ -26,12 +27,15 @@ const CreatePosts = () => {
     if(isError){
       toast.error(message)
     }
+    if(isSuccess || posts){
+      navigate('/posts/')
+    }
     dispatch(reset());
 
   },[posts, isError,isSuccess,message,dispatch])
  
   const handleChange = (e) => {
-    if (e.target.name === "image") {
+    if (e.target.name === "Image") {
       const file = e.target.files[0];
   
       if (file) {
@@ -40,7 +44,7 @@ const CreatePosts = () => {
         reader.onloadend = () => {
           setFormData((prevState) => ({
             ...prevState,
-            image: reader.result,
+            Image: reader.result,
           }));
         };
   
@@ -57,7 +61,7 @@ const CreatePosts = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const postData = {
-      title, content, tags, image, category
+      title, content, tags, Image, catagory
     }
 
     dispatch(createPost(postData))
@@ -68,7 +72,6 @@ const CreatePosts = () => {
         <Header headerName={'Write Your Story'}/>
         <BackButton destination={'/posts'}/>
       </div>
-      <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
           {isLoading ? <Spinner /> : ""}
       <form onSubmit={handleSubmit} className="max-w-2xl mx-auto rounded shadow-lg px-10 py-7 ">
         <div className="mb-4">
@@ -131,25 +134,25 @@ const CreatePosts = () => {
           </label>
           <input
             type="file"
-            id="image"
-            name="image"
+            id="Image"
+            name="Image"
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded-md"
           />
         </div>
         <div className="mb-4">
-        <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-          Category
+        <label htmlFor="catagory" className="block text-sm font-medium text-gray-700">
+          catagory
         </label>
         <select
-          id="category"
-          name="category"
-          value={category}
+          id="catagory"
+          name="catagory"
+          value={catagory}
           onChange={handleChange}
           className="mt-1 p-2 w-full border rounded-md"
         >
           <option value="" disabled>
-            Select a category
+            Select a catagory
           </option>
           <option value="Technology">Technology</option>
           <option value="Lifestyle">Lifestyle</option>
