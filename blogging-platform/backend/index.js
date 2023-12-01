@@ -4,11 +4,21 @@ import cors from 'cors'
 import dotenv from 'dotenv'; 
 import usersRoute from './routes/usersRoute.js';
 import postsRoute from './routes/postsRoute.js';
+import bodyParser from 'body-parser';
 
 dotenv.config()
 const app = express();
 app.use(express.json());
 
+app.use(bodyParser.json({limit: '35mb'}));
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: '35mb',
+    parameterLimit: 50000,
+  }),
+);
 // middleware to handle cors policy
 // allow all origins for now
 
