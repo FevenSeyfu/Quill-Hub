@@ -6,7 +6,7 @@ import { TiPen } from "react-icons/ti";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../../features/auth/authSlice";
 
-const Header = ({ sidebarVisible }) => {
+const Header = ({ sidebarVisible,headerName}) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Header = ({ sidebarVisible }) => {
     >
       <div className="flex items-center">
         <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
-        <span className="text-lg font-bold">My Stories</span>
+        <span className="text-lg font-bold">{headerName}</span>
       </div>
 
       <div className="absolute right-3 top-3 flex flex-row gap-2 items-center justify-center  ">

@@ -43,7 +43,7 @@ const Home = () => {
         <div className="flex flex-row h-full">
             <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible}/>
             <div className="flex flex-col ">
-              <Header sidebarVisible={sidebarVisible} />
+              <Header sidebarVisible={sidebarVisible} headerName={'My Stories'}/>
               <div className="flex flex-row w-full mt-4">
                 <PostsList sidebarVisible={sidebarVisible} posts={posts}/>
                 <RightSideBar/>
