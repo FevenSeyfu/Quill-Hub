@@ -21,7 +21,7 @@ const Header = ({ sidebarVisible, headerName }) => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(reset());
-    navigate("/posts/");
+    navigate("/users/");
   };
   return (
     <div

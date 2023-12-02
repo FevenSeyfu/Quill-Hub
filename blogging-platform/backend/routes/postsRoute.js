@@ -8,9 +8,9 @@ const router = express.Router();
 // route to add new post
 router.post('/',protect, createPosts);
 // route to get all post
-router.get('/',getPosts);
+router.get('/',protect,getPosts);
 // route to get post by id
-router.get('/:id',getPost)
+router.get('/:id',protect,getPost)
 // route to Update post
 router.put('/:id', protect,updatePost)
 // route to Delete a post

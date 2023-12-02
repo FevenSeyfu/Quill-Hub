@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import postService from "./postService";
-import { deletePost } from "../../../../backend/controllers/postControllers";
+
 
 const initialState = {
   posts: [],
@@ -59,7 +59,7 @@ export const getPost = createAsyncThunk(
     }
 })
 
-export const deletPost = createAsyncThunk(
+export const deletePost = createAsyncThunk(
   'posts/delete',async (id,thunkAPI)=>{
     try{
       const token =thunkAPI.getState().auth.user.token
@@ -88,7 +88,7 @@ export const postSlice = createSlice({
       .addCase(createPost.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.posts.push(action.payload);
+        state.posts=action.payload;
       })
       .addCase(createPost.rejected, (state, action) => {
         state.isLoading = false;
@@ -110,7 +110,7 @@ export const postSlice = createSlice({
         state.message = action.payload;
       })
       // get post
-      addCase(getPost.pending, (state) => {
+      .addCase(getPost.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getPost.fulfilled, (state, action) => {

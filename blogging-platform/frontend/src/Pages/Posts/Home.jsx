@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";
+import { getPosts,reset } from "../../features/post/postSlice";
+import {toast} from 'react-toastify'
 // components
 import SideBar from "../../components/Home/Side/SideBar";
 import Header from "../../components/Home/Header/Header";
@@ -10,34 +12,31 @@ import PostsList from "../../components/Home/Main/PostsList";
 import RightSideBar from "../../components/Home/Side/RightSideBar";
 
 const Home = () => {
-  const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate();
-  const [posts, setPosts] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth)
+  
+  const {posts,isLoading, isError, message } = useSelector(
+    (state) => state.post
+  )
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/users/login')
-    }
     setSidebarVisible(window.innerWidth > 768); 
+    if(isError){
+      toast.error(message)
+    }
 
-    setLoading(true);
-    axios
-      .get("http://localhost:5555/posts")
-      .then((response) => {
-        console.log(response.data)
-        setPosts(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
+    
+    dispatch(getPosts())
+
+    return()=>{
+      dispatch(reset())
+    }
+  }, [user,navigate, isError, message, dispatch]);
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
         <div className="flex flex-row h-full">
