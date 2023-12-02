@@ -28,7 +28,7 @@ export const createPosts = async (request,response) => {
 export const getPosts = async (request,response)=>{
     try{
         const posts = await Post.find({});
-        return response.status(200).json({posts}); 
+        return response.status(200).send(posts); 
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });
@@ -39,7 +39,7 @@ export const getPost = async (request,response)=>{
     try{
         const {id} = request.params;
         const post = await Post.findById(id);
-        return response.status(200).json({post});
+        return response.status(200).send(post);
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });

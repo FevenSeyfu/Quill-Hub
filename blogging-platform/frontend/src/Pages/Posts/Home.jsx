@@ -16,7 +16,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth)
   
-  const {posts,isLoading, isError, message } = useSelector(
+  const {posts,isLoading,isSuccess, isError, message } = useSelector(
     (state) => state.post
   )
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -27,12 +27,11 @@ const Home = () => {
       toast.error(message)
     }
 
-    
+    if (!user) {
+      navigate('/users/login')
+    }
     dispatch(getPosts())
 
-    return()=>{
-      dispatch(reset())
-    }
   }, [user,navigate, isError, message, dispatch]);
   return (
     <div>
