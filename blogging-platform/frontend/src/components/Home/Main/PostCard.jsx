@@ -26,7 +26,7 @@ const PostCard = ({ post }) => {
         {tags[0]}
       </div>
       {Image ? (
-        <img className="rounded-lg overflow-hidden items-center h-48 w-ful" src={Image} alt={title} />
+        <img className="rounded-lg overflow-hidden items-center h-48 w-full" src={Image} alt={title} />
       ):(
         <div className="bg-black rounded-lg overflow-hidden items-center h-48 w-full">
           <div className="text-white pt-20  text-lg text-center p-4">{title.toUpperCase()}</div>

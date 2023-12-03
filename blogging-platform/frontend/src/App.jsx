@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Home from './Pages/Posts/Home'
 import CreatePosts from './Pages/Posts/CreatePosts'
 import ShowPost from './Pages/Posts/ShowPost'
-import EditPosts from './Pages/Posts/EditPosts'
+import EditPost from './Pages/Posts/EditPost'
 import DeletePosts from './Pages/Posts/DeletePosts'
 
 // Auth page
@@ -25,7 +25,7 @@ const App = () => {
         </Route>
         <Route path='/posts/create' element={<CreatePosts />} />
         <Route path='/posts/details/:id' element={<ShowPost />} />
-        <Route path='/posts/edit/:id' element={<EditPosts />} />
+        <Route path='/posts/edit/:id' element={<EditPost />} />
         <Route path='/posts/delete/:id' element={<DeletePosts />} />
         <Route path="/users/" element={<Register/>} />
         <Route path="/users/login" element={<Login/>} />

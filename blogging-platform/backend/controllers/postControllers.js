@@ -55,16 +55,6 @@ export const updatePost = async (request,response)=>{
             return response.status(400).send({ message: 'send all required fields: title,post,category'});
         }
         const {id} = request.params;
-        const post = await Post.findById(id);
-        const user = await User.findById(request.user.id)
-
-        if(!user){
-            response.status(401).send({message: 'user not found'})
-        } 
-        if(post.author.toString() !== user.id){
-            response.status(401).send({message: 'User not Authorized'})
-        }
-
         const result = await Post.findByIdAndUpdate(id,request.body);
 
         if(!result){
