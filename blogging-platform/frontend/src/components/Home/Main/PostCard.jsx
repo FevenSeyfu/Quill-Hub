@@ -21,7 +21,7 @@ const PostCard = ({ post }) => {
 
   const authorName = user.id === author && user.userName;
   return (
-    <div className="max-w-md rounded-lg overflow-hidden shadow-2xl  relative">
+    <div className="w-full rounded-lg overflow-hidden shadow-2xl  relative">
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">
         {tags[0]}
       </div>

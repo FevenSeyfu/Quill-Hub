@@ -20,7 +20,7 @@ app.use(
   }),
 );
 app.use(express.json());
-// middleware to handle cors policy
+// middleware to handle cors policy  
 // allow all origins for now
 
 app.use(cors())
