@@ -37,6 +37,8 @@ const Home = () => {
     <div>
       {isLoading ? (
         <Spinner />
+      ) : isError ? (
+        toast.error(message)
       ) : (
         <div className="flex flex-row h-full">
             <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible}/>

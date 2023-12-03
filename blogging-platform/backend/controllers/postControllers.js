@@ -27,8 +27,10 @@ export const createPosts = async (request,response) => {
 
 export const getPosts = async (request,response)=>{
     try{
-        const posts = await Post.find({});
-        return response.status(200).send(posts); 
+        const userId = request.user.id;
+        const posts = await Post.find({ author: userId });
+        
+        return response.status(200).send(posts);
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });

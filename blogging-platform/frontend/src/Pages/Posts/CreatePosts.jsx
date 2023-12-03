@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { createPost, reset } from "../../features/post/postSlice";
+import { createPost,getPosts, reset } from "../../features/post/postSlice";
 import imageCompression from 'browser-image-compression';
 
 import Header from "../../components/Home/Header/Header";
@@ -24,6 +24,7 @@ const CreatePosts = () => {
   const { posts, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.post
   );
+  const { user } = useSelector((state) => state.auth)
 
   const handleChange = async (e) => {
     if (e.target.name === "Image") {
@@ -66,6 +67,7 @@ const CreatePosts = () => {
       tags,
       Image,
       category,
+      author:user._id,
     };
     
     dispatch(createPost(postData));
@@ -73,6 +75,7 @@ const CreatePosts = () => {
       toast.error(message);
     }
     if (isSuccess || posts) {
+      dispatch(getPosts())
       navigate("/posts/");
     }
     dispatch(reset());

@@ -5,6 +5,7 @@ import Spinner from "../../components/Spinner.jsx";
 import {useSelector,useDispatch} from 'react-redux'
 import {toast} from 'react-toastify'
 import { register,reset } from "../../features/auth/authSlice.js";
+import imageCompression from 'browser-image-compression';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -34,21 +35,30 @@ const Register = () => {
 
   },[user, isError,isSuccess,message,navigate,dispatch])
   
-  const onChange = (e) =>{
+  const onChange = async(e) =>{
     if (e.target.name === "profileImage") {
       const file = e.target.files[0];
-  
+
       if (file) {
-        const reader = new FileReader();
-  
-        reader.onloadend = () => {
-          setFormData((prevState) => ({
-            ...prevState,
-            profileImage: reader.result,
-          }));
-        };
-  
-        reader.readAsDataURL(file);
+        try {
+          const compressedFile = await imageCompression(file, {
+            maxSizeMB: 0.1, 
+            maxWidthOrHeight: 800,
+          });
+
+          const reader = new FileReader();
+
+          reader.onloadend = () => {
+            setFormData((prevState) => ({
+              ...prevState,
+              profileImage: reader.result,
+            }));
+          };
+
+          reader.readAsDataURL(compressedFile);
+        } catch (error) {
+          console.error("Error compressing image:", error);
+        }
       }
     } else {
       setFormData((prevState) => ({
