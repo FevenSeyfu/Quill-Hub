@@ -33,7 +33,7 @@ export const registerUser = async (request,response) => {
         const user = await User.create(newUser);
         return response.status(201)
         .json({
-            message:'User registered Successfully!',success: true, 
+            // message:'User registered Successfully!',success: true, 
             user:user,
             token: generateToken(user._id)
         });
@@ -51,6 +51,8 @@ export const loginUser = async (request,response) => {
         if(user && (await bcrypt.compare(password,user.password))){
             return response.status(201).json({
                 userName: user.userName,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 id:user._id,
                 email:user.email,
                 token: generateToken(user._id),

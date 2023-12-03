@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux'
 import Spinner from "../../components/Spinner";
+import { useNavigate } from "react-router-dom";
+import { getPosts,reset } from "../../features/post/postSlice";
+import {toast} from 'react-toastify'
 
 // components
 import SideBar from "../../components/Home/Side/SideBar";
@@ -9,36 +12,40 @@ import PostsList from "../../components/Home/Main/PostsList";
 import RightSideBar from "../../components/Home/Side/RightSideBar";
 
 const Home = () => {
-   const [loading, setLoading] = useState(false);
-   const [posts, setPosts] = useState([]);
-   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth)
+  
+  const {posts,isLoading,isSuccess, isError, message } = useSelector(
+    (state) => state.post
+  )
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
   useEffect(() => {
-
     setSidebarVisible(window.innerWidth > 768); 
+    if(isError){
+      toast.error(message)
+    }
 
-    setLoading(true);
-    axios
-      .get("http://localhost:5555/posts")
-      .then((response) => {
-        setPosts(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
+    if (!user) {
+      navigate('/users/login')
+    }
+    dispatch(getPosts())
+
+  }, [user,navigate, isError, message, dispatch]);
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <Spinner />
+      ) : isError ? (
+        toast.error(message)
       ) : (
         <div className="flex flex-row h-full">
             <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible}/>
             <div className="flex flex-col ">
-              <Header sidebarVisible={sidebarVisible}/>
-              <div className="flex flex-row w-full">
-                <PostsList sidebarVisible={sidebarVisible}/>
+              <Header sidebarVisible={sidebarVisible} headerName={'My Stories'}/>
+              <div className="flex flex-row w-full mt-4">
+                <PostsList sidebarVisible={sidebarVisible} posts={posts}/>
                 <RightSideBar/>
               </div>
             </div>

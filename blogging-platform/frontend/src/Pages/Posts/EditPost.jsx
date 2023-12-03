@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { createPost,getPosts, reset } from "../../features/post/postSlice";
+import React, { useState,useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { updatePost,getPost } from "../../features/post/postSlice";
+import { useParams,useNavigate } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
+import Spinner from '../../components/Spinner';
+import Header from '../../components/Home/Header/Header'; 
+import {toast} from 'react-toastify'
 
-import Header from "../../components/Home/Header/Header";
-import Spinner from "../../components/Spinner";
+const EditPost = () => {
+  const dispatch = useDispatch();
+  const { id: postId } = useParams();
+  const navigate = useNavigate();
 
-const CreatePosts = () => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -16,24 +19,35 @@ const CreatePosts = () => {
     Image: "",
     category: "",
   });
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await dispatch(getPost(postId));
+        let post = response.payload;
+        setFormData({
+          title: post.title,
+          content: post.content,
+          tags: post.tags,
+          Image: post.Image,
+          category: post.category,
+        })
+      } catch (error) {
+        toast.error(error.message); 
+      }
+    };
 
-  const { title, content, tags, Image, category } = formData;
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const { posts, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.post
-  );
-  const { user } = useSelector((state) => state.auth)
+    fetchPost();
+    
+  },[dispatch, postId])
 
   const handleChange = async (e) => {
-    if (e.target.name === "Image") {
+    if (e.target.name === 'Image') {
       const file = e.target.files[0];
 
       if (file) {
         try {
           const compressedFile = await imageCompression(file, {
-            maxSizeMB: 0.1, 
+            maxSizeMB: 0.1,
             maxWidthOrHeight: 800,
           });
 
@@ -48,7 +62,7 @@ const CreatePosts = () => {
 
           reader.readAsDataURL(compressedFile);
         } catch (error) {
-          console.error("Error compressing image:", error);
+          console.error('Error compressing image:', error);
         }
       }
     } else {
@@ -61,31 +75,19 @@ const CreatePosts = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const postData = {
-      title,
-      content,
-      tags,
-      Image,
-      category,
-      author:user._id,
-    };
-    
-    dispatch(createPost(postData));
-    if (isError) {
-      toast.error(message);
+    try {
+      dispatch(updatePost({ postId, updatedData: formData }));
+      navigate('/posts/');
+    } catch (error) {
+      toast.error(error.message); 
     }
-    if (isSuccess || posts) {
-      dispatch(getPosts())
-      navigate("/posts/");
-    }
-    dispatch(reset());
   };
+
   return (
     <>
       <div className="shadow-2xl mb-2">
-        <Header headerName={"Write Your Story"} />
+        <Header headerName={"Update Your Post"} />
       </div>
-      {isLoading ? <Spinner /> : ""}
       <form
         onSubmit={handleSubmit}
         className="max-w-2xl mx-auto rounded shadow-lg px-10 py-7 "
@@ -99,7 +101,7 @@ const CreatePosts = () => {
             id="title"
             name="title"
             placeholder="Insert Title"
-            value={title}
+            value={formData.title}
             onChange={handleChange}
             required
             className="mt-1 p-2 w-full shadow-md"
@@ -110,12 +112,12 @@ const CreatePosts = () => {
             htmlFor="content"
             className="block text-sm font-medium text-gray-600"
           >
-            Content
+            Content:
           </label>
           <textarea
             id="content"
             name="content"
-            value={content}
+            value={formData.content}
             onChange={handleChange}
             required
             rows={10}
@@ -133,7 +135,7 @@ const CreatePosts = () => {
             type="text"
             id="tags"
             name="tags"
-            value={tags}
+            value={formData.tags}
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded-md"
           />
@@ -143,8 +145,11 @@ const CreatePosts = () => {
             htmlFor="image"
             className="block text-sm font-medium text-gray-600"
           >
-            Image
+            Post Image
           </label>
+          {formData.Image && (
+            <img src={formData.Image} alt={formData.title} className="mb-4 rounded-lg shadow-md max-h-96 w-full object-cover" />
+          )}
           <input
             type="file"
             id="Image"
@@ -163,7 +168,7 @@ const CreatePosts = () => {
           <select
             id="category"
             name="category"
-            value={category}
+            value={formData.category}
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded-md"
           >
@@ -187,12 +192,12 @@ const CreatePosts = () => {
             type="submit"
             className="bg-blue-500 text-white p-2 rounded-md bg-soft-orange"
           >
-            Post Blog
+            Update Blog Post
           </button>
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default CreatePosts;
+export default EditPost

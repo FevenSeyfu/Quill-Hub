@@ -1,45 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "../../features/auth/authSlice";
+import Header from "../../components/Home/Header/Header";
+import Modal from 'react-modal';
+import { FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+Modal.setAppElement('#root');
 
 const UserProfile = () => {
-  // test data
-  const [user, setUser] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    birthDate: '1990-01-01',
-    profileImage: 'https://example.com/profile.jpg',
-    userName: 'john_doe',
-    email: 'john@example.com',
-  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-purple-telemagnet">
-      <div className="max-w-6xl w-3/6  mx-auto rounded p-8 bg-soft-white shadow-md ">
-        <h2 className="text-2xl font-bold mb-4">User Profile</h2>
-        <div className="flex items-center justify-center mb-4">
-          <img
-            src={user.profileImage}
-            alt="Profile"
-            className="w-16 h-16 rounded-full object-cover mr-4"
-          />
-          <div>
-            <h3 className="text-lg font-semibold">{`${user.firstName} ${user.lastName}`}</h3>
-            <p className="text-gray-600">{`@${user.userName}`}</p>
+    <>
+      <Header sidebarVisible={true} headerName={"User Profile"} />
+      <Modal
+        isOpen={true}
+        contentLabel="User Profile Modal"
+        className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
+        overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+      >
+        <div className="max-w-2xl mx-auto p-4 bg-white rounded-md shadow-md relative">
+          <div className="flex justify-end">
+            <button
+              className="text-red hover:text-gray"
+              onClick={() => navigate("/posts")}
+            >
+              <FaTimes className="text-2xl" />
+            </button>
+          </div>
+          <div className="flex flex-col items-center">
+            <h2 className="text-2xl font-bold mb-4">User Profile</h2>
+            <div>
+              <p className="mb-2"><strong>ID:</strong> {user?.id}</p>
+              <p className="mb-2"><strong>First Name:</strong> {user?.firstName}</p>
+              <p className="mb-2"><strong>Last Name:</strong> {user?.lastName}</p>
+              <p className="mb-2"><strong>Birth Date:</strong> {user?.birthDate}</p>
+              <p className="mb-2"><strong>User Name:</strong> {user?.userName}</p>
+              <p className="mb-2"><strong>Email:</strong> {user?.email}</p>
+            </div>
           </div>
         </div>
-        <div className="mb-4">
-          <p>
-            <span className="font-semibold">Birth Date:</span> {user.birthDate}
-          </p>
-          <p>
-            <span className="font-semibold">Email:</span> {user.email}
-          </p>
-        </div>
-        <Link to="/edit-profile" className="text-blue-500 hover:underline">
-          Edit Profile
-        </Link>
-      </div>
-    </div>
+      </Modal>
+    </>
   );
 };
 

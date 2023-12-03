@@ -2,10 +2,10 @@ import { Post } from '../models/postsModel.js';
 import { User } from '../models/userModel.js';
 
 export const createPosts = async (request,response) => {
-    const {title,content,catagory,tags,Image,} = request.body;
+    const {title,content,category,tags,Image,} = request.body;
     try{
         if(
-            !title ||!content || !catagory ){
+            !title ||!content || !category ){
             return response.status(400).send({ message: 'Please fill all required fields'});
         }
         const newPost = {
@@ -14,7 +14,7 @@ export const createPosts = async (request,response) => {
             author:request.user.id,
             tags,
             Image,
-            catagory,
+            category,
             status: 'posted',
         }
         const post = await Post.create(newPost);
@@ -27,12 +27,10 @@ export const createPosts = async (request,response) => {
 
 export const getPosts = async (request,response)=>{
     try{
-        const posts = await Post.find({user: request.user.id});
-        return response.status(200).json({
-            count: posts.length,
-            data:posts
-        }
-        ); 
+        const userId = request.user.id;
+        const posts = await Post.find({ author: userId });
+        
+        return response.status(200).send(posts);
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });
@@ -43,10 +41,7 @@ export const getPost = async (request,response)=>{
     try{
         const {id} = request.params;
         const post = await Post.findById(id);
-        return response.status(200).json({
-            data:post
-        }
-        );
+        return response.status(200).send(post);
     }catch(error){
         console.log(error.message);
         response.status(500).send({ message: error.message });
@@ -58,20 +53,10 @@ export const updatePost = async (request,response)=>{
         if(
             !request.body.title ||  
             !request.body.content ||
-            !request.body.catagory ){
-            return response.status(400).send({ message: 'send all required fields: title,post,catagory'});
+            !request.body.category ){
+            return response.status(400).send({ message: 'send all required fields: title,post,category'});
         }
         const {id} = request.params;
-        const post = await Post.findById(id);
-        const user = await User.findById(request.user.id)
-
-        if(!user){
-            response.status(401).send({message: 'user not found'})
-        } 
-        if(post.author.toString() !== user.id){
-            response.status(401).send({message: 'User not Authorized'})
-        }
-
         const result = await Post.findByIdAndUpdate(id,request.body);
 
         if(!result){
