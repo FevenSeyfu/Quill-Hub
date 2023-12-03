@@ -19,6 +19,9 @@ export default {
       'gray-dark': '#374151',
       'gray': '#475569',
       'gray-light': '#94a3b8',
+      'blue': '#0d6efd',
+      'red' : '#dc3545',
+      'green' : '#198754'
     },
     screens: {
       'sm': '640px',
