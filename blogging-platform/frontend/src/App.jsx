@@ -7,7 +7,7 @@ import Home from './Pages/Posts/Home'
 import CreatePosts from './Pages/Posts/CreatePosts'
 import ShowPost from './Pages/Posts/ShowPost'
 import EditPost from './Pages/Posts/EditPost'
-import DeletePosts from './Pages/Posts/DeletePosts'
+import DeletePost from './Pages/Posts/DeletePost'
 
 // Auth page
 import Login from './Pages/Auth/Login'
@@ -26,7 +26,7 @@ const App = () => {
         <Route path='/posts/create' element={<CreatePosts />} />
         <Route path='/posts/details/:id' element={<ShowPost />} />
         <Route path='/posts/edit/:id' element={<EditPost />} />
-        <Route path='/posts/delete/:id' element={<DeletePosts />} />
+        <Route path='/posts/delete/:id' element={<DeletePost />} />
         <Route path="/users/" element={<Register/>} />
         <Route path="/users/login" element={<Login/>} />
         <Route path="/users/profile" element={<UserProfile/>} />

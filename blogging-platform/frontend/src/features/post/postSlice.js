@@ -163,7 +163,7 @@ export const postSlice = createSlice({
       .addCase(deletePost.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.goals = state.posts.filter(
+        state.posts = state.posts.filter(
           (post) => post._id !== action.payload.id
         )
       })
