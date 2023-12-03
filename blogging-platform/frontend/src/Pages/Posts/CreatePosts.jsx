@@ -7,7 +7,6 @@ import imageCompression from 'browser-image-compression';
 
 import Header from "../../components/Home/Header/Header";
 import Spinner from "../../components/Spinner";
-import BackButton from "../../components/BackButton";
 
 const CreatePosts = () => {
   const [formData, setFormData] = useState({
@@ -83,7 +82,6 @@ const CreatePosts = () => {
     <>
       <div className="shadow-2xl mb-2">
         <Header headerName={"Write Your Story"} />
-        <BackButton destination={"/posts"} />
       </div>
       {isLoading ? <Spinner /> : ""}
       <form

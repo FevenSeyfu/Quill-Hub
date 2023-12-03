@@ -16,7 +16,9 @@ export default {
       "soft-white": '#F8F8FF',
       "soft-orange": '#FF6F61',
       "white" : '#fff',
-      "gray":'#111827'
+      'gray-dark': '#374151',
+      'gray': '#475569',
+      'gray-light': '#94a3b8',
     },
     screens: {
       'sm': '640px',

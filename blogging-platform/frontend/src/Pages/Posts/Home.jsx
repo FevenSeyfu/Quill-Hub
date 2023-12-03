@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux'
+import { Link } from "react-router-dom";
 
 const PostCard = ({ post }) => {
   const { user } = useSelector((state) => state.auth)
@@ -27,6 +28,9 @@ const PostCard = ({ post }) => {
             {votes}
           </p>
         </div>
+        <Link to={`/posts/details/${post._id}`} className="text-soft-orange font-bold hover:underline">
+            Read More {'>>'}
+          </Link>
       </div>
     </div>
   );
