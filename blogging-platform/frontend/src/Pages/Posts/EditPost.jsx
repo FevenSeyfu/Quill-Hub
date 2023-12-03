@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updatePost,getPost } from "../../features/post/postSlice";
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
 import Spinner from '../../components/Spinner';
 import Header from '../../components/Home/Header/Header'; 
@@ -10,6 +10,7 @@ import {toast} from 'react-toastify'
 const EditPost = () => {
   const dispatch = useDispatch();
   const { id: postId } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -74,7 +75,12 @@ const EditPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updatePost({ postId, updatedData: formData }));
+    try {
+      dispatch(updatePost({ postId, updatedData: formData }));
+      navigate('/posts/');
+    } catch (error) {
+      toast.error(error.message); 
+    }
   };
 
   return (
