@@ -32,7 +32,6 @@ const CreateComment = () => {
 
     try {
       await dispatch(createComment(commentData));
-      setCommentContent("");
       navigate("/posts");
     } catch (error) {
       toast.error("Error creating comment:", error.message);
