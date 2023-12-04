@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import CreateComment from "../../../Pages/Comments/CreateComment";
 // icons
 import { BiSolidShow } from "react-icons/bi";
 import { MdDeleteForever } from "react-icons/md";
@@ -13,7 +12,7 @@ import { FaCommentDots } from "react-icons/fa";
 
 const PostCard = ({ post }) => {
   const { user } = useSelector((state) => state.auth);
-  const { title, author, createdAt, votesCount, Image, tags, commentCount } =
+  const { id,title, author, createdAt, votesCount, Image, tags, commentCount } =
     post;
 
   const handleDate = (dateInput) => {

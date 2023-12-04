@@ -1,29 +1,38 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createComment } from "../../features/comment/commentSlice";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify";import { useParams } from 'react-router-dom';
+
 import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
 const CreateComment = () => {
   const dispatch = useDispatch();
-  const [commentContent, setCommentContent] = useState("");
+  const { postId } = useParams();
   const { user } = useSelector((state) => state.auth);
-  const { posts } = useSelector((state) => state.post);
+
+  const [commentContent, setCommentContent] = useState({
+    post : "",
+    userId: "",
+    content: ""
+  });
+  
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-
+    const commentData ={
+        post : postId,
+        userId: user._id,
+        content: commentContent
+    }
     if (!commentContent.trim()) {
       toast.error("Please write Comment");
       return;
     }
 
     try {
-      await dispatch(createComment({ post: postId, content: commentContent }));
+      await dispatch(createComment(commentData));
       setCommentContent("");
-      posts.id === postId && posts.commentCount++;
-
       navigate("/posts");
     } catch (error) {
       toast.error("Error creating comment:", error.message);
@@ -48,12 +57,12 @@ const CreateComment = () => {
           ></textarea>
           <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 mt-2 rounded hover:bg-blue-600"
+            className="border-4 border-soft-orange text-soft-orange py-2 px-4 mt-2 rounded font-bold hover:border-3 hover:bg-soft-orange hover:text-white"
           >
             Post Comment
           </button>
         </form>
-      </div>
+      </div> 
     </Modal>
   );
 };
