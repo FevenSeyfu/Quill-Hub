@@ -58,6 +58,16 @@ const deleteComment = async(commentId,token)=>{
     return response.data
 }
 
+const likeComment = async (commentId,token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+    const response = await axios.post(`${API_URL}${commentId}/like`,config);
+    return response.data;
+  };
+
 const commentService = {
     createComment,
     getComments,
