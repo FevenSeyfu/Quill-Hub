@@ -1,122 +1,147 @@
 import { Post } from "../models/postsModel.js";
 // import { User } from "../models/userModel.js";
 import { Comment } from "../models/commentModel.js";
+import mongoose from 'mongoose'
 
 export const createComment = async (request, response) => {
-  const { postId, content } = request.body;
-
   try {
-    if (!postId || !content) {
-      return response
-        .status(400)
-        .send({ message: "Please provide post ID and comment content" });
-    }
-
-    const post = await Post.findById(postId);
+    const { post, content } = request.body;
+    const userId = request.user.id;
 
     if (!post) {
-      return response.status(404).send({ message: "Post not found" });
+        return response.status(400).json({ message: 'Post ID is required' });
+      }
+    
+      const existingPost = await Post.findById(post);
+    if (!existingPost) {
+      return response.status(404).json({ message: 'Post not found' });
     }
-
     const newComment = {
-      post: postId,
-      userId: request.user.id,
+      post,
+      userId,
       content,
     };
 
     const comment = await Comment.create(newComment);
-
-    return response.status(201).send(comment);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-};
-
-// returns all comments of a post
-export const getComments = async (request, response) => {
-  const { postId } = request.params;
-  try {
-    const comments = await Comment.find({ post: postId }).populate(
-      "userId",
-      "userName"
-    );
-    return response.status(200).send(comments);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-};
-
-// returns all details of a certian comment
-export const getComment = async (request, response) => {
-  try {
-    const {id} = request.params;
-    const comment = await Comment.findById(id);
-    return response.status(200).send(comment);
+    return response.status(201).json(comment);
   } catch (error) {
     console.error(error.message);
     response.status(500).send({ message: "Server Error" });
   }
 };
 
-export const updateComment = async (request, response) => {
-  const { id } = request.params;
-
+// get all comments of a post
+export const getComments = async (request, response) => {
   try {
-    const result = await Comment.findByIdAndUpdate(id, request.body);
+    const { postId } = request.params;
+    const comments = await Comment.find({ post: postId });
 
-    if (!result) {
-      return response.status(404).json({ message: "Comment not found" });
-    }
-
-    return response
-      .status(200)
-      .send({ message: "Comment updated successfully" });
+    return response.status(200).json(comments);
   } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
+    console.error(error.message);
+    response.status(500).send({ message: "Server Error" });
   }
 };
+// get single comment detail
+export const getComment = async (request, response) => {
+  try {
+    const { commentId } = request.params;
+
+    // Validate if commentId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(commentId)) {
+      return response.status(400).json({ message: 'Invalid comment ID' });
+    }
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return response.status(404).json({ message: "Comment not found" });
+    }
+
+    return response.status(200).json(comment);
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).send({ message: "Server Error" });
+  }
+};
+export const updateComment = async (request, response) => {
+    try {
+      const { commentId } = request.params;
+  
+      // Validate if commentId is a valid ObjectId
+      if (!mongoose.Types.ObjectId.isValid(commentId)) {
+        return response.status(400).json({ message: 'Invalid comment ID' });
+      }
+  
+      const updatedComment = await Comment.findByIdAndUpdate(
+        commentId,
+        request.body 
+      );
+  
+      if (!updatedComment) {
+        return response.status(404).json({ message: 'Comment not found' });
+      }
+  
+      return response.status(200).json(updatedComment);
+    } catch (error) {
+      console.error(error.message);
+      response.status(500).json({ message: 'Server Error' });
+    }
+  };
 
 export const deleteComment = async (request, response) => {
-  const { id } = request.params;
+ try {
+    const { commentId } = request.params;
 
-  try {
-    const result = await Comment.findByIdAndDelete(id);
+    // Validate if commentId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(commentId)) {
+      return response.status(400).json({ message: 'Invalid comment ID' });
+    }
+
+    const result = await Comment.findByIdAndDelete(commentId);
 
     if (!result) {
       return response.status(404).json({ message: "Comment not found" });
     }
 
-    return response
-      .status(200)
-      .send({ message: "Comment deleted successfully" });
+    return response.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
+    console.error(error.message);
+    response.status(500).send({ message: "Server Error" });
   }
 };
 
 export const likeComment = async (request, response) => {
-  const { commentId } = request.params;
   try {
+    const { commentId } = request.params;
+
+    // Validate if commentId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(commentId)) {
+      return response.status(400).json({ message: 'Invalid comment ID' });
+    }
+    // Check if the comment exists
     const comment = await Comment.findById(commentId);
 
     if (!comment) {
-      return response.status(404).json({ message: "Comment not found." });
+      return response.status(404).json({ message: "Comment not found" });
     }
 
-    if (!comment.likes.includes(request.user.id)) {
-      comment.likes.push(request.user.id);
-      await comment.save();
+    // Check if the user has already liked the comment
+    const userId = request.user.id;
+    if (comment.likes.includes(userId)) {
+      return response
+        .status(400)
+        .json({ message: "You have already liked this comment" });
     }
 
-    return response
-      .status(200)
-      .json({ message: "Comment liked successfully." });
+    // Add the user ID to the likes array
+    comment.likes.push(userId);
+
+    // Save the updated comment
+    await comment.save();
+
+    return response.status(200).json({ message: "Comment liked successfully" });
   } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
+    console.error(error.message);
+    response.status(500).send({ message: "Server Error" });
   }
 };

@@ -4,7 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'; 
 import usersRoute from './routes/usersRoute.js';
 import postsRoute from './routes/postsRoute.js';
-import commentRoute from './routes/commentRoute.js';
+import commentsRoute from './routes/commentsRoute.js';
 import bodyParser from 'body-parser';
 
 dotenv.config()
@@ -33,7 +33,7 @@ app.get('/',(req,res)=>{
 // define routes
 app.use('/users',usersRoute);
 app.use('/posts',postsRoute);
-app.use('/comments', commentRoute);
+app.use('/comments', commentsRoute);
 // lets connect to db
 mongoose.connect(process.env.DATABASE_URL).then(()=>{
     console.log('App connected to database');
