@@ -1,42 +1,46 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createComment } from "../../features/comment/commentSlice";
-import { toast } from "react-toastify";import { useParams } from 'react-router-dom';
+import { createComment,reset } from "../../features/comment/commentSlice";
+import { getPosts } from "../../features/post/postSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 import Modal from "react-modal";
+import Spinner from "../../components/Spinner";
 
 Modal.setAppElement("#root");
 
 const CreateComment = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { postId } = useParams();
-  const { user } = useSelector((state) => state.auth);
+  const [commentContent, setCommentContent] = useState('');
+  const {  isLoading,isSuccess, isError, message } = useSelector((state) => state.comment);
 
-  const [commentContent, setCommentContent] = useState({
-    post : "",
-    userId: "",
-    content: ""
-  });
-  
+  const handleCommentChange = (e) => {
+    setCommentContent(e.target.value);
+  };
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    const commentData ={
-        post : postId,
-        userId: user._id,
-        content: commentContent
-    }
-    if (!commentContent.trim()) {
-      toast.error("Please write Comment");
+    if (!commentContent.trim())  {
+        toast.error("Please write Comment");
       return;
     }
-
-    try {
-      await dispatch(createComment(commentData));
-      navigate("/posts");
-    } catch (error) {
-      toast.error("Error creating comment:", error.message);
-    }
+    dispatch(createComment({ post: postId, content:commentContent }));
+    setCommentContent('')
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      navigate('/posts/');
+    }
+
+    if(isError){
+      toast.error(message)
+    }
+  }, [isSuccess, isError, dispatch]);
   return (
     <Modal
       isOpen={true}
@@ -52,16 +56,17 @@ const CreateComment = () => {
             rows="3"
             placeholder="Write your comment..."
             value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
+            onChange={handleCommentChange}
           ></textarea>
           <button
             type="submit"
             className="border-4 border-soft-orange text-soft-orange py-2 px-4 mt-2 rounded font-bold hover:border-3 hover:bg-soft-orange hover:text-white"
+            disabled={isLoading}
           >
-            Post Comment
+            {isLoading ? 'Creating...' : 'Create Comment'}
           </button>
         </form>
-      </div> 
+      </div>
     </Modal>
   );
 };

@@ -7,6 +7,7 @@ export const createComment = async (request, response) => {
   try {
     const { post, content } = request.body;
     const userId = request.user.id;
+    const userName = request.user.userName;
 
     if (!post) {
         return response.status(400).json({ message: 'Post ID is required' });
@@ -20,6 +21,7 @@ export const createComment = async (request, response) => {
       post,
       userId,
       content,
+      userName,
     };
 
     const comment = await Comment.create(newComment);

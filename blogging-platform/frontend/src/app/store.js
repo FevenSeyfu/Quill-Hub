@@ -7,7 +7,7 @@ export const store = configureStore({
     reducer:{
         auth:authReducer,
         post:postReducer,
-        Comment:commentReducer,
+        comment:commentReducer,
     }
 })
 

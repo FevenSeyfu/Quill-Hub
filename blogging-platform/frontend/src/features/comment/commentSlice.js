@@ -119,6 +119,32 @@ export const commentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createComment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createComment.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.comments.push(action.payload);
+      })
+      .addCase(createComment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getComments.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getComments.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.comments= action.payload;
+      })
+      .addCase(getComments.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(getComment.pending, (state) => {
         state.isLoading = true;
       })
