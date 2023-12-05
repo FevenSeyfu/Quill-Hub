@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 // icons
 import { BiSolidShow } from "react-icons/bi";
 import { MdDeleteForever } from "react-icons/md";
@@ -12,7 +11,7 @@ import { FaCommentDots } from "react-icons/fa";
 
 const PostCard = ({ post }) => {
   const { user } = useSelector((state) => state.auth);
-  const { id,title, author, createdAt, votesCount, Image, tags, commentCount } =
+  const { title, author, createdAt, votesCount, Image, tags, commentCount } =
     post;
 
   const handleDate = (dateInput) => {
@@ -21,7 +20,7 @@ const PostCard = ({ post }) => {
     return formattedDate;
   };
 
-  const authorName = user.id === author && (user.firstName +" " +user.lastName);
+  const authorName = user && user.id === author && `${user.firstName} ${user.lastName}`;
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-2xl  relative">
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">

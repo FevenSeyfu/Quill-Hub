@@ -1,14 +1,4 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { RxAvatar } from "react-icons/rx";
-import {FaBook,
-  FaUser,
-  FaSignInAlt,
-  FaSignOutAlt,
-} from "react-icons/fa";
-import { TiPen } from "react-icons/ti";
-import { useSelector, useDispatch } from "react-redux";
-import { logout, reset } from "../../../features/auth/authSlice";
+
 const Avatar = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();

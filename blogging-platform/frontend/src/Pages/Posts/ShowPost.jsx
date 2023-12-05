@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost, reset } from "../../features/post/postSlice";
+import { getComments } from "../../features/comment/commentSlice";
 import { useParams } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import Header from "../../components/Home/Header/Header";
-import { Link } from 'react-router-dom';
-import ShowComments from "../Comments/ShowComments";
-
+import { Link } from "react-router-dom";
+// import ShowComments from "../Comments/ShowComments";
 
 const ShowPost = () => {
   const dispatch = useDispatch();
   const { id: postId } = useParams();
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
         dispatch(getPost(postId));
+        dispatch(getComments(postId));
       } catch (error) {
         console.error("Error fetching post:", error);
       }
@@ -27,6 +29,7 @@ const ShowPost = () => {
     };
   }, [dispatch, postId]);
   const { posts, isLoading } = useSelector((state) => state.post);
+  const { comments } = useSelector((state) => state.comment);
   if (isLoading) {
     return <Spinner />;
   }
@@ -65,10 +68,26 @@ const ShowPost = () => {
           {category}
         </h3>
         <div className="text-gray-dark leading-7">{content}</div>
-        <ShowComments postId={posts._id} />
-        <Link to={`/posts/comments/${posts._id}/`} className="text-soft-orange hover:underline">
+        <div>
+        {comments && (
+          <ul>
+            {comments.map(
+              (comment, idx) =>
+                idx < 5 && (
+                  <li key={comment._id}>
+                    <p>{comment.content}</p>
+                  </li>
+                )
+            )}
+          </ul>
+        )}
+        <Link
+          to={`/posts/comments/${posts._id}/`}
+          className="text-soft-orange hover:underline"
+        >
           View All Comments...
         </Link>
+        </div>
       </div>
     </>
   );

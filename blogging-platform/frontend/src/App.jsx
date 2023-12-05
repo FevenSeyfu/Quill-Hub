@@ -2,8 +2,10 @@ import React from 'react'
 import {Routes, Route , Navigate} from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
+import Home from './Pages/Home'
 // post Pages
-import Home from './Pages/Posts/Home'
+import MyPosts from './Pages/Posts/MyPosts'
 import CreatePosts from './Pages/Posts/CreatePosts'
 import ShowPost from './Pages/Posts/ShowPost'
 import EditPost from './Pages/Posts/EditPost'
@@ -22,12 +24,11 @@ import LikeComment from './Pages/Comments/LikeComment'
 import ShowComments from './Pages/Comments/ShowComments'
 
 const App = () => {
-  const isUserSignedIn = true;
   return (
     <>
       <Routes>
-        <Route exact path="/posts" element={isUserSignedIn ? <Home /> : <Navigate to="/users/login" />}>
-        </Route>
+        <Route exact path="/" element={<Home />} />
+        <Route path='/posts/' element={<MyPosts />} />
         <Route path='/posts/create' element={<CreatePosts />} />
         <Route path='/posts/details/:id' element={<ShowPost />} />
         <Route path='/posts/edit/:id' element={<EditPost />} />

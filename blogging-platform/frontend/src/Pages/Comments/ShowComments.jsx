@@ -3,6 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getComments, reset } from '../../features/comment/commentSlice';
 import Spinner from '../../components/Spinner';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root'); 
 
 const ShowComments = () => {
   const { postId } = useParams();
@@ -19,7 +22,12 @@ const ShowComments = () => {
   }, [dispatch, postId]);
 
   return (
-    <div>
+    <Modal
+      isOpen={true}
+      contentLabel="Delete Post Modal"
+      className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
+      overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+    >
       <h2>Comments</h2>
       {isLoading && <Spinner />}
       {isError && <div>Error: {message}</div>}
@@ -41,7 +49,7 @@ const ShowComments = () => {
           ))}
         </ul>
       )}
-    </div>
+    </Modal>
   );
 };
 

@@ -25,6 +25,7 @@ export const createPosts = async (request,response) => {
     }
 }
 
+
 export const getPosts = async (request,response)=>{
     try{
         const userId = request.user.id;

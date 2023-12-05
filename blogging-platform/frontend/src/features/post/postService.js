@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5555/posts/'
+const API_URL = 'http://localhost:5555';
+const POSTS_URL = `${API_URL}/posts`;
 
 
 // Create new post
@@ -10,7 +11,12 @@ const createPost = async(postData,token) =>{
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.post(API_URL,postData,config)
+    const response = await axios.post(POSTS_URL,postData,config)
+    return response.data
+}
+// get all posts
+const getAllPosts =async()=>{
+    const response = await axios.get(API_URL)
     return response.data
 }
 
@@ -21,7 +27,7 @@ const getPosts =async(token)=>{
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(API_URL,config)
+    const response = await axios.get(POSTS_URL,config)
     return response.data
 }
 
@@ -32,7 +38,7 @@ const getPost = async(postId,token)=>{
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(API_URL+postId,config)
+    const response = await axios.get(POSTS_URL+postId,config)
     return response.data
 }
 
@@ -43,7 +49,7 @@ const updatePost = async(postId,postData,token) =>{
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.put(API_URL+postId,postData,config)
+    const response = await axios.put(POSTS_URL+postId,postData,config)
     return response.data
 }
 
@@ -54,7 +60,7 @@ const deletePost = async(postId,token)=>{
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.delete(API_URL + postId,config)
+    const response = await axios.delete(POSTS_URL + postId,config)
     return response.data
 }
 
@@ -62,6 +68,7 @@ const postService = {
     createPost,
     getPost,
     getPosts,
+    getAllPosts,
     deletePost,
     updatePost
 }
