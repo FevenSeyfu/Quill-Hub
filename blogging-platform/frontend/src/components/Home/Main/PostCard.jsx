@@ -11,6 +11,7 @@ import { FaCommentDots } from "react-icons/fa";
 
 const PostCard = ({ post }) => {
   const { user } = useSelector((state) => state.auth);
+  const { comment } = useSelector((state) => state.comment);
   const { title, author, createdAt, votesCount, Image, tags, commentCount } =
     post;
 
@@ -43,11 +44,11 @@ const PostCard = ({ post }) => {
         <div className="font-bold text-xl mb-2">{title}</div>
       </div>
       <div className="px-6 py-4">
-        <div className="post-meta flex flex-col sm:flex-col">
-          <p className="text-gray-500 text-sm mr-2">
+        <p className="text-gray-500 text-sm mr-2">
             <b>By: </b>
             {authorName}
           </p>
+          <div className="post-meta flex flex-row gap-2 sm:flex-col">
           <p className="text-gray-500 text-sm mr-2">
             <b>Post Date:</b> {createdAt && handleDate(createdAt)}
           </p>

@@ -20,7 +20,6 @@ const Home = () => {
       toast.error(message)
     }
     dispatch(getAllPosts())
-    console.log(posts)
   }, [dispatch]);
   const {posts,isLoading,isSuccess, isError, message } = useSelector(
     (state) => state.post

@@ -11,6 +11,11 @@ Modal.setAppElement('#root');
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
   const { user } = useSelector((state) => state.auth);
   const {_id,firstName,lastName,birthDate,email,profileImage ,userName}= user.user
   return (
