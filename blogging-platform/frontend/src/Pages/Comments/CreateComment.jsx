@@ -30,19 +30,17 @@ const CreateComment = () => {
       return;
     }
     dispatch(createComment({ post: postId, content:commentContent }));
-    setCommentContent('')
-  };
-
-  useEffect(() => {
     if (isSuccess) {
-      dispatch(reset());
-      navigate('/posts/');
+      navigate(`/posts/`);
     }
 
     if(isError){
       toast.error(message)
     }
-  }, [isSuccess, isError, dispatch]);
+    setCommentContent('')
+  };
+
+
   return (
     <Layout>
       <Modal

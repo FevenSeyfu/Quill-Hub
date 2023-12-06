@@ -1,27 +1,38 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 // icons
-import { BiSolidShow } from "react-icons/bi";
-import { MdDeleteForever } from "react-icons/md";
-import { TbEdit } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
 import { FaCommentDots } from "react-icons/fa";
-
+import { getComments } from "../../../features/comment/commentSlice";
 
 const PostCard = ({ post }) => {
+  const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth);
-  const { comment } = useSelector((state) => state.comment);
-  const { title, author, createdAt, votesCount, Image, tags, commentCount } =
+  const { comments} = useSelector(
+    (state) => state.comment
+  );
+  const { title, author,content, createdAt, votesCount, Image, tags } =
     post;
-
+  
+  // dispatch(getComments(post._id));
   const handleDate = (dateInput) => {
     const date = new Date(dateInput);
     const formattedDate = date.toISOString().split("T")[0];
     return formattedDate;
   };
+  const {_id,firstName,lastName,}  = user.user
+  const authorName = user && _id === author && `${firstName} ${lastName}`;
+  useEffect(() => {
+    dispatch(getComments(post._id));
+  }, [dispatch, post._id]);
+  const commentCount = comments.length
 
-  const authorName = user && user.id === author && `${user.firstName} ${user.lastName}`;
+  const getFirstParagraphLimited = (content) => {
+    const words = content.split(" ");
+    const limitedWords = words.slice(0, 10);
+    return limitedWords.join(" ");
+  };
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-2xl  relative">
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">
@@ -42,15 +53,16 @@ const PostCard = ({ post }) => {
       )}
       <div className="px-4 py-3">
         <div className="font-bold text-xl mb-2">{title}</div>
+        <p className="text-gray-dark break-words">{content && getFirstParagraphLimited(content)}</p>
       </div>
       <div className="px-6 py-4">
         <p className="text-gray-500 text-sm mr-2">
             <b>By: </b>
             {authorName}
           </p>
-          <div className="post-meta flex flex-row gap-2 sm:flex-col">
+          <div className="flex gap-2 sm:flex-row">
           <p className="text-gray-500 text-sm mr-2">
-            <b>Post Date:</b> {createdAt && handleDate(createdAt)}
+            <b>Date:</b> {createdAt && handleDate(createdAt)}
           </p>
           <p className="flex flex-row items-center text-gray-500 text-md">
             <FaHeart className="text-red pr-1 text-lg" /> {":"}
@@ -66,14 +78,9 @@ const PostCard = ({ post }) => {
       </div>
       <div className="flex flex-row relative justify-between bottom-0  m-2">
         <Link to={`/posts/details/${post._id}`}>
-          <BiSolidShow className="text-blue font-bold hover:underline text-3xl" />
+          <p className="text-md font-bold text-soft-orange p-2 hover:bg-soft-orange hover:rounded-md hover:text-white">ReadMore..</p>
         </Link>
-        <Link to={`/posts/edit/${post._id}`}>
-          <TbEdit className="text-green font-bold hover:underline text-3xl" />
-        </Link>
-        <Link to={`/posts/delete/${post._id}`}>
-          <MdDeleteForever className="text-red font-bold hover:underline text-3xl" />
-        </Link>
+        
       </div>
     </div>
   );

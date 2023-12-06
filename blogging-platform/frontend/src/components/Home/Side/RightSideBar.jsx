@@ -4,7 +4,7 @@ import { IoSearch } from 'react-icons/io5';
 
 const RightSideBar = () => {
   return (
-    <div>
+    <div >
       {/* Search Bar */}
       <div className="mb-4">
         <div className="flex items-center bg-white border-b rounded-full p-2 ">

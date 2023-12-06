@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = 'http://localhost:5555';
-const POSTS_URL = `${API_URL}/posts`;
+const POSTS_URL = `${API_URL}/posts/`;
 
 
 // Create new post

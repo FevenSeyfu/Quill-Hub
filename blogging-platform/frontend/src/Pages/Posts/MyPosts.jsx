@@ -31,7 +31,7 @@ const MyPosts = () => {
 
   }, [user,navigate, isError, message, dispatch]);
   return (
-    <Layout>
+    <Layout headerName={'My Stories'}>
       {isLoading ? (
         <Spinner />
       ) : isError ? (

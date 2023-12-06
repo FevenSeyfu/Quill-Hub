@@ -8,10 +8,10 @@ const PostsList = ({posts}) => {
     (state) => state.post
   )
   return (
-    <div className={`max-w-full grid ${posts.length === 1 ? 'grid-cols-1 w-full' : 'md:grid-cols-2 lg:grid-cols-3'} gap-4 p-4`}> 
+    <div className={`max-w-ful grid ${posts.length === 1 ? 'grid-cols-1 w-full' : 'md:grid-cols-2 lg:grid-cols-3'} gap-4 p-4`}> 
       {isLoading ? (
         <Spinner />
-      ) : posts ? (posts.map((post) => (
+      ) : posts.length>0 ? (posts.map((post) => (
         <PostCard key={post._id} post={post} />
       ))) : ('No Posts Yet!')}
     </div>

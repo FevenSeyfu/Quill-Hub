@@ -25,7 +25,7 @@ const Header = ({ headerName }) => {
   };
   return (
     <div className="flex items-center justify-between p-4">
-      <Link to={"/posts/"}>
+      <Link to={"/"}>
         <div className="flex items-center">
           <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
           <span className="text-lg font-bold">{headerName}</span>

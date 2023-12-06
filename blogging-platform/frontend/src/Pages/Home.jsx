@@ -25,7 +25,7 @@ const Home = () => {
     (state) => state.post
   )
   return (
-    <Layout>
+    <Layout headerName={'Explore'}>
       {isLoading ? (
         <Spinner />
       ) : isError ? (
