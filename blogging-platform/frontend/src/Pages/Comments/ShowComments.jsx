@@ -1,54 +1,108 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getComments, reset } from '../../features/comment/commentSlice';
-import Spinner from '../../components/Spinner';
-import Modal from 'react-modal';
+import React, { useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getComments, reset } from "../../features/comment/commentSlice";
+import Spinner from "../../components/Spinner";
+import Modal from "react-modal";
+import { MdDeleteForever } from "react-icons/md";
+import { TbEdit } from "react-icons/tb";
+import { GrLike } from "react-icons/gr";
+import { toast } from "react-toastify";
 
-Modal.setAppElement('#root'); 
+Modal.setAppElement("#root");
 
 const ShowComments = () => {
   const { postId } = useParams();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const { comments, isLoading, isError, message } = useSelector(
     (state) => state.comment
   );
 
-  React.useEffect(() => {
-    dispatch(getComments(postId));
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        await dispatch(getComments(postId));
+      } catch (error) {
+        toast.error("Error fetching comments:", error);
+      }
+    };
+    fetchComment();
+
     return () => {
       dispatch(reset());
     };
   }, [dispatch, postId]);
 
+  const handleDate = (dateInput) => {
+    const date = new Date(dateInput);
+    const formattedDate = date.toISOString().split("T")[0];
+    return formattedDate;
+  };
+
   return (
     <Modal
       isOpen={true}
-      contentLabel="Delete Post Modal"
+      contentLabel="Show Comments Modal"
       className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
       overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
     >
-      <h2>Comments</h2>
-      {isLoading && <Spinner />}
-      {isError && <div>Error: {message}</div>}
-      {!isLoading && !isError && comments.length === 0 && (
-        <p>No comments available.</p>
-      )}
-      {!isLoading && !isError && comments.length > 0 && (
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment._id}>
-              <p>{comment.content}</p>
-              <Link to={`/posts/${postId}/comments/edit/${comment._id}`}>
-                Edit
-              </Link>
-              <Link to={`/posts/${postId}/comments/delete/${comment._id}`}>
-                Delete
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="bg-white p-8 rounded">
+        <h3 className="text-lg font-bold mb-4">Comments...</h3>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          comments && (
+            <ul>
+              {comments.map((comment) => (
+                <li
+                  key={comment._id}
+                  className="border p-2 mb-2 flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2">
+                    <p className="bg-soft-orange text-white px-2 py-1 rounded">
+                      {comment.userName}
+                    </p>
+                    <p className="text-black">{comment.content}</p>
+                  </div>
+                  <p className="text-gray-light">
+                    @{comment.createdAt && handleDate(comment.createdAt)}
+                  </p>
+                  {comment.userId === user.user._id ? (
+                    <div className="flex flex-row gap-2">
+                      <Link
+                        to={`/posts/${postId}/comments/edit/${comment._id}`}
+                        className="flex flex-row"
+                      >
+                        <TbEdit className="text-green hover:underline text-3xl" />
+                      </Link>
+                      <Link
+                        to={`/posts/${postId}/comments/${comment._id}/like`}
+                        className="flex flex-row"
+                      >
+                        <GrLike className="text-gray-dark hover:underline text-2xl" />
+                      </Link>
+                      <Link
+                        to={`/posts/${postId}/comments/delete/${comment._id}`}
+                        className="flex flex-row"
+                      >
+                        <MdDeleteForever className="text-red hover:underline text-3xl" />
+                      </Link>
+                    </div>
+                  ):(
+                    <Link
+                        to={`/posts/${postId}/comments/${comment._id}/like`}
+                        className="flex flex-row"
+                      >
+                        <GrLike className="text-gray-dark hover:underline text-2xl" />
+                      </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )
+        )}
+      </div>
     </Modal>
   );
 };
