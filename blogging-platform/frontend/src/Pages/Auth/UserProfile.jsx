@@ -5,30 +5,29 @@ import Header from "../../components/Home/Header/Header";
 import Modal from 'react-modal';
 import { FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import Layout from "../../components/Layout";
 
 Modal.setAppElement('#root');
 
 const UserProfile = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
-
+  const dispatch = useDispatch()
   useEffect(() => {
     return () => {
       dispatch(reset());
     };
   }, [dispatch]);
-
+  const { user } = useSelector((state) => state.auth);
+  const {_id,firstName,lastName,birthDate,email,profileImage ,userName}= user.user
   return (
-    <>
-      <Header sidebarVisible={true} headerName={"User Profile"} />
+    <Layout>
       <Modal
         isOpen={true}
         contentLabel="User Profile Modal"
         className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
         overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
       >
-        <div className="max-w-2xl mx-auto p-4 bg-white rounded-md shadow-md relative">
+        <div className="w-80 mx-24 p-4 bg-white rounded-md shadow-md relative">
           <div className="flex justify-end">
             <button
               className="text-red hover:text-gray"
@@ -38,19 +37,20 @@ const UserProfile = () => {
             </button>
           </div>
           <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-bold mb-4">User Profile</h2>
+            <h2 className="text-2xl font-bold px-8 mb-4">User Profile</h2>
             <div>
-              <p className="mb-2"><strong>ID:</strong> {user?.id}</p>
-              <p className="mb-2"><strong>First Name:</strong> {user?.firstName}</p>
-              <p className="mb-2"><strong>Last Name:</strong> {user?.lastName}</p>
-              <p className="mb-2"><strong>Birth Date:</strong> {user?.birthDate}</p>
-              <p className="mb-2"><strong>User Name:</strong> {user?.userName}</p>
-              <p className="mb-2"><strong>Email:</strong> {user?.email}</p>
+              <img src={profileImage} alt={`${userName} profile Picture`} className="rounded-full w-64 h-64 m-auto"/>
+              <p className="mb-2"><strong>ID:</strong> {_id}</p>
+              <p className="mb-2"><strong>First Name:</strong> {firstName}</p>
+              <p className="mb-2"><strong>Last Name:</strong> {lastName}</p>
+              <p className="mb-2"><strong>Birth Date:</strong> {birthDate}</p>
+              <p className="mb-2"><strong>User Name:</strong> {userName}</p>
+              <p className="mb-2"><strong>Email:</strong> {email}</p>
             </div>
           </div>
         </div>
       </Modal>
-    </>
+    </Layout>
   );
 };
 

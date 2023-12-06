@@ -1,17 +1,11 @@
-import React,{useState} from 'react'
+import React from 'react'
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaMedium } from "react-icons/fa6";
 import { IoMailOutline,IoChevronDown } from "react-icons/io5";
-import { FaBars } from 'react-icons/fa';
 
-const SideBar = ({sidebarVisible, setSidebarVisible}) => {
-
-  // Toggle sidebar visibility
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
-  };
-
+const SideBar = () => {
+  let sidebarVisible = window.innerWidth > 768;
   return (
     <>
     <div className={`sidebar  text-white fixed left-0 top-0 flex flex-col justify-between bg-purple-telemagnet  w-64 h-full ${sidebarVisible ? 'visible' : 'hidden'} lg:visible`}>
@@ -49,11 +43,6 @@ const SideBar = ({sidebarVisible, setSidebarVisible}) => {
       </div>
      
     </div>
-    <div className="lg:hidden fixed top-4 left-4">
-        <button onClick={toggleSidebar}>
-          <FaBars size={24} />
-        </button>
-      </div>
     </>
   )
 }

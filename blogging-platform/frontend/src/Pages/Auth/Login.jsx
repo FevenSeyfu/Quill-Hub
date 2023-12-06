@@ -28,7 +28,7 @@ const Login = () => {
       toast.error(message);
     }
     if (isSuccess || user) {
-      navigate("/posts/");
+      navigate("/");
     }
 
     dispatch(reset());

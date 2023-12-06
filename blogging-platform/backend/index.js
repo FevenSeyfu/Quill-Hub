@@ -4,8 +4,9 @@ import cors from 'cors'
 import dotenv from 'dotenv'; 
 import usersRoute from './routes/usersRoute.js';
 import postsRoute from './routes/postsRoute.js';
+import commentsRoute from './routes/commentsRoute.js';
 import bodyParser from 'body-parser';
-
+import { Post } from './models/postsModel.js';
 dotenv.config()
 const app = express();
 
@@ -26,13 +27,19 @@ app.use(express.json());
 app.use(cors())
 
 // define routes
-app.get('/',(req,res)=>{
-    return res.status(234).send('welcome to our awesome blogging site')
+app.get('/',async (request,response)=>{
+    try{
+        const posts = await Post.find({});
+        return response.status(200).send(posts);
+    }catch(error){
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
 })
 // define routes
 app.use('/users',usersRoute);
 app.use('/posts',postsRoute);
-
+app.use('/comments', commentsRoute);
 // lets connect to db
 mongoose.connect(process.env.DATABASE_URL).then(()=>{
     console.log('App connected to database');

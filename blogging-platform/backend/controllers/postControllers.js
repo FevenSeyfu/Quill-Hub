@@ -12,6 +12,7 @@ export const createPosts = async (request,response) => {
             title,
             content,
             author:request.user.id,
+            authorName:request.user.firstName +" "+request.user.lastName,
             tags,
             Image,
             category,
@@ -24,6 +25,7 @@ export const createPosts = async (request,response) => {
         response.status(500).send({message : error.message});
     }
 }
+
 
 export const getPosts = async (request,response)=>{
     try{
