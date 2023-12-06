@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 // icons
 import { FaHeart } from "react-icons/fa";
 import { FaCommentDots } from "react-icons/fa";
-import { getComments } from "../../../features/comment/commentSlice";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post,commentsCount }) => {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth);
-  const { comments} = useSelector(
-    (state) => state.comment
-  );
+
   const { title,authorName,content, createdAt, votesCount, Image, tags } =
     post;
   
@@ -20,13 +17,6 @@ const PostCard = ({ post }) => {
     const formattedDate = date.toISOString().split("T")[0];
     return formattedDate;
   };
-  // fetch comments count
-  useEffect(() => {
-    dispatch(getComments(post._id));
-  }, [dispatch, post._id]);
-
-  const commentCount = comments.length
-
   const getFirstParagraphLimited = (content) => {
     const words = content.split(" ");
     const limitedWords = words.slice(0, 10);
@@ -70,7 +60,7 @@ const PostCard = ({ post }) => {
         <Link to={`/posts/${post._id}/comments/create/`}>
           <p className="flex flex-row items-center text-gray-500 text-md">
             <FaCommentDots className="text-gray pr-1 text-lg" /> {":"}
-            {commentCount}
+            {commentsCount}
           </p>
         </Link>
         </div>

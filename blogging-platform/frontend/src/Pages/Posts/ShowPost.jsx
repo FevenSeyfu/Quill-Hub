@@ -16,25 +16,27 @@ const ShowPost = () => {
   const { id: postId } = useParams();
   const { posts, isSuccess, isLoading } = useSelector((state) => state.post);
   const { user } = useSelector((state) => state.auth)
+  const { comments } = useSelector((state) => state.comment);
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        dispatch(getPost(postId));
+        await dispatch(getPost(postId));
       } catch (error) {
         toast.error("Error fetching post:", error);
       }
     };
 
     fetchPost();
+    // Check if post is successfuly fetched  before dispatching getComments
     if (isSuccess) {
       dispatch(getComments(postId));
     }
-    return () => {
-      dispatch(reset());
-    };
-  }, [dispatch, postId]);
+    // return () => {
+    //   dispatch(reset());
+    // };
+  }, [dispatch, postId, isSuccess]);
 
-  const { comments } = useSelector((state) => state.comment);
+  
   if (isLoading) {
     return <Spinner />;
   }
