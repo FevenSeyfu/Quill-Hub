@@ -63,6 +63,16 @@ const deletePost = async(postId,token)=>{
     const response = await axios.delete(POSTS_URL + postId,config)
     return response.data
 }
+const searchPosts = async (term, token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  
+    const response = await axios.get(`${POSTS_URL}search?term=${term}`, config);
+    return response.data;
+  };
 
 const postService = {
     createPost,
@@ -70,6 +80,7 @@ const postService = {
     getPosts,
     getAllPosts,
     deletePost,
-    updatePost
+    updatePost,
+    searchPosts
 }
 export default postService

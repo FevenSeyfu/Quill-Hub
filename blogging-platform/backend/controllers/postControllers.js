@@ -93,3 +93,22 @@ export const deletePost = async (request,response)=>{
         response.status(500).send({ message: error.message });
     }
 }
+
+// search post 
+export const searchPosts = async (request,response)=>{
+    try {
+        const { term } = request.query;
+    
+        const posts = await Post.find({
+          $or: [
+            { title: { $regex: term, $options: 'i' } },
+            { content: { $regex: term, $options: 'i' } },
+          ],
+        });
+    
+        return response.status(200).json(posts);
+      } catch (error) {
+        console.error(error.message);
+        response.status(500).send({ message: 'Server Error' });
+      }
+}

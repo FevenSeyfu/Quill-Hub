@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPosts,getPosts,getPost,updatePost,deletePost } from '../controllers/postControllers.js';
+import { createPosts,getPosts,getPost,updatePost,deletePost,searchPosts } from '../controllers/postControllers.js';
 
 import { protect } from '../middleware/authMiddleware.js';
 

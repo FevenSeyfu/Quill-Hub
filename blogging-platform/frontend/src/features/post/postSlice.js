@@ -106,6 +106,23 @@ export const deletePost = createAsyncThunk(
     }
 })
 
+export const searchPosts = createAsyncThunk(
+  'posts/search',
+  async (searchTerm, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await postService.searchPosts(searchTerm, token);
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -204,6 +221,19 @@ export const postSlice = createSlice({
         state.isError = true
         state.message = action.payload
       })
+      .addCase(searchPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(searchPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.posts = action.payload;
+      })
+      .addCase(searchPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
 });
 
