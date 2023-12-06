@@ -16,6 +16,4 @@ router.put('/:id', protect,updatePost)
 // route to Delete a post
 router.delete('/:id',protect, deletePost)
 
-// search post functionality
-router.get('/search',searchPosts);
 export default router;

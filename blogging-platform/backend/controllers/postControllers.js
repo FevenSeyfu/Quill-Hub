@@ -95,7 +95,6 @@ export const deletePost = async (request,response)=>{
 }
 
 // search post 
-
 export const searchPosts = async (request,response)=>{
     try {
         const { term } = request.query;
