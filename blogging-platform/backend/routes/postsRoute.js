@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPosts,getPosts,getPost,updatePost,deletePost } from '../controllers/postControllers.js';
+import { createPosts,getPosts,getPost,updatePost,deletePost,searchPosts } from '../controllers/postControllers.js';
 
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -16,4 +16,6 @@ router.put('/:id', protect,updatePost)
 // route to Delete a post
 router.delete('/:id',protect, deletePost)
 
+// search post functionality
+router.get('/search',searchPosts);
 export default router;
