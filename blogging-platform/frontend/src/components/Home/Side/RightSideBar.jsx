@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
-import { setSearchTerm, searchPosts } from '../../../features/post/postSlice';
+import { searchPosts,reset } from '../../../features/post/postSlice';
+import RecentPosts from './RecentPosts'
 
 const RightSideBar = () => {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = () => {
-    dispatch(setSearchTerm(searchTerm));
     dispatch(searchPosts(searchTerm));
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
   return (
     <div >
       {/* Search Bar */}
