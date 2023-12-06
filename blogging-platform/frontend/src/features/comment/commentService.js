@@ -58,7 +58,7 @@ const deleteComment = async(commentId,token)=>{
     return response.data
 }
 
-const likeComment = async (commentId,token) => {
+const likeComment = async (commentId) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,

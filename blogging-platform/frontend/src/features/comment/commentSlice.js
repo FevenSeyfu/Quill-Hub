@@ -10,6 +10,15 @@ const initialState = {
   message: "",
 };
 
+const handleError = (error, thunkAPI) => {
+  const message =
+    (error.response && error.response.data && error.response.message) ||
+    error.message ||
+    error.toString();
+
+  return thunkAPI.rejectWithValue(message);
+}
+
 export const createComment = createAsyncThunk(
   "comment/createComment",
   async (commentData, thunkAPI) => {
@@ -17,12 +26,7 @@ export const createComment = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token;
       return await commentService.createComment(commentData, token);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue(message);
+      return handleError(error, thunkAPI);
     }
   }
 );
@@ -34,12 +38,7 @@ export const getComments = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token;
       return await commentService.getComments(postId, token);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue(message);
+      return handleError(error, thunkAPI);
     }
   }
 );
@@ -51,12 +50,7 @@ export const getComment = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token;
       return await commentService.getComment(commentId, token);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue(message);
+      return handleError(error, thunkAPI);
     }
   }
 );
@@ -68,12 +62,7 @@ export const updateComment = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token;
       return await commentService.updateComment(commentId, commentData, token);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue({ message });
+      return handleError(error, thunkAPI);
     }
   }
 );
@@ -85,12 +74,7 @@ export const deleteComment = createAsyncThunk(
       const token = thunkAPI.getState().auth.user.token;
       return await commentService.deleteComment(commentId, token);
     } catch (error) {
-      const message =
-        (error.response && error.response.data && error.response.message) ||
-        error.message ||
-        error.toString();
-
-      return thunkAPI.rejectWithValue(message);
+      return handleError(error, thunkAPI);
     }
   }
 );
@@ -99,9 +83,10 @@ export const likeComment = createAsyncThunk(
   "comment/likeComment",
   async (commentId, thunkAPI) => {
     try {
-      return await commentService.likeComment(commentId);
+      const token = thunkAPI.getState().auth.user.token;
+      return await commentService.likeComment(commentId,token);
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return handleError(error, thunkAPI);
     }
   }
 );
@@ -196,6 +181,7 @@ export const commentSlice = createSlice({
       .addCase(likeComment.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        
       })
       .addCase(likeComment.rejected, (state, action) => {
         state.isLoading = false;

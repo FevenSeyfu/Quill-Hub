@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getComments, reset } from "../../features/comment/commentSlice";
+import { getComments, reset, likeComment } from "../../features/comment/commentSlice";
 import Spinner from "../../components/Spinner";
 import Modal from "react-modal";
 import { MdDeleteForever } from "react-icons/md";
@@ -33,6 +33,20 @@ const ShowComments = () => {
       dispatch(reset());
     };
   }, [dispatch, postId]);
+
+  const [likeCount, setLikeCount] = useState({});
+
+  const handleLikeComment = async (commentId) => {
+    try {
+      await dispatch(likeComment(commentId));
+      setLikeCount((prevCount) => ({
+        ...prevCount,
+        [commentId]: (prevCount[commentId] || 0) + 1,
+      }));
+    } catch (error) {
+      toast.error("Error liking comment:", error);
+    }
+  };
 
   const handleDate = (dateInput) => {
     const date = new Date(dateInput);
@@ -76,12 +90,13 @@ const ShowComments = () => {
                       >
                         <TbEdit className="text-green hover:underline text-3xl" />
                       </Link>
-                      <Link
-                        to={`/posts/${postId}/comments/${comment._id}/like`}
+                      <button
+                         onClick={() => handleLikeComment(comment._id)}
                         className="flex flex-row"
                       >
                         <GrLike className="text-gray-dark hover:underline text-2xl" />
-                      </Link>
+                      </button>
+                      <span className="text-gray-dark">{likeCount[comment._id] || 0}</span>
                       <Link
                         to={`/posts/${postId}/comments/delete/${comment._id}`}
                         className="flex flex-row"
@@ -90,12 +105,16 @@ const ShowComments = () => {
                       </Link>
                     </div>
                   ):(
-                    <Link
-                        to={`/posts/${postId}/comments/${comment._id}/like`}
-                        className="flex flex-row"
+                    <>
+                    <button
+                      onClick={() => handleLikeComment(comment._id)}
+                      className="flex flex-row"
                       >
                         <GrLike className="text-gray-dark hover:underline text-2xl" />
-                      </Link>
+                      </button>
+                      <span className="text-gray-dark">{likeCount[comment._id] || 0}</span>
+
+                    </>
                   )}
                 </li>
               ))}
