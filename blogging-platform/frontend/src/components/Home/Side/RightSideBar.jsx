@@ -1,19 +1,31 @@
-import React from 'react'
-import RecentPosts from './RecentPosts'
+import React, { useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
+import { setSearchTerm, searchPosts } from '../../../features/post/postSlice';
 
 const RightSideBar = () => {
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    dispatch(setSearchTerm(searchTerm));
+    dispatch(searchPosts(searchTerm));
+  };
+
   return (
     <div >
       {/* Search Bar */}
       <div className="mb-4">
-        <div className="flex items-center bg-white border-b rounded-full p-2 ">
+        <div className="flex items-center bg-white border-b rounded-full p-2">
           <IoSearch className="text-gray-500" />
           <input
             type="text"
             placeholder="Search..."
-            className="ml-2 outline-none bg-transparent "
+            className="ml-2 outline-none bg-transparent"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <button onClick={handleSearch}>Search</button>
         </div>
       </div>
 
