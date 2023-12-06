@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5555';
+const API_URL = 'https://quillhub-am0q.onrender.com';
 const POSTS_URL = `${API_URL}/posts/`;
 
 
