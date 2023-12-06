@@ -11,6 +11,7 @@ Modal.setAppElement('#root');
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   useEffect(() => {
     return () => {
       dispatch(reset());

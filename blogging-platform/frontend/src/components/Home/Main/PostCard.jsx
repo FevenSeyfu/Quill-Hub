@@ -12,20 +12,19 @@ const PostCard = ({ post }) => {
   const { comments} = useSelector(
     (state) => state.comment
   );
-  const { title, author,content, createdAt, votesCount, Image, tags } =
+  const { title,authorName,content, createdAt, votesCount, Image, tags } =
     post;
   
-  // dispatch(getComments(post._id));
   const handleDate = (dateInput) => {
     const date = new Date(dateInput);
     const formattedDate = date.toISOString().split("T")[0];
     return formattedDate;
   };
-  const {_id,firstName,lastName,}  = user.user
-  const authorName = user && _id === author && `${firstName} ${lastName}`;
+  // fetch comments count
   useEffect(() => {
     dispatch(getComments(post._id));
   }, [dispatch, post._id]);
+
   const commentCount = comments.length
 
   const getFirstParagraphLimited = (content) => {

@@ -12,6 +12,7 @@ export const createPosts = async (request,response) => {
             title,
             content,
             author:request.user.id,
+            authorName:request.user.firstName +" "+request.user.lastName,
             tags,
             Image,
             category,

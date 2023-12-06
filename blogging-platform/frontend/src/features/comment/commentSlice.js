@@ -32,7 +32,7 @@ export const getComments = createAsyncThunk(
   async (postId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await commentService.getComments(postId, token);
+      return await commentService.getComments(postId, token,{ page: 1, pageSize: 1 });
     } catch (error) {
       const message =
         (error.response && error.response.data && error.response.message) ||

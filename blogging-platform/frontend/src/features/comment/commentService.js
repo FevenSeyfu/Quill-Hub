@@ -15,13 +15,17 @@ const createComment = async(commentData,token) =>{
 }
 
 // get all comments of a post
-const getComments =async(postId,token)=>{
+const getComments =async(postId,token,{ page, pageSize })=>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        params: {
+            page,
+            pageSize,
+          },
     }
-    const response = await axios.get(API_URL+postId,config)
+    const response = await axios.get(A`${API_URL}${postId}`,config)
     return response.data
 }
 
