@@ -116,10 +116,10 @@ const ShowPost = () => {
                           <Link to={`/posts/${posts._id}/comments/edit/${comment._id}`} className="flex flex-row">
                             <TbEdit className="text-green hover:underline text-3xl" />
                           </Link>
-                          <Link to={`/posts/${posts._id}/comments/delete/${comment._id}`} className="flex flex-row">
+                          <Link to={`/posts/${posts._id}/comments/${comment._id}/like`} className="flex flex-row">
                             <GrLike className="text-gray-dark hover:underline text-2xl" />
                           </Link>
-                          <Link to={`/posts/${posts._id}/comments/${comment._id}/like`} className="flex flex-row">
+                          <Link to={`/posts/${posts._id}/comments/delete/${comment._id}`} className="flex flex-row">
                             <MdDeleteForever className="text-red hover:underline text-3xl" />
                           </Link>
                         </div>
