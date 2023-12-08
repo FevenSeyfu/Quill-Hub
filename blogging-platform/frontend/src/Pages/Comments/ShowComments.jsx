@@ -8,6 +8,8 @@ import { MdDeleteForever } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 import { GrLike } from "react-icons/gr";
 import { toast } from "react-toastify";
+import BackButton from "../../components/BackButton";
+
 
 Modal.setAppElement("#root");
 
@@ -55,6 +57,7 @@ const ShowComments = () => {
   };
 
   return (
+    
     <Modal
       isOpen={true}
       contentLabel="Show Comments Modal"
@@ -62,7 +65,10 @@ const ShowComments = () => {
       overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
     >
       <div className="bg-white p-8 rounded">
-        <h3 className="text-lg font-bold mb-4">Comments...</h3>
+        <div className="flex flex-row gap-2">
+          <BackButton destination={`/posts/details/${postId}`}/>
+          <h3 className="text-lg font-bold mb-4">Comments...</h3>
+        </div>
         {isLoading ? (
           <Spinner />
         ) : (
@@ -82,7 +88,7 @@ const ShowComments = () => {
                   <p className="text-gray-light">
                     @{comment.createdAt && handleDate(comment.createdAt)}
                   </p>
-                  {comment.userId === user.user._id ? (
+                  {user && (user.user && user.user._id === comment.userId ? (
                     <div className="flex flex-row gap-2">
                       <Link
                         to={`/posts/${postId}/comments/edit/${comment._id}`}
@@ -96,7 +102,6 @@ const ShowComments = () => {
                       >
                         <GrLike className="text-gray-dark hover:underline text-2xl" />
                       </button>
-                      <span className="text-gray-dark">{likeCount[comment._id] || 0}</span>
                       <Link
                         to={`/posts/${postId}/comments/delete/${comment._id}`}
                         className="flex flex-row"
@@ -112,10 +117,8 @@ const ShowComments = () => {
                       >
                         <GrLike className="text-gray-dark hover:underline text-2xl" />
                       </button>
-                      <span className="text-gray-dark">{likeCount[comment._id] || 0}</span>
-
                     </>
-                  )}
+                  ))}
                 </li>
               ))}
             </ul>

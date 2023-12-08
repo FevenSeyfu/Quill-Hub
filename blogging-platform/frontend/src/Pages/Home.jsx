@@ -28,8 +28,8 @@ const Home = () => {
     <Layout headerName={'Explore'}>
       {isLoading ? (
         <Spinner />
-      ) : isError ? (
-        toast.error(message)
+      ): isSuccess && posts.length === 0 ? (
+        'No Posts Yet'
       ) : (
         <PostsList posts={posts}/>
       )}

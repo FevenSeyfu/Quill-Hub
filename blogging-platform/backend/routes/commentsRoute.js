@@ -7,9 +7,9 @@ const router = express.Router();
 // route to add a new comment
 router.post('/', protect, createComment);
 // route to get all comments for a post
-router.get('/:postId', protect, getComments);
+router.get('/:postId', getComments);
 // route to get a specific comment
-router.get('/:commentId', protect, getComment);
+router.get('/:commentId', getComment);
 // route to update a comment
 router.put('/:commentId', protect, updateComment);
 // route to delete a comment
