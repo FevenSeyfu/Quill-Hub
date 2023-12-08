@@ -5,6 +5,7 @@ import Spinner from "../../components/Spinner.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../../features/auth/authSlice.js";
+import { Illustration } from "../../assets/Illustration.jsx";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -146,17 +147,15 @@ const Login = () => {
         {/* Right side - Welcome message and illustration */}
         <div className="hidden md:block w-full md:w-4/6 pt-8  rounded-lg text-soft-white  bg-soft-orange">
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">Welcome</h2>
+            <h2 className="text-3xl font-bold mb-2">Welcome</h2>
             <p className="text-gray-600 mb-4">
               Enjoy the benefits of our platform by signing in. Join our
               community and explore a world of possibilities.
             </p>
           </div>
-          <img
-            src="https://source.unsplash.com/user/wsanter"
-            alt="Illustration"
-            className="w-full h-auto"
-          />
+          <div className="px-20">
+            <Illustration className="w-full h-full"/>
+          </div>
         </div>
       </div>
     </div>

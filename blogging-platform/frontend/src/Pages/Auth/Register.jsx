@@ -6,7 +6,7 @@ import {useSelector,useDispatch} from 'react-redux'
 import {toast} from 'react-toastify'
 import { register,reset } from "../../features/auth/authSlice.js";
 import imageCompression from 'browser-image-compression';
-
+import { Illustration } from "../../assets/Illustration.jsx";
 const Register = () => {
   const [formData, setFormData] = useState({
       firstName : '',
@@ -86,11 +86,9 @@ const Register = () => {
               community and explore a world of possibilities.
             </p>
           </div>
-          <img
-            src="https://source.unsplash.com/user/wsanter"
-            alt="Illustration"
-            className="w-full h-auto"
-          />
+          <div className="px-20">
+            <Illustration className="w-full h-full "/>
+          </div>
         </div>
 
         <div className="w-full px-3 pb-4 md:w-3/5 mx-4 md:mb-0 ">
@@ -194,7 +192,7 @@ const Register = () => {
               <div className="w-3/5">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-600"
+                  className="block text-sm font-medium text-gray"
                 >
                   Password
                 </label>
