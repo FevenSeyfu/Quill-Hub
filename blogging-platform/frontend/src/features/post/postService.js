@@ -32,13 +32,8 @@ const getPosts =async(token)=>{
 }
 
 // get post by id
-const getPost = async(postId,token)=>{
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    const response = await axios.get(POSTS_URL+postId,config)
+const getPost = async(postId)=>{
+    const response = await axios.get(POSTS_URL+postId)
     return response.data
 }
 
