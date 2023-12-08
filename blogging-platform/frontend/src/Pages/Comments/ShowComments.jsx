@@ -96,7 +96,6 @@ const ShowComments = () => {
                       >
                         <GrLike className="text-gray-dark hover:underline text-2xl" />
                       </button>
-                      <span className="text-gray-dark">{likeCount[comment._id] || 0}</span>
                       <Link
                         to={`/posts/${postId}/comments/delete/${comment._id}`}
                         className="flex flex-row"
