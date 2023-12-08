@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleIcon } from "../../assets/Google.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../../features/auth/authSlice.js";
 import { Illustration } from "../../assets/Illustration.jsx";
+import logoCircle from '../../assets/logo-circle.png'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -57,9 +57,9 @@ const Login = () => {
         <div className="w-full px-6 md:w-2/6 mx-8 md:mb-0 ">
           <div className="flex items-center justify-center mb-6">
             <img
-              src="https://source.unsplash.com/user/wsanter"
+              src={logoCircle}
               alt="Logo"
-              className="w-16 h-16 object-contain"
+              className="w-32 h-32 rounded-full object-contain"
             />
           </div>
           <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
@@ -68,7 +68,7 @@ const Login = () => {
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-600"
+                className="block text-sm font-medium text-gray"
               >
                 Email
               </label>
@@ -84,7 +84,7 @@ const Login = () => {
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-600"
+                className="block text-sm font-medium text-gray"
               >
                 Password
               </label>
@@ -118,26 +118,12 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-full  text-white  bg-soft-orange rounded-2xl py-2 mr-2"
+              className="w-3/6 text-white  bg-soft-orange rounded-2xl mt-4 py-2 ml-12 mb-2 mt-6"
             >
               Login
             </button>
           </form>
-          <hr className="my-6 border-t border-gray-300" />
-          <div className="text-center">
-            <p className="text-sm font-medium text-gray-600 mb-2">
-              Or Login with
-            </p>
-            <div>
-              <a
-                href="#"
-                className="flex flex-row items-center justify-around  m-2"
-              >
-                <GoogleIcon />
-              </a>
-            </div>
-          </div>
-          <p>
+          <p className="text-gray">
             Don't have an accound?
             <Link to="/users/" className="text-soft-orange hover:underline">
               Register

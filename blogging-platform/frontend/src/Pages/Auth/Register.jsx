@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleIcon } from "../../assets/Google.jsx";
 import Spinner from "../../components/Spinner.jsx";
 import {useSelector,useDispatch} from 'react-redux'
 import {toast} from 'react-toastify'
 import { register,reset } from "../../features/auth/authSlice.js";
 import imageCompression from 'browser-image-compression';
 import { Illustration } from "../../assets/Illustration.jsx";
+import logoCircle from '../../assets/logo-circle.png'
+
 const Register = () => {
   const [formData, setFormData] = useState({
       firstName : '',
@@ -91,18 +92,18 @@ const Register = () => {
           </div>
         </div>
 
-        <div className="w-full px-3 pb-4 md:w-3/5 mx-4 md:mb-0 ">
-          <div className="flex items-center justify-center mb-6">
+        <div className="w-full px-2 md:w-3/6 mx-4 md:mb-0 ">
+          <div className="flex items-center justify-center mb-2 mt-2">
             <img
-              src="https://source.unsplash.com/user/wsanter"
+              src={logoCircle}
               alt="Logo"
-              className="w-12 max-h-12 h-12 object-contain"
+              className="w-24 h-24 rounded-full object-contain"
             />
-          </div>
-          <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+           </div>
+          <h2 className="text-2xl font-bold mb-2 text-center">Register</h2>
           {isLoading ? <Spinner /> : ""}
           <form onSubmit={onSubmit}>
-            <div className="flex flex-row justify-between gap-3 pb-1">
+            <div className="flex flex-row justify-between gap-2 pb-1">
               <div className="w-3/5">
                 <label
                   htmlFor="firstName"
@@ -136,7 +137,7 @@ const Register = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-row justify-between gap-3 pb-1">
+            <div className="flex flex-row justify-between gap-2 pb-1">
               <div className="w-3/5">
                 <label
                   htmlFor="userName"
@@ -172,7 +173,7 @@ const Register = () => {
               
               </div>
             </div>
-            <div className="flex flex-row justify-between gap-3 pb-4">
+            <div className="flex flex-row justify-between gap-2 pb-4">
               <div className="w-3/5">
                 <label
                   htmlFor="email"
@@ -237,7 +238,15 @@ const Register = () => {
                   Remember me
                 </label>
               </div>
-              <p>
+            </div>
+            <button
+              type="submit"
+              className="w-3/6 text-white  bg-soft-orange rounded-2xl py-2 ml-20"
+              
+            >
+              Register
+            </button>
+            <p className="text-sm text-gray mt-2">
                 Already have an account?
                 <Link
                   to="/users/login"
@@ -246,31 +255,7 @@ const Register = () => {
                   Login
                 </Link>
               </p>
-            </div>
-            <button
-              type="submit"
-              className="w-3/6 text-white  bg-soft-orange rounded-2xl py-2 ml-32"
-              
-            >
-              Register
-            </button>
           </form>
-
-          <div className="w-full mt-4">
-            <div className=" flex flex-row items-center gap-2 w-full  mb-2">
-              <hr className="w-2/6" />
-              <p className="text-sm font-medium text-gray"> Or Register with</p>
-              <hr className="w-2/6" />
-            </div>
-            <div>
-              <a
-                href="#"
-                className="flex flex-row items-center justify-around  m-2"
-              >
-                <GoogleIcon />
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
