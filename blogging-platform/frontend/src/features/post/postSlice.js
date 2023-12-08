@@ -109,8 +109,7 @@ export const searchPosts = createAsyncThunk(
   'posts/search',
   async (searchTerm, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await postService.searchPosts(searchTerm, token);
+      return await postService.searchPosts(searchTerm);
     } catch (error) {
       const message =
         (error.response && error.response.data && error.response.message) ||
