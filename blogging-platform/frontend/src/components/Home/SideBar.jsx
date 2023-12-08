@@ -4,8 +4,10 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { FaMedium } from "react-icons/fa6";
 import { IoMailOutline,IoChevronDown } from "react-icons/io5";
 import Logo from '../../assets/logo-no-bg.png'
+import { useSelector } from "react-redux";
 
 const SideBar = () => {
+  const { user } = useSelector((state) => state.auth);
   let sidebarVisible = window.innerWidth > 768;
   return (
     <>
@@ -21,14 +23,29 @@ const SideBar = () => {
           Home
           <IoChevronDown className="ml-2" />
         </a>
-        <a href="/posts/" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
-          My Stories
-          <IoChevronDown className="ml-2" />
-        </a>
-        <a href="/users/profile" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
-          My Profile
-          <IoChevronDown className="ml-2" />
-        </a>
+        {user ? (
+          <>
+            <a href="/posts/" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
+              My Stories
+              <IoChevronDown className="ml-2" />
+            </a>
+          <a href="/users/profile" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
+              My Profile
+              <IoChevronDown className="ml-2" />
+            </a>
+          </>
+        ):(
+          <>
+            <a href="/users/login/" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
+              Login
+              <IoChevronDown className="ml-2" />
+            </a>
+          <a href="/users/" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
+              Register
+              <IoChevronDown className="ml-2" />
+            </a>
+          </>
+        )}
       </nav>
       <div className="flex flex-col items-center pb-4">
         <div className="flex space-x-4 mb-4">
