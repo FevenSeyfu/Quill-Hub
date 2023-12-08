@@ -21,7 +21,7 @@ const RightSideBar = () => {
     <div >
       {/* Search Bar */}
       <div className="mb-4">
-        <div className="flex items-center bg-white border-b rounded-full p-2">
+        <form onSubmit={handleSearch} className="flex items-center bg-white border-b rounded-full p-2">
           <IoSearch className="text-gray-500" />
           <input
             type="text"
@@ -30,8 +30,7 @@ const RightSideBar = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button onClick={handleSearch}>Search</button>
-        </div>
+        </form>
       </div>
 
       {/* Popular Posts */}

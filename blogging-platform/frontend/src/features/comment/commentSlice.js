@@ -35,8 +35,7 @@ export const getComments = createAsyncThunk(
   "comment/getComments",
   async (postId, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await commentService.getComments(postId, token);
+      return await commentService.getComments(postId);
     } catch (error) {
       return handleError(error, thunkAPI);
     }
@@ -47,8 +46,7 @@ export const getComment = createAsyncThunk(
   "comment/getComment",
   async (commentId, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await commentService.getComment(commentId, token);
+      return await commentService.getComment(commentId);
     } catch (error) {
       return handleError(error, thunkAPI);
     }

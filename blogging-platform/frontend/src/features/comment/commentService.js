@@ -15,24 +15,14 @@ const createComment = async(commentData,token) =>{
 }
 
 // get all comments of a post
-const getComments =async(postId,token)=>{
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    const response = await axios.get(API_URL+postId,config)
+const getComments =async(postId)=>{
+    const response = await axios.get(API_URL+postId)
     return response.data
 }
 
 // get comment by id
-const getComment = async(commentId,token)=>{
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    }
-    const response = await axios.get(API_URL+commentId,config)
+const getComment = async(commentId)=>{
+    const response = await axios.get(API_URL+commentId)
     return response.data
 }
 
