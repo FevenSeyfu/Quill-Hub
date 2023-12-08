@@ -34,7 +34,7 @@ const ShowPost = () => {
   }, [dispatch, postId, isSuccess]);
 
   if (isLoading) {
-    return <Spinner />;
+    return <Spinner className="m-50"/>;
   }
 
   const handleDate = (dateInput) => {
@@ -48,7 +48,7 @@ const ShowPost = () => {
   return (
     <>
       <Header sidebarVisible={true} headerName={title} />
-      <div className="flex flex-row">
+      <div className="flex flex-col md:flex-row  w-full">
         <div className="max-w-2xl mx-auto mt-8 p-4 bg-soft-range shadow-md">
           <div className="flex flex-row justify-between">
             <h1 className="text-3xl font-bold mb-4">
@@ -92,7 +92,7 @@ const ShowPost = () => {
           </h3>
           <div className="text-gray-dark leading-7">{content}</div>
         </div>
-        <div className="w-2/6 mx-auto mt-8 px-9 bg-soft-range shadow-md">
+        <div className="flex flex-col lg:w-2/6 md:w-full mx-auto mt-8 px-9 bg-soft-range shadow-md">
           <h3 className="font-bold text-lg">Comments...</h3>
           {comments && (
             <ul>
@@ -143,7 +143,7 @@ const ShowPost = () => {
           )}
           <Link
             to={`/posts/comments/${posts._id}/`}
-            className="text-soft-orange hover:underline"
+            className="text-soft-orange hover:underline mb-4"
           >
             View All Comments...
           </Link>

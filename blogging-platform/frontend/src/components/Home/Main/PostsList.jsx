@@ -43,12 +43,12 @@ const PostsList = ({ posts }) => {
       className={`max-w-ful grid ${
         posts.length === 1
           ? "grid-cols-1 w-full"
-          : "md:grid-cols-2 lg:grid-cols-3"
+          : "md:grid-cols-2 w-full"
       } gap-4 p-4`}
     >
       {isLoading ? (
         <Spinner />
-      ) : posts.length > 0 ? (
+      ) :  (
         posts.map((post) => (
           <PostCard
             key={post._id}
@@ -56,8 +56,6 @@ const PostsList = ({ posts }) => {
             commentsCount={commentsCounts[post._id] || 0}
           />
         ))
-      ) : (
-        "No Posts Yet!"
       )}
     </div>
   );

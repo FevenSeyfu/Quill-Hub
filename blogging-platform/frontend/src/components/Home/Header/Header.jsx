@@ -11,6 +11,8 @@ import {
 import { TiPen } from "react-icons/ti";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../../../features/auth/authSlice";
+import Logo from '../../../assets/logo-no-bg.png'
+import SearchBar from "../Side/SearchBar";
 
 const Header = ({ headerName }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -23,15 +25,32 @@ const Header = ({ headerName }) => {
     dispatch(reset());
     navigate("/users/");
   };
+  let sidebarHidden= window.innerWidth <= 768;
   return (
-    <div className="flex items-center justify-between p-4">
-      <Link to={"/"}>
-        <div className="flex items-center">
-          <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
-          <span className="text-lg font-bold">{headerName}</span>
+    <div className="flex items-center justify-between align-center">
+        <div className="flex flex-col w-full lg:hidden">
+            <Link to="/" className="flex flex-row items-center">
+            <img src={Logo} alt="Logo" className="w-24 h-16"/>
+            <h2 className='font-bold text-lg text-gray-soft-white'>QuillHUB</h2>
+          </Link>
+          <div className=" flex flex-row w-full justify-between">
+            <Link to={"/"}>
+              <div className="flex items-center p-4">
+                <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
+                <span className="text-lg font-bold">{headerName}</span>
+              </div>
+            </Link>
+            <SearchBar className="w-2/6"/>
+          </div>
         </div>
-      </Link>
+          <Link to={"/"} className="hidden lg:flex">
+            <div className="flex items-center p-2">
+              <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
+              <span className="text-lg font-bold">{headerName}</span>
+            </div>
+          </Link>
       {user ? (
+
         <div className="absolute right-3 top-3 flex flex-row gap-2 items-center justify-center">
           <Link
             to="/posts/create"

@@ -9,15 +9,15 @@ import { Link } from 'react-router-dom';
 
 const SideBar = () => {
   const { user } = useSelector((state) => state.auth);
-  let sidebarVisible = window.innerWidth > 768;
+  let sidebarVisible = window.innerWidth >= 768;
   return (
     <>
-    <div className={`sidebar  text-white fixed left-0 top-0 flex flex-col justify-between bg-purple-telemagnet  w-64 h-full ${sidebarVisible ? 'visible' : 'hidden'} lg:visible`}>
+    <div className={`hidden lg:flex flex-col justify-between bg-purple-telemagnet w-64 h-full fixed left-0 top-0 text-white`}>
       <div className='flex flex-col justify-around items-center m-2'>
-      <Link to="/">
-        <img src={Logo} alt="Logo" className="w-24 h-16"/>
-        <h2 className='font-bold text-lg text-gray-soft-white'>QuillHUB</h2>
-      </Link>
+        <Link to="/">
+          <img src={Logo} alt="Logo" className="w-24 h-16"/>
+          <h2 className='font-bold text-lg text-gray-soft-white'>QuillHUB</h2>
+        </Link>
       </div>
       <nav className="flex-1 flex flex-col items-start justify-start mt-6 p-4">
         <Link to="/" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">

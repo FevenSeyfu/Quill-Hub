@@ -34,9 +34,9 @@ const MyPosts = () => {
     <Layout headerName={'My Stories'}>
       {isLoading ? (
         <Spinner />
-      ) : isError ? (
-        toast.error(message)
-      ) : (
+      ): isSuccess && posts.length === 0 ? (
+        'No Posts Yet'
+      ) :  (
         <PostsList sidebarVisible={sidebarVisible} posts={posts}/>
       
       )}

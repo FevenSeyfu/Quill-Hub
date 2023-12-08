@@ -1,40 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { IoSearch } from "react-icons/io5";
-import { useDispatch } from "react-redux";
-import { searchPosts, reset } from "../../../features/post/postSlice";
+import React from "react";
+
 import RecentPosts from "./RecentPosts";
+import SearchBar from "./SearchBar";
 
 const RightSideBar = () => {
-  const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    await dispatch(searchPosts(searchTerm));
-  };
-  useEffect(() => {
-    return () => {
-      dispatch(reset());
-    };
-  }, [dispatch]);
   return (
-    <div>
+    <div className="hidden lg:flex flex-col">
       {/* Search Bar */}
-      <div className="mb-4">
-        <div className="flex items-center bg-white border-b rounded-full p-2">
-          <IoSearch className="text-gray-500" />
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="ml-2 outline-none bg-transparent"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </form>
-        </div>
-      </div>
-
+      <SearchBar />
       {/* Popular Posts */}
       <div className="mb-4">
         <h2 className="text-xl font-2 my-3">Popular Posts</h2>
