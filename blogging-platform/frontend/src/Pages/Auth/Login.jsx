@@ -118,7 +118,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-3/6 text-white  bg-soft-orange rounded-2xl mt-4 py-2 ml-12 mb-2 mt-6"
+              className="w-3/6 text-white  bg-soft-orange rounded-2xl mt-4 py-2 ml-12 mb-2"
             >
               Login
             </button>
