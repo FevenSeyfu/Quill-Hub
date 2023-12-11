@@ -3,9 +3,14 @@ import mongoose from 'mongoose';
 import cors from 'cors'
 import dotenv from 'dotenv'; 
 import bodyParser from 'body-parser';
-
 dotenv.config()
 const app = express();
+
+// import routes
+import projectRoutes from './routes/projectRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import taskRoutes from './routes/taskRoutes.js'
+import sprintRoutes from './routes/sprintRoutes.js'
 
 app.use(bodyParser.json({limit: '5mb'}));
 
@@ -24,15 +29,11 @@ app.get('/', (req, res) => {
     res.json({ message: 'Project Management Tool API is up and running!' });
   });
   
-// define routes
-app.get('/',async (request,response)=>{
-    try{
-        return response.status(200).send('Welcome!');
-    }catch(error){
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
-    }
-})
+app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/sprints', sprintRoutes);
+  
 
 // catch-all route for handling unknown routes
 app.use((request, response) => {

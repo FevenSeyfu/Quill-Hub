@@ -4,10 +4,10 @@ import {getAllSprints,getSprintById,createSprint,updateSprint,deleteSprint} from
 const router = express.Router();
 
 
-router.get('/sprints', getAllSprints);
-router.get('/sprints/:id', getSprintById);
-router.post('/sprints', createSprint);
-router.put('/sprints/:id', updateSprint);
-router.delete('/sprints/:id', deleteSprint);
+router.get('/', getAllSprints);
+router.get('/:id', getSprintById);
+router.post('/', createSprint);
+router.put('/:id', updateSprint);
+router.delete('/:id', deleteSprint);
 
 export default router;
