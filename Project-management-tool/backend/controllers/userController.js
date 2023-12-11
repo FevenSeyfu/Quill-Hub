@@ -1,10 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 // import models
-import { User } from "../models/userModels.sj";
+import { User } from "../models/userModels.js";
 
 const saltRounds = 10;
-const jwtSecret = process.env.JWT_SECRET;
 
 export const registerUser = async (req, res) => {
   try {
@@ -47,11 +46,13 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
       role,
     });
-
-    // Save the user to the database
-    await newUser.save();
-
-    res.status(201).json({ message: "User created successfully." });
+    const user = await User.create(newUser);
+        return res.status(201)
+        .json({
+            message:'User registered Successfully!',success: true, 
+            user:user,
+            token: generateToken(user._id)
+        });
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -76,11 +77,17 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id, role: user.role }, jwtSecret, {
-      expiresIn: "1h",
+    res.status(201).json({
+        id:user._id,
+        username:user.username,
+        firstName:user.firstName,
+        lastName:user.lastName,
+        birthDate:user.birthDate,
+        email:user.email,
+        role:user.role,
+        token: generateToken(user._id),
+        message:'Signed in Successfully!',success: true,
     });
-
-    res.status(200).json({ token });
   } catch (error) {
     console.error("Error logging in user:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -129,7 +136,7 @@ export const updateUser = async (req, res) => {
       isAdmin,
     } = req.body;
     // check if admin
-    const requesterIsAdmin = req.user && req.user.isAdmin;
+    const requesterIsAdmin = req.user && req.user.isAdmin || req.user.role === 'admin';
     //check if requester is logged in user
     const updatingOwnProfile = req.user && req.user._id.toString() === userId;
 
@@ -146,14 +153,15 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    // Update user fields
-    existingUser.username = username;
-    existingUser.firstName = firstName;
-    existingUser.lastName = lastName;
-    existingUser.birthDate = birthDate;
-    existingUser.profileImage = profileImage;
-    existingUser.email = email;
-    existingUser.role = role;
+   // Update specific fields using Mongoose's update method
+   const updateFields = {};
+   if (username) updateFields.username = username;
+   if (firstName) updateFields.firstName = firstName;
+   if (lastName) updateFields.lastName = lastName;
+   if (birthDate) updateFields.birthDate = birthDate;
+   if (profileImage) updateFields.profileImage = profileImage;
+   if (email) updateFields.email = email;
+   if (role) updateFields.role = role;
 
     // Hash and update the password if provided
     if (password) {
@@ -161,8 +169,9 @@ export const updateUser = async (req, res) => {
       existingUser.password = hashedPassword;
     }
 
-    // Save the updated user
-    await existingUser.save();
+    // updated user
+    await User.updateOne({ _id: userId }, { $set: updateFields });
+
 
     res.status(200).json({ message: "User updated successfully." });
   } catch (error) {
@@ -186,7 +195,7 @@ export const deleteUser = async (req, res) => {
     if (!requesterIsAdmin && !deletingOwnProfile) {
       return res.status(403).json({ message: 'Permission denied to delete user.' });
     }
-    
+
     // Check if the user exists
     const existingUser = await User.findById(userId);
     if (!existingUser) {
@@ -202,3 +211,11 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+// Generate Token
+
+const generateToken = (id)=>{
+    return jwt.sign({id},process.env.JWT_SECRET,{
+        expiresIn: '30d',
+    })
+}
