@@ -8,10 +8,26 @@ const jwtSecret = process.env.JWT_SECRET;
 
 export const registerUser = async (req, res) => {
   try {
-    const { username, firstName, lastName, birthDate, email, password, role } = req.body;
+    const {
+      username,
+      firstName,
+      lastName,
+      birthDate,
+      email,
+      password,
+      role,
+      isAdmin,
+    } = req.body;
 
+    // first check if admin
+    const requesterIsAdmin = req.user && req.user.isAdmin;
+    // if admin allow to assign role
+    if (isAdmin && !requesterIsAdmin) {
+      return res.status(403).json({ message: "Only admins can assign roles." });
+    }
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res
         .status(400)
@@ -110,7 +126,19 @@ export const updateUser = async (req, res) => {
       email,
       password,
       role,
+      isAdmin,
     } = req.body;
+    // check if admin
+    const requesterIsAdmin = req.user && req.user.isAdmin;
+    //check if requester is logged in user
+    const updatingOwnProfile = req.user && req.user._id.toString() === userId;
+
+    // only allow admins to change role and user can only update their own profile
+    if ((isAdmin || role) && !requesterIsAdmin && !updatingOwnProfile) {
+      return res
+        .status(403)
+        .json({ message: "Permission denied to update roles." });
+    }
 
     // Check if the user exists
     const existingUser = await User.findById(userId);
@@ -148,6 +176,17 @@ export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
+    // Check if the requester is an admin
+    const requesterIsAdmin = req.user && req.user.isAdmin;
+
+    // Check if the user being deleted is the requester
+    const deletingOwnProfile = req.user && req.user._id.toString() === userId;
+
+    // Only allow admins to delete users, and users to delete their own profiles
+    if (!requesterIsAdmin && !deletingOwnProfile) {
+      return res.status(403).json({ message: 'Permission denied to delete user.' });
+    }
+    
     // Check if the user exists
     const existingUser = await User.findById(userId);
     if (!existingUser) {
