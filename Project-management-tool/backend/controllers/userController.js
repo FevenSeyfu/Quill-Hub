@@ -18,12 +18,6 @@ export const registerUser = async (req, res) => {
       isAdmin,
     } = req.body;
 
-    // first check if admin
-    const requesterIsAdmin = req.user && req.user.isAdmin;
-    // if admin allow to assign role
-    if (isAdmin && !requesterIsAdmin) {
-      return res.status(403).json({ message: "Only admins can assign roles." });
-    }
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
 
@@ -45,14 +39,15 @@ export const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      isAdmin
     });
     const user = await User.create(newUser);
-        return res.status(201)
-        .json({
-            message:'User registered Successfully!',success: true, 
-            user:user,
-            token: generateToken(user._id)
-        });
+    return res.status(201).json({
+      message: "User registered Successfully!",
+      success: true,
+      user: user,
+      token: generateToken(user._id),
+    });
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -78,15 +73,17 @@ export const loginUser = async (req, res) => {
 
     // Generate a JWT token
     res.status(201).json({
-        id:user._id,
-        username:user.username,
-        firstName:user.firstName,
-        lastName:user.lastName,
-        birthDate:user.birthDate,
-        email:user.email,
-        role:user.role,
-        token: generateToken(user._id),
-        message:'Signed in Successfully!',success: true,
+      id: user._id,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      birthDate: user.birthDate,
+      email: user.email,
+      role: user.role,
+      isAdmin:user.isAdmin,
+      token: generateToken(user._id),
+      message: "Signed in Successfully!",
+      success: true,
     });
   } catch (error) {
     console.error("Error logging in user:", error);
@@ -121,6 +118,7 @@ export const getUserById = async (req, res) => {
 };
 
 // update or edit user profile
+// update or edit user profile
 export const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -135,45 +133,39 @@ export const updateUser = async (req, res) => {
       role,
       isAdmin,
     } = req.body;
+
     // check if admin
-    const requesterIsAdmin = req.user && req.user.isAdmin || req.user.role === 'admin';
-    //check if requester is logged in user
+    const requesterIsAdmin =
+      (req.user && req.user.isAdmin) || req.user.role === "admin";
+    // check if requester is updating their own profile
     const updatingOwnProfile = req.user && req.user._id.toString() === userId;
 
     // only allow admins to change role and user can only update their own profile
-    if ((isAdmin || role) && !requesterIsAdmin && !updatingOwnProfile) {
+    if ((req.isAdmin || req.role) && !requesterIsAdmin && !updatingOwnProfile) {
       return res
         .status(403)
         .json({ message: "Permission denied to update roles." });
     }
 
-    // Check if the user exists
-    const existingUser = await User.findById(userId);
-    if (!existingUser) {
-      return res.status(404).json({ message: "User not found." });
-    }
-
-   // Update specific fields using Mongoose's update method
-   const updateFields = {};
-   if (username) updateFields.username = username;
-   if (firstName) updateFields.firstName = firstName;
-   if (lastName) updateFields.lastName = lastName;
-   if (birthDate) updateFields.birthDate = birthDate;
-   if (profileImage) updateFields.profileImage = profileImage;
-   if (email) updateFields.email = email;
-   if (role) updateFields.role = role;
-
-    // Hash and update the password if provided
-    if (password) {
+    // Update specific fields using Mongoose's update method
+    const updateFields = {};
+    if (username) updateFields.username = username;
+    if (firstName) updateFields.firstName = firstName;
+    if (lastName) updateFields.lastName = lastName;
+    if (birthDate) updateFields.birthDate = birthDate;
+    if (profileImage) updateFields.profileImage = profileImage;
+    if (email) updateFields.email = email;
+    if (role) updateFields.role = role;
+    // Allow users to update their own password
+    if (updatingOwnProfile && password) {
       const hashedPassword = await bcrypt.hash(password, saltRounds);
-      existingUser.password = hashedPassword;
+      updateFields.password = hashedPassword;
     }
 
-    // updated user
+    // Use Mongoose's update method to update specific fields
     await User.updateOne({ _id: userId }, { $set: updateFields });
 
-
-    res.status(200).json({ message: "User updated successfully." });
+    res.status(200).json({message: "User updated successfully." });
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -193,7 +185,9 @@ export const deleteUser = async (req, res) => {
 
     // Only allow admins to delete users, and users to delete their own profiles
     if (!requesterIsAdmin && !deletingOwnProfile) {
-      return res.status(403).json({ message: 'Permission denied to delete user.' });
+      return res
+        .status(403)
+        .json({ message: "Permission denied to delete user." });
     }
 
     // Check if the user exists
@@ -214,8 +208,8 @@ export const deleteUser = async (req, res) => {
 
 // Generate Token
 
-const generateToken = (id)=>{
-    return jwt.sign({id},process.env.JWT_SECRET,{
-        expiresIn: '30d',
-    })
-}
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};

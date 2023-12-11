@@ -16,6 +16,12 @@ export const protect = async (req, res, next) => {
       const isAdminOrUpdatingOwnProfile = req.user && (req.user.isAdmin || req.user.role === "admin" || req.user._id.toString() === decoded.id);
 
       if (isAdminOrUpdatingOwnProfile) {
+        // If the user is not an admin, prevent updating the role and isAdmin fields
+        if (!req.user.isAdmin) {
+          delete req.body.role;
+          delete req.body.isAdmin;
+        }
+
         next();
       } else {
         res.status(403).json({ message: 'Permission denied. Only admins can perform this action.' });
