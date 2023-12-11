@@ -190,15 +190,11 @@ export const deleteUser = async (req, res) => {
         .json({ message: "Permission denied to delete user." });
     }
 
-    // Check if the user exists
-    const existingUser = await User.findById(userId);
+    // Check if the user exists Delete the user
+    const existingUser = await User.findByIdAndDelete(userId);
     if (!existingUser) {
       return res.status(404).json({ message: "User not found." });
     }
-
-    // Delete the user
-    await existingUser.remove();
-
     res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
     console.error("Error deleting user:", error);

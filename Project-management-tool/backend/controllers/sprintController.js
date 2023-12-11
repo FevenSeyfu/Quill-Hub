@@ -84,17 +84,11 @@ export const updateSprint = async (req, res) => {
 export const deleteSprint = async (req, res) => {
   try {
     const sprintId = req.params.id;
-
-    // Find the sprint by ID
-    const existingSprint = await Sprint.findById(sprintId);
-
+    // Find the sprint by ID Delete the sprint
+    const existingSprint = await Sprint.findByIdAndDelete(sprintId);
     if (!existingSprint) {
       return res.status(404).json({ message: "Sprint not found." });
     }
-
-    // Delete the sprint
-    await existingSprint.remove();
-
     res.status(200).json({ message: "Sprint deleted successfully." });
   } catch (error) {
     console.error("Error deleting sprint:", error);

@@ -101,14 +101,10 @@ export const deleteProject = async (req, res) => {
   try {
     const projectId = req.params.id;
 
-    const existingProject = await Project.findById(projectId);
-
-    if (!existingProject) {
-      return res.status(404).json({ message: "Project not found." });
-    }
-
-    await existingProject.remove();
-
+    const existingProject = await Project.findByIdAndDelete(projectId);
+        if(!existingProject){
+            return response.status(404).json({message: 'Post not found'})
+        }
     res.status(200).json({ message: "Project deleted successfully." });
   } catch (error) {
     console.error("Error deleting project:", error);
