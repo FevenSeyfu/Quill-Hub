@@ -5,6 +5,7 @@ import { getComments } from "../../features/comment/commentSlice";
 import { useParams } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import Header from "../../components/Home/Header/Header";
+import CreateComment from "../Comments/CreateComment";
 import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { TiEdit } from "react-icons/ti";
@@ -147,6 +148,7 @@ const ShowPost = () => {
           >
             View All Comments...
           </Link>
+          <CreateComment postId={posts._id}/>
         </div>
       </div>
     </>

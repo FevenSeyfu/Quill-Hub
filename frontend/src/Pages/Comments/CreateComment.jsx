@@ -13,10 +13,10 @@ import Layout from "../../components/Layout";
 
 Modal.setAppElement("#root");
 
-const CreateComment = () => {
+const CreateComment = ({postId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { postId } = useParams();
+  // const { postId } = useParams();
   const [commentContent, setCommentContent] = useState('');
   const {  isLoading,isSuccess, isError, message } = useSelector((state) => state.comment);
 
