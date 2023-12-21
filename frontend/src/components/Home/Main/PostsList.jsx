@@ -43,7 +43,7 @@ const PostsList = ({ posts }) => {
       className={`max-w-ful grid ${
         posts.length === 1
           ? "grid-cols-1 w-full"
-          : "md:grid-cols-2 w-full"
+          : "md:grid-cols-2 w-full lg:grid-cols-3"
       } gap-8 p-8`}
     >
       {isLoading ? (

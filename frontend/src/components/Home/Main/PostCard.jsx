@@ -12,11 +12,29 @@ const PostCard = ({ post, commentsCount }) => {
   const { title, authorName, content, createdAt, votesCount, Image, tags } =
     post;
 
-  const handleDate = (dateInput) => {
-    const date = new Date(dateInput);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-  };
+    const handleDate = (dateInput) => {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+  
+      const date = new Date(dateInput);
+      const monthName = months[date.getMonth()];
+      const day = date.getDate();
+      const year = date.getFullYear();
+  
+      return `${monthName} ${day}, ${year}`;
+    };
 
   const getFirstParagraphLimited = (content) => {
     const words = content.split(" ");
@@ -24,6 +42,7 @@ const PostCard = ({ post, commentsCount }) => {
     return limitedWords.join(" ");
   };
 
+  
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-2xl  relative">
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">
