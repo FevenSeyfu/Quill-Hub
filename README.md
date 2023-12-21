@@ -1,7 +1,6 @@
 # Quill-Hub: Your Full-Stack Blogging Adventure 🚀
 
-![Quill-Hub Demo](quill-hub-logo.png)
-
+![Quill-Hub Demo](https://github.com/FevenSeyfu/Quill-Hub/blob/main/Quillhub-screenshot.png)
 <!-- TABLE OF CONTENTS -->
 
 # 📗 Table of Contents
@@ -129,7 +128,6 @@ Example:
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-> Describe 1 - 3 features you will add to the project.
 
 - [ ] **Like or Voting System:** Express appreciation for great content through a like or voting system.
 - [ ] **Recent Post Listings:** To stay up-to-date with recent posts.
