@@ -44,7 +44,7 @@ const PostsList = ({ posts }) => {
         posts.length === 1
           ? "grid-cols-1 w-full"
           : "md:grid-cols-2 w-full"
-      } gap-4 p-4`}
+      } gap-8 p-8`}
     >
       {isLoading ? (
         <Spinner />

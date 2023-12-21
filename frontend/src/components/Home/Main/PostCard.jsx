@@ -61,12 +61,10 @@ const PostCard = ({ post, commentsCount }) => {
             <FaHeart className="text-red pr-1 text-lg" /> {":"}
             {votesCount}
           </p>
-          <Link to={`/posts/${post._id}/comments/create/`}>
-            <p className="flex flex-row items-center text-gray-500 text-md">
+          <p className="flex flex-row items-center text-gray-500 text-md">
               <FaCommentDots className="text-gray pr-1 text-lg" /> {":"}
-              {commentsCount}
-            </p>
-          </Link>
+            {commentsCount}
+          </p>
         </div>
       </div>
       <div className="flex flex-row relative justify-between m-2">
