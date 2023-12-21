@@ -40,11 +40,11 @@ const PostsList = ({ posts }) => {
 
   return (
     <div
-      className={`max-w-ful grid ${
+      className={`grid ${
         posts.length === 1
           ? "grid-cols-1 w-full"
           : "md:grid-cols-2 w-full lg:grid-cols-3"
-      } gap-8 p-8`}
+      } gap-2 p-4`}
     >
       {isLoading ? (
         <Spinner />
@@ -54,6 +54,7 @@ const PostsList = ({ posts }) => {
             key={post._id}
             post={post}
             commentsCount={commentsCounts[post._id] || 0}
+            className="max-h-[300px]"
           />
         ))
       )}

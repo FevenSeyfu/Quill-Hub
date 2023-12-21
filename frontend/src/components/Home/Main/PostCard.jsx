@@ -44,39 +44,41 @@ const PostCard = ({ post, commentsCount }) => {
 
   
   return (
-    <div className="w-full rounded-lg overflow-hidden shadow-2xl  relative">
+    <div className="w-full min-h-fit rounded-lg overflow-hidden shadow-md shadow-gray relative">
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">
         {tags[0]}
       </div>
       {Image ? (
         <img
-          className="rounded-lg overflow-hidden items-center h-48 w-full"
+          className="rounded-lg overflow-hidden items-center h-3/6 w-full"
           src={Image}
           alt={title}
         />
       ) : (
-        <div className="bg-black rounded-lg overflow-hidden items-center h-48 w-full">
+        <div className="bg-black rounded-lg overflow-hidden items-center h-3/6 w-full">
           <div className="text-white pt-20  text-lg text-center p-4">
             {title.toUpperCase()}
           </div>
         </div>
       )}
-      <div className="px-4 py-3">
-        <div className="font-bold text-xl mb-2">{title}</div>
-        <p className="text-gray-dark break-words">
+      <div className="flex flex-col">
+      <div className="p-2">
+        <h2 className="font-bold text-gray">{title.toUpperCase()}</h2>
+        <p className="text-gray-dark break-words text-sm">
           {content && getFirstParagraphLimited(content)}
         </p>
       </div>
-      <div className="px-6 py-4">
-        <p className="text-gray-500 text-sm mr-2">
-          <b>By: </b>
+      <div className="px-2">
+        <p className="text-gray-500 text-sm">
+          By:
           {authorName}
         </p>
-        <div className="flex flex-row gap-2 sm:flex-col md:flex-col lg:flex-row">
-          <p className="text-gray-500 text-sm mr-2 whitespace-nowrap">
-            <b>Date:</b> {createdAt && handleDate(createdAt)}
+        <div className="flex flex-row items-center gap-1">
+          <p className="text-gray-500 text-sm">
+            Date: {createdAt && handleDate(createdAt)}
           </p>
-          <p className="flex flex-row items-center text-gray-500 text-md">
+         <div className="flex flex-row gap-1">
+         <p className="flex flex-row items-center text-gray-500 text-md">
             <FaHeart className="text-red pr-1 text-lg" /> {":"}
             {votesCount}
           </p>
@@ -84,14 +86,16 @@ const PostCard = ({ post, commentsCount }) => {
               <FaCommentDots className="text-gray pr-1 text-lg" /> {":"}
             {commentsCount}
           </p>
+         </div>
         </div>
       </div>
-      <div className="flex flex-row relative justify-between m-2">
-        <Link to={`/posts/details/${post._id}`}>
-          <p className="text-md font-bold text-soft-orange p-2 hover:bg-soft-orange hover:rounded-md hover:text-white">
+      <div className="pb-4">
+      <Link to={`/posts/details/${post._id}`}>
+          <p className=" text-black  hover:text-soft-orange p-2 hover:underline">
             ReadMore..
           </p>
         </Link>
+      </div>
       </div>
     </div>
   );
