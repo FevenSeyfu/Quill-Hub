@@ -1,6 +1,6 @@
 # Quill-Hub: Your Full-Stack Blogging Adventure 🚀
 
-![Quill-Hub Demo](https://github.com/FevenSeyfu/Quill-Hub/blob/main/Quillhub-screenshot.png)
+![Quill-Hub Demo](https://github.com/FevenSeyfu/Quill-Hub/blob/main/Quiil-hub-screenshot.png)
 <!-- TABLE OF CONTENTS -->
 
 # 📗 Table of Contents
