@@ -17,7 +17,7 @@ const ShowPost = () => {
   const { posts, isSuccess, isLoading } = useSelector((state) => state.post);
   const { user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comment);
-
+  
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -55,7 +55,7 @@ const ShowPost = () => {
             <h1 className="text-3xl font-bold mb-4">
               {title && title.toUpperCase()}
             </h1>
-            {user && user.user && user.user._id === author && (
+            {user && user._id === author && (
               <div className="flex flex-row gap-2">
                 <Link to={`/posts/edit/${posts._id}`} className="flex flex-row">
                   <TiEdit className="text-green font-bold hover:underline text-3xl" />
@@ -114,8 +114,8 @@ const ShowPost = () => {
                         @{comment.createdAt && handleDate(comment.createdAt)}
                       </p>
                       {user &&
-                        user.user &&
-                        user.user._id === comment.userId && (
+                        user &&
+                        user._id === comment.userId && (
                           <div className="flex flex-row gap-2">
                             <Link
                               to={`/posts/${posts._id}/comments/edit/${comment._id}`}
@@ -148,7 +148,7 @@ const ShowPost = () => {
           >
             View All Comments...
           </Link>
-          <CreateComment postId={posts._id}/>
+          {/* <CreateComment postId={posts._id}/> */}
         </div>
       </div>
     </>
