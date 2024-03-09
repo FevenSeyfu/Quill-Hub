@@ -79,7 +79,7 @@ const ShowPost = () => {
             )}
             {Image && (
               <img
-                src={Image}
+                src={Image.url}
                 alt={title}
                 className="mb-4 rounded-lg shadow-md max-h-96 w-full object-cover"
               />

@@ -48,10 +48,10 @@ const PostCard = ({ post, commentsCount }) => {
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">
         {tags[0]}
       </div>
-      {Image ? (
+      {Image.url ? (
         <img
           className="rounded-lg overflow-hidden items-center h-3/6 w-full"
-          src={Image}
+          src={Image.url}
           alt={title}
         />
       ) : (
