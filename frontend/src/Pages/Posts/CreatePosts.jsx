@@ -149,6 +149,7 @@ const CreatePosts = () => {
             type="file"
             id="Image"
             name="Image"
+            accept="image/*"
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded-md"
           />

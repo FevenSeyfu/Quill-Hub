@@ -1,9 +1,15 @@
 import { Post } from '../models/postsModel.js';
 import { User } from '../models/userModel.js';
+import cloudinary from '../utils/cloudinary.js';
 
 export const createPosts = async (request,response) => {
     const {title,content,category,tags,Image,} = request.body;
     try{
+        const result =  await cloudinary.uploader.upload(Image,{
+            folder:'posts',
+            width:400,
+            crop:'scale'
+        })
         if(
             !title ||!content || !category ){
             return response.status(400).send({ message: 'Please fill all required fields'});
@@ -14,7 +20,10 @@ export const createPosts = async (request,response) => {
             author:request.user.id,
             authorName:request.user.firstName +" "+request.user.lastName,
             tags,
-            Image,
+            Image: {
+                public_id: result.public_id,
+                url: result.secure_url
+            },
             category,
             status: 'posted',
         }

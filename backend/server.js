@@ -8,9 +8,9 @@ import postsRoute from './routes/postsRoute.js';
 import commentsRoute from './routes/commentsRoute.js';
 import bodyParser from 'body-parser';
 import { Post } from './models/postsModel.js';
+          
 dotenv.config()
 const app = express();
-
 
 app.use(bodyParser.json({limit: '5mb'}));
 
@@ -56,7 +56,7 @@ app.use((request, response) => {
 // lets connect to db
 mongoose.connect(process.env.DATABASE_URL).then(()=>{
     console.log('App connected to database');
-    app.listen(5555 || process.env.PORT ,()=>{
+    app.listen(process.env.PORT ,()=>{
         console.log(`App is listening to Port : ${process.env.PORT}`)
     })
 }).catch((error)=> {
