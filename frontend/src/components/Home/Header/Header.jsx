@@ -34,7 +34,7 @@ const Header = ({ headerName }) => {
             <h2 className='font-bold text-lg text-gray-soft-white'>QuillHUB</h2>
           </Link>
           <div className=" flex flex-row w-full justify-between">
-            <Link to={"/posts/"}>
+            <Link to={"/"}>
               <div className="flex items-center p-4">
                 <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
                 <span className="text-lg font-bold">{headerName}</span>
@@ -43,7 +43,7 @@ const Header = ({ headerName }) => {
             <SearchBar className="w-2/6"/>
           </div>
         </div>
-          <Link to={"/posts/"} className="hidden lg:flex">
+          <Link to={"/"} className="hidden lg:flex">
             <div className="flex items-center p-2">
               <FaRegHeart size={24} className="mr-2 text-purple-telemagnet" />
               <span className="text-lg font-bold">{headerName}</span>
@@ -63,7 +63,7 @@ const Header = ({ headerName }) => {
             onClick={() => setMenuOpen(!isMenuOpen)}
             className="focus:outline-none hover:underline hover:text-soft-orange"
           >
-            {user ? (<img src={user.profileImage} alt="Profile Image avatar"  className="h-8 w-8 rounded-full" /> ):( <RxAvatar size={30} />)  }
+            <RxAvatar size={30} />
           </button>
           {isMenuOpen && (
           <div className="absolute top-8 right-4 border-2  rounded-md shadow-2xl w-40 p-4 z-50 bg-soft-white">
@@ -75,7 +75,6 @@ const Header = ({ headerName }) => {
                 <FaUser className="mr-2" />
                 Profile
               </Link>
-
               <Link
                 to="/posts"
                 className="flex items-center mb-2 hover:underline hover:text-soft-orange"

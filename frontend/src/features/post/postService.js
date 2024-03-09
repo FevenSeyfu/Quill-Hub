@@ -3,6 +3,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 const POSTS_URL = `${API_URL}/posts/`;
 
+console.log(import.meta.env)
 // Create new post
 const createPost = async(postData,token) =>{
     const config = {
