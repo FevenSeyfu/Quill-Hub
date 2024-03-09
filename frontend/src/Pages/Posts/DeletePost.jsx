@@ -13,6 +13,7 @@ const DeletePost = () => {
   const navigate = useNavigate();
 
   const isLoading = useSelector((state) => state.post.isLoading);
+  const { user } = useSelector((state) => state.auth)
 
   useEffect(() => {
     return () => {
@@ -24,7 +25,7 @@ const DeletePost = () => {
     try {
       await dispatch(deletePost(id));
       toast.success('Post deleted successfully!');
-      navigate('/posts');
+      navigate(`/posts/user/${user.id}`);
     } catch (error) {
       toast.error(error.message);
     }

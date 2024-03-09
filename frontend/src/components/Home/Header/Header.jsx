@@ -76,7 +76,7 @@ const Header = ({ headerName }) => {
                 Profile
               </Link>
               <Link
-                to="/posts"
+                to={`/posts/user/${user.id}`}
                 className="flex items-center mb-2 hover:underline hover:text-soft-orange"
               >
                 <FaBook className="mr-2" />

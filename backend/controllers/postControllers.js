@@ -38,16 +38,24 @@ export const createPosts = async (request, response) => {
 
 export const getPosts = async (request, response) => {
   try {
-    if (request.user) {
-      const userId = request.user.id;
-      const posts = await Post.find({ author: userId });
-      return response.status(200).send(posts);
-    }
+    const posts = await Post.find();
+    return response.status(200).send(posts);
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 };
+
+export const getMyPosts = async (request, response) => {
+    try {
+      const userId = request.params.userId;
+      const posts = await Post.find({ author: userId });
+      return response.status(200).send(posts);
+    } catch (error) {
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+    }
+  };
 
 export const getPost = async (request, response) => {
   try {

@@ -17,7 +17,7 @@ const ShowPost = () => {
   const { posts, isSuccess, isLoading } = useSelector((state) => state.post);
   const { user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comment);
-  
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -28,14 +28,16 @@ const ShowPost = () => {
     };
 
     fetchPost();
+  }, [dispatch, postId]);
 
+  useEffect(() => {
     if (isSuccess) {
       dispatch(getComments(postId));
     }
   }, [dispatch, postId, isSuccess]);
-
+  
   if (isLoading) {
-    return <Spinner className="m-50"/>;
+    return <Spinner className="m-50" />;
   }
 
   const handleDate = (dateInput) => {
@@ -113,30 +115,28 @@ const ShowPost = () => {
                       <p className="text-gray-light">
                         @{comment.createdAt && handleDate(comment.createdAt)}
                       </p>
-                      {user &&
-                        user &&
-                        user._id === comment.userId && (
-                          <div className="flex flex-row gap-2">
-                            <Link
-                              to={`/posts/${posts._id}/comments/edit/${comment._id}`}
-                              className="flex flex-row"
-                            >
-                              <TiEdit className="text-green hover:underline text-3xl" />
-                            </Link>
-                            <Link
-                              to={`/posts/${posts._id}/comments/${comment._id}/like`}
-                              className="flex flex-row"
-                            >
-                              <GrLike className="text-gray-dark hover:underline text-2xl" />
-                            </Link>
-                            <Link
-                              to={`/posts/${posts._id}/comments/delete/${comment._id}`}
-                              className="flex flex-row"
-                            >
-                              <MdDeleteForever className="text-red hover:underline text-3xl" />
-                            </Link>
-                          </div>
-                        )}
+                      {user && user && user._id === comment.userId && (
+                        <div className="flex flex-row gap-2">
+                          <Link
+                            to={`/posts/${posts._id}/comments/edit/${comment._id}`}
+                            className="flex flex-row"
+                          >
+                            <TiEdit className="text-green hover:underline text-3xl" />
+                          </Link>
+                          <Link
+                            to={`/posts/${posts._id}/comments/${comment._id}/like`}
+                            className="flex flex-row"
+                          >
+                            <GrLike className="text-gray-dark hover:underline text-2xl" />
+                          </Link>
+                          <Link
+                            to={`/posts/${posts._id}/comments/delete/${comment._id}`}
+                            className="flex flex-row"
+                          >
+                            <MdDeleteForever className="text-red hover:underline text-3xl" />
+                          </Link>
+                        </div>
+                      )}
                     </li>
                   )
               )}

@@ -36,7 +36,7 @@ const PostsList = ({ posts }) => {
 
     fetchCommentsCountsForPosts();
    
-  }, [dispatch, posts]);
+  }, [ posts]);
 
   return (
     <div

@@ -23,7 +23,7 @@ const SideBar = () => {
         </Link>
         {user ? (
           <>
-            <Link to="/posts/" className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
+            <Link to={`/posts/user/${user.id}`} className="flex items-center mb-4 justify-between w-full hover:underline font-bold text-lg">
               My Stories
               <IoChevronDown className="ml-2" />
             </Link>

@@ -20,14 +20,14 @@ const getAllPosts =async()=>{
 }
 
 // get all user posts
-const getPosts =async(token)=>{
+const getPosts =async(userId,token)=>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(POSTS_URL,config)
-    return response.data
+    const response = await axios.get(`${POSTS_URL}/user/${userId}`, config);
+    return response.data;
 }
 
 // get post by id

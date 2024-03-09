@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { updatePost,getPost } from "../../features/post/postSlice";
 import { useParams,useNavigate } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
@@ -11,6 +11,7 @@ const EditPost = () => {
   const dispatch = useDispatch();
   const { id: postId } = useParams();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth)
 
   const [formData, setFormData] = useState({
     title: "",
@@ -77,7 +78,7 @@ const EditPost = () => {
     e.preventDefault();
     try {
       dispatch(updatePost({ postId, updatedData: formData }));
-      navigate('/posts/');
+      navigate(`/posts/user/${user.id}`);
     } catch (error) {
       toast.error(error.message); 
     }

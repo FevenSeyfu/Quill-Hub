@@ -59,7 +59,7 @@ const CreatePosts = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const postData = {
       title,
@@ -75,10 +75,11 @@ const CreatePosts = () => {
       toast.error(message);
     }
     if (isSuccess || posts) {
-      dispatch(getPosts())
-      navigate("/posts/");
+      dispatch(reset)
+      await dispatch(getPosts)
+      navigate(`/posts/user/${user.id}`);
     }
-    dispatch(reset());
+   
   };
   return (
     <>

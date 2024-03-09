@@ -23,7 +23,7 @@ const MyPosts = () => {
     if(isError){
       toast.error(message)
     }
-
+  
     if (!user) {
       navigate('/users/login')
     }
@@ -38,7 +38,6 @@ const MyPosts = () => {
         'No Posts Yet'
       ) :  (
         <PostsList sidebarVisible={sidebarVisible} posts={posts}/>
-      
       )}
     </Layout>
   )
