@@ -41,6 +41,7 @@ const UserProfile = () => {
   };
   const { user } = useSelector((state) => state.auth);
   const {_id,firstName,lastName,birthDate,email,profileImage ,userName}= user
+  console.log(user);
   return (
     <Layout>
       <Modal

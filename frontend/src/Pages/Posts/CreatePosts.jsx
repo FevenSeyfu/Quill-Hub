@@ -78,7 +78,6 @@ const CreatePosts = () => {
       dispatch(getPosts())
       navigate("/posts/");
     }
-    dispatch(reset());
   };
   return (
     <>
@@ -145,6 +144,7 @@ const CreatePosts = () => {
           >
             Image
           </label>
+          
           <input
             type="file"
             id="Image"

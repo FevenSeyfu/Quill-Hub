@@ -51,7 +51,7 @@ const PostCard = ({ post, commentsCount }) => {
       {Image ? (
         <img
           className="rounded-lg overflow-hidden items-center h-3/6 w-full"
-          src={Image}
+          src={Image.url}
           alt={title}
         />
       ) : (
