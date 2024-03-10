@@ -17,7 +17,6 @@ const ShowPost = () => {
   const { id: postId } = useParams();
   const { posts, isSuccess, isLoading } = useSelector((state) => state.post);
   const { user } = useSelector((state) => state.auth);
-  const { comments } = useSelector((state) => state.comment);
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -40,11 +39,6 @@ const ShowPost = () => {
     return <Spinner className="m-50" />;
   }
 
-  const handleDate = (dateInput) => {
-    const date = new Date(dateInput);
-    const formattedDate = date.toISOString().split("T")[0];
-    return formattedDate;
-  };
 
   const { title, content, tags, author, Image, category } = posts;
 
