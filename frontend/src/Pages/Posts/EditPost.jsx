@@ -149,7 +149,7 @@ const EditPost = () => {
             Post Image
           </label>
           {formData.Image && (
-            <img src={formData.Image} alt={formData.title} className="mb-4 rounded-lg shadow-md max-h-96 w-full object-cover" />
+            <img src={formData.Image.url} alt={formData.title} className="mb-4 rounded-lg shadow-md max-h-96 w-full object-cover" />
           )}
           <input
             type="file"

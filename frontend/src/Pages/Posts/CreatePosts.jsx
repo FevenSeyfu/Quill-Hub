@@ -75,7 +75,6 @@ const CreatePosts = () => {
       toast.error(message);
     }
     if (isSuccess || posts) {
-      dispatch(reset)
       await dispatch(getPosts)
       navigate(`/posts/user/${user.id}`);
     }

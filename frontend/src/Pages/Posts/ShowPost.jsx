@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { TiEdit } from "react-icons/ti";
 import { GrLike } from "react-icons/gr";
+import ShowComments from "../Comments/ShowComments";
 
 const ShowPost = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ const ShowPost = () => {
   const { posts, isSuccess, isLoading } = useSelector((state) => state.post);
   const { user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comment);
-
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -53,21 +53,21 @@ const ShowPost = () => {
       <Header sidebarVisible={true} headerName={title} />
       <div className="flex flex-col md:flex-row  w-full">
         <div className="max-w-2xl mx-auto mt-8 p-4 bg-soft-range shadow-md">
-          <div className="flex flex-row justify-between">
+          <div className="flex justify-between flex-col md:flex-row">
             <h1 className="text-3xl font-bold mb-4">
               {title && title.toUpperCase()}
             </h1>
-            {user && user._id === author && (
-              <div className="flex flex-row gap-2">
-                <Link to={`/posts/edit/${posts._id}`} className="flex flex-row">
-                  <TiEdit className="text-green font-bold hover:underline text-3xl" />
+            {user && user.id === author && (
+              <div className="flex gap-2 flex-row">
+                <Link to={`/posts/edit/${posts._id}`} className="flex flex-row items-center text-md md:text-2xl">
+                  <TiEdit className="text-green font-bold hover:underline " />
                   <p className="text-gray-light text-sm">Edit</p>
                 </Link>
                 <Link
                   to={`/posts/delete/${posts._id}`}
-                  className="flex flex-row"
+                  className="flex flex-row items-center text-md md:text-2xl"
                 >
-                  <MdDeleteForever className="text-red font-bold hover:underline text-3xl" />
+                  <MdDeleteForever className="text-red font-bold hover:underline" />
                   <p className="text-gray-light text-sm">Delete</p>
                 </Link>
               </div>
@@ -97,15 +97,18 @@ const ShowPost = () => {
         </div>
         <div className="flex flex-col lg:w-2/6 md:w-full mx-auto mt-8 px-9 bg-soft-range shadow-md">
           <h3 className="font-bold text-lg">Comments...</h3>
-          {comments && (
+          <ShowComments post={posts._id}/>
+          {/* {comments && (
             <ul>
               {comments.map(
                 (comment, idx) =>
                   idx < 5 && (
+                   
                     <li
                       key={comment._id}
                       className="border p-2 mb-2 flex items-center justify-between"
                     >
+          
                       <div className="flex items-center gap-2">
                         <p className="bg-soft-orange text-white px-2 py-1 rounded">
                           {comment.userName}
@@ -115,7 +118,7 @@ const ShowPost = () => {
                       <p className="text-gray-light">
                         @{comment.createdAt && handleDate(comment.createdAt)}
                       </p>
-                      {user && user && user._id === comment.userId && (
+                      {user && user && user.id === comment.userId && (
                         <div className="flex flex-row gap-2">
                           <Link
                             to={`/posts/${posts._id}/comments/edit/${comment._id}`}
@@ -141,14 +144,15 @@ const ShowPost = () => {
                   )
               )}
             </ul>
-          )}
+          )} */}
+         
           <Link
             to={`/posts/comments/${posts._id}/`}
             className="text-soft-orange hover:underline mb-4"
           >
             View All Comments...
           </Link>
-          {/* <CreateComment postId={posts._id}/> */}
+          <CreateComment postId={posts._id}/>
         </div>
       </div>
     </>
