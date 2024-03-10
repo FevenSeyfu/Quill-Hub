@@ -99,14 +99,6 @@ const ShowPost = () => {
           <h3 className="font-bold text-lg mb-2">Comments...</h3>
           <CreateComment postId={posts._id}/>
           <ShowComments post={posts._id}/>
-         
-          <Link
-            to={`/posts/comments/${posts._id}/`}
-            className="text-soft-orange hover:underline mb-4"
-          >
-            View All Comments...
-          </Link>
-         
         </div>
       </div>
     </>

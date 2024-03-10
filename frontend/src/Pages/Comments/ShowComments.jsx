@@ -26,6 +26,13 @@ const ShowComments = ({ post }) => {
     (state) => state.comment
   );
 
+  // restrict comments shown
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  const handleViewAllComments = () => {
+    setShowAllComments(true);
+  };
+
   useEffect(() => {
     const fetchComment = async () => {
       try {
@@ -84,7 +91,7 @@ const ShowComments = ({ post }) => {
       ) : (
         comments && (
           <ul>
-            {comments.map(
+            {comments.slice(0, showAllComments ? comments.length : 3).map(
               (comment, idx) =>
                 idx < 5 && (
                   <li
@@ -111,7 +118,9 @@ const ShowComments = ({ post }) => {
                           {comment.createdAt && handleDate(comment.createdAt)}
                         </p>
                       </div>
-                      <p className="text-base text-gray-700">{comment.content}</p>
+                      <p className="text-base text-gray-700">
+                        {comment.content}
+                      </p>
 
                       {user && user && user.id === comment.userId && (
                         <div className="flex flex-row items-center gap-4 text-gray-dark text-sm">
@@ -119,7 +128,8 @@ const ShowComments = ({ post }) => {
                             to={`/posts/$post/comments/edit/${comment._id}`}
                             className="flex flex-row items-center gap-2 hover:underline hover:text-green-600 d"
                           >
-                            <TiEdit className="text-green-600 hover:underline" /> Edit
+                            <TiEdit className="text-green-600 hover:underline" />{" "}
+                            Edit
                           </Link>
                           <p>|</p>
                           <Link
@@ -133,7 +143,8 @@ const ShowComments = ({ post }) => {
                             to={`/posts/$post/comments/delete/${comment._id}`}
                             className="flex flex-row items-center gap-2 hover:text-red-600 hover:underline "
                           >
-                            <MdDeleteForever className="text-red-600 text-lg" />Delete
+                            <MdDeleteForever className="text-red-600 text-lg" />
+                            Delete
                           </Link>
                         </div>
                       )}
@@ -143,6 +154,14 @@ const ShowComments = ({ post }) => {
             )}
           </ul>
         )
+      )}
+      {!showAllComments && comments && comments.length >= 3 && (
+        <button
+          className="text-gray-600 ml-12 hover:text-black text-sm"
+          onClick={handleViewAllComments}
+        >
+          View All Comments...
+        </button>
       )}
     </div>
   );
