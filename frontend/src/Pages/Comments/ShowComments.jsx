@@ -13,6 +13,8 @@ import { TiEdit } from "react-icons/ti";
 import { GrLike } from "react-icons/gr";
 import { toast } from "react-toastify";
 import BackButton from "../../components/BackButton";
+import { RxAvatar } from "react-icons/rx";
+import { formatDistanceToNow, format } from "date-fns";
 
 Modal.setAppElement("#root");
 
@@ -55,12 +57,28 @@ const ShowComments = ({ post }) => {
 
   const handleDate = (dateInput) => {
     const date = new Date(dateInput);
-    const formattedDate = date.toISOString().split("T")[0];
-    return formattedDate;
+    const now = new Date();
+    const diffInHours = (now - date) / 1000 / 60 / 60;
+
+    if (diffInHours < 1) {
+      return formatDistanceToNow(date) + " ago";
+    } else if (diffInHours < 12) {
+      return "today";
+    } else if (diffInHours < 24) {
+      return "yesterday";
+    } else if (diffInHours < 168) {
+      return format(date, "EEEE");
+    } else if (diffInHours < 336) {
+      return "last week";
+    } else if (diffInHours < 672) {
+      return "2 weeks ago";
+    } else {
+      return format(date, "EEE dd MMM, yyyy");
+    }
   };
 
   return (
-    <div className="bg-white p-8">
+    <div>
       {isLoading ? (
         <Spinner />
       ) : (
@@ -71,39 +89,55 @@ const ShowComments = ({ post }) => {
                 idx < 5 && (
                   <li
                     key={comment._id}
-                    className="border-b p-2 mb-2 flex flex-col"
+                    className="w-full flex flex-row items-start gap-4 my-4"
                   >
-                    <div className="flex items-start  gap-8">
-                      <p className="bg-soft-orange text-white px-2 py-1 rounded">
-                        {comment.userName}
-                      </p>
-                      <p className="">{comment.content}</p>
-                      <p className="text-gray-light">
-                      @{comment.createdAt && handleDate(comment.createdAt)}
-                    </p>
-                    </div>
-                    {user && user && user.id === comment.userId && (
-                      <div className="flex flex-row gap-2">
-                        <Link
-                          to={`/posts/$post/comments/edit/${comment._id}`}
-                          className="flex flex-row"
-                        >
-                          <TiEdit className="text-green hover:underline text-3xl" />
-                        </Link>
-                        <Link
-                          to={`/posts/$post/comments/${comment._id}/like`}
-                          className="flex flex-row"
-                        >
-                          <GrLike className="text-gray-dark hover:underline text-2xl" />
-                        </Link>
-                        <Link
-                          to={`/posts/$post/comments/delete/${comment._id}`}
-                          className="flex flex-row"
-                        >
-                          <MdDeleteForever className="text-red hover:underline text-3xl" />
-                        </Link>
-                      </div>
+                    {comment.userId === user.id && user.profileImage ? (
+                      <img
+                        src={comment.userId === user.id && user.profileImage}
+                        alt="commenter profile"
+                        className="rounded-full h-8 w-8"
+                      />
+                    ) : (
+                      <RxAvatar size={20} />
                     )}
+                    <div className="flex flex-col bg-gray-100 rounded-lg p-2 w-full gap-2">
+                      <div className="flex flex-row items-center ">
+                        <p className="font-bold">
+                          {comment.userId === user.id &&
+                            user.firstName + " " + user.lastName}
+                        </p>
+                        <p className="mx-2 text-lg">•</p>
+                        <p className="text-gray-light text-base">
+                          {comment.createdAt && handleDate(comment.createdAt)}
+                        </p>
+                      </div>
+                      <p className="text-base text-gray-700">{comment.content}</p>
+
+                      {user && user && user.id === comment.userId && (
+                        <div className="flex flex-row items-center gap-4 text-gray-dark text-sm">
+                          <Link
+                            to={`/posts/$post/comments/edit/${comment._id}`}
+                            className="flex flex-row items-center gap-2 hover:underline hover:text-green-600 d"
+                          >
+                            <TiEdit className="text-green-600 hover:underline" /> Edit
+                          </Link>
+                          <p>|</p>
+                          <Link
+                            to={`/posts/$post/comments/${comment._id}/like`}
+                            className="flex flex-row items-center gap-2 hover:text-blue-600 hover:underline"
+                          >
+                            <GrLike className="text-blue-600" /> Like
+                          </Link>
+                          <p>|</p>
+                          <Link
+                            to={`/posts/$post/comments/delete/${comment._id}`}
+                            className="flex flex-row items-center gap-2 hover:text-red-600 hover:underline "
+                          >
+                            <MdDeleteForever className="text-red-600 text-lg" />Delete
+                          </Link>
+                        </div>
+                      )}
+                    </div>
                   </li>
                 )
             )}

@@ -25,12 +25,12 @@ const CreateComment = ({ postId }) => {
     setCommentContent(e.target.value);
   };
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleCommentSubmit(e);
     }
   };
-  
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!commentContent.trim()) {
@@ -49,25 +49,15 @@ const CreateComment = ({ postId }) => {
   };
 
   return (
-    <div className="bg-white p-8 rounded">
-      <form onSubmit={handleCommentSubmit}>
-        <textarea
-          className="w-full p-2 border rounded"
-          rows="3"
-          placeholder="Write your comment..."
-          value={commentContent}
-          onChange={handleCommentChange}
-          onKeyPress={handleKeyPress}
-        ></textarea>
-        {/* <button
-            type="submit"
-            className="border-4 border-soft-orange text-soft-orange py-2 px-4 mt-2 rounded font-bold hover:border-3 hover:bg-soft-orange hover:text-white"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Creating...' : 'Create Comment'}
-          </button> */}
-      </form>
-    </div>
+    <form onSubmit={handleCommentSubmit}>
+      <textarea
+        className="w-full p-2 rounded border border-gray-light focus:outline-none focus:border-gray-dark focus:border-2"
+        placeholder="Write your comment..."
+        value={commentContent}
+        onChange={handleCommentChange}
+        onKeyDown={handleKeyPress}
+      ></textarea>
+    </form>
   );
 };
 
