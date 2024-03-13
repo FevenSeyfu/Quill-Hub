@@ -38,11 +38,9 @@ const CreateComment = ({ postId }) => {
       return;
     }
     dispatch(createComment({ post: postId, content: commentContent }));
-    if (isSuccess) {
-      navigate(`/posts/user/${user.id}`);
-    }
-
-    if (isError) {
+    if(isSuccess) {
+      toast.success('Comment added!')
+    }else if (!isLoading && isError) {
       toast.error(message);
     }
     setCommentContent("");

@@ -33,7 +33,7 @@ const updateComment = async(commentId, commentData,token) =>{
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.put(COMMENTS_URL+commentId,commentData,config)
+    const response = await axios.put(`${COMMENTS_URL}/${commentId}/${commentData}`,config)
     return response.data
 }
 

@@ -40,8 +40,8 @@ const App = () => {
 
         {/* for commenting system */}
         <Route path='/posts/:postId/comments/create' element={<CreateComment />} />
-        <Route path='/posts/comments/:postId/' element={<ShowComments />} />
-        <Route path='/posts/:postId/comments/edit/:commentId' element={<EditComment />} />
+        {/* <Route path='/posts/comments/:postId/' element={<ShowComments />} /> */}
+        {/* <Route path='/posts/:postId/comments/edit/:commentId' element={<EditComment />} /> */}
         <Route path='/posts/:postId/comments/delete/:commentId' element={<DeleteComment />} />
         <Route path='/posts/:postId/comments/:commentId/like' element={<LikeComment />} />
       </Routes>

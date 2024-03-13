@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getComments,
+  deleteComment,
   reset,
   likeComment,
 } from "../../features/comment/commentSlice";
@@ -12,9 +13,9 @@ import { MdDeleteForever } from "react-icons/md";
 import { TiEdit } from "react-icons/ti";
 import { GrLike } from "react-icons/gr";
 import { toast } from "react-toastify";
-import BackButton from "../../components/BackButton";
 import { RxAvatar } from "react-icons/rx";
 import { formatDistanceToNow, format } from "date-fns";
+import EditComment from "./EditComment";
 
 Modal.setAppElement("#root");
 
@@ -22,7 +23,7 @@ const ShowComments = ({ post }) => {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { comments, isLoading, isError, message } = useSelector(
+  const { comments, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.comment
   );
 
@@ -31,6 +32,12 @@ const ShowComments = ({ post }) => {
 
   const handleViewAllComments = () => {
     setShowAllComments(true);
+  };
+
+  // show comment editor
+  const [showCommentEditor, setShowCommentEditor] = useState(false);
+  const handleViewCommentEditor = () => {
+    setShowCommentEditor(true);
   };
 
   useEffect(() => {
@@ -59,6 +66,20 @@ const ShowComments = ({ post }) => {
       }));
     } catch (error) {
       toast.error("Error liking comment:", error);
+    }
+  };
+
+  // Delete Comment
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await dispatch(deleteComment(commentId));
+      if (isSuccess) {
+        toast.success("Comment deleted successfully!");
+      } else if (!isLoading && isError) {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -124,30 +145,32 @@ const ShowComments = ({ post }) => {
 
                       {user && user && user.id === comment.userId && (
                         <div className="flex flex-row items-center gap-4 text-gray-dark text-sm">
-                          <Link
-                            to={`/posts/$post/comments/edit/${comment._id}`}
+                          <button
+                            // to={`/posts/${post}/comments/edit/${comment._id}`}
+                            onClick={handleViewCommentEditor}
                             className="flex flex-row items-center gap-2 hover:underline hover:text-green-600 d"
                           >
                             <TiEdit className="text-green-600 hover:underline" />{" "}
                             Edit
-                          </Link>
+                          </button>
                           <p>|</p>
-                          <Link
-                            to={`/posts/$post/comments/${comment._id}/like`}
+                          <button
+                            onClick={() => handleLikeComment(comment._id)}
                             className="flex flex-row items-center gap-2 hover:text-blue-600 hover:underline"
                           >
                             <GrLike className="text-blue-600" /> Like
-                          </Link>
+                          </button>
                           <p>|</p>
-                          <Link
-                            to={`/posts/$post/comments/delete/${comment._id}`}
+                          <button
+                            onClick={() => handleDeleteComment(comment._id)}
                             className="flex flex-row items-center gap-2 hover:text-red-600 hover:underline "
                           >
                             <MdDeleteForever className="text-red-600 text-lg" />
                             Delete
-                          </Link>
+                          </button>
                         </div>
                       )}
+                      {showCommentEditor && <EditComment  commentId={comment._id} postId={post} />}
                     </div>
                   </li>
                 )
@@ -155,7 +178,7 @@ const ShowComments = ({ post }) => {
           </ul>
         )
       )}
-      {!showAllComments && comments && comments.length >= 3 && (
+      {!showAllComments && comments && comments.length > 3 && (
         <button
           className="text-gray-600 ml-12 hover:text-black text-sm"
           onClick={handleViewAllComments}
