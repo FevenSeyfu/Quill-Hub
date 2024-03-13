@@ -1,25 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getComments, reset, likeComment } from "../../features/comment/commentSlice";
+import {
+  getComments,
+  deleteComment,
+  reset,
+  likeComment,
+} from "../../features/comment/commentSlice";
 import Spinner from "../../components/Spinner";
 import Modal from "react-modal";
 import { MdDeleteForever } from "react-icons/md";
-import { TbEdit } from "react-icons/tb";
+import { TiEdit } from "react-icons/ti";
 import { GrLike } from "react-icons/gr";
 import { toast } from "react-toastify";
-import BackButton from "../../components/BackButton";
-
+import { RxAvatar } from "react-icons/rx";
+import { formatDistanceToNow, format } from "date-fns";
+import EditComment from "./EditComment";
 
 Modal.setAppElement("#root");
 
-const ShowComments = () => {
+const ShowComments = ({ post }) => {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { comments, isLoading, isError, message } = useSelector(
+  const { comments, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.comment
   );
+
+  // restrict comments shown
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  const handleViewAllComments = () => {
+    setShowAllComments(true);
+  };
+
+  // show comment editor
+  const [showCommentEditor, setShowCommentEditor] = useState(false);
+  const handleViewCommentEditor = () => {
+    setShowCommentEditor(true);
+  };
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -50,82 +69,124 @@ const ShowComments = () => {
     }
   };
 
+  // Delete Comment
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await dispatch(deleteComment(commentId));
+      if (isSuccess) {
+        toast.success("Comment deleted successfully!");
+      } else if (!isLoading && isError) {
+        toast.error(message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   const handleDate = (dateInput) => {
     const date = new Date(dateInput);
-    const formattedDate = date.toISOString().split("T")[0];
-    return formattedDate;
+    const now = new Date();
+    const diffInHours = (now - date) / 1000 / 60 / 60;
+
+    if (diffInHours < 1) {
+      return formatDistanceToNow(date) + " ago";
+    } else if (diffInHours < 12) {
+      return "today";
+    } else if (diffInHours < 24) {
+      return "yesterday";
+    } else if (diffInHours < 168) {
+      return format(date, "EEEE");
+    } else if (diffInHours < 336) {
+      return "last week";
+    } else if (diffInHours < 672) {
+      return "2 weeks ago";
+    } else {
+      return format(date, "EEE dd MMM, yyyy");
+    }
   };
 
   return (
-    
-    <Modal
-      isOpen={true}
-      contentLabel="Show Comments Modal"
-      className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
-      overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
-    >
-      <div className="bg-white p-8 rounded">
-        <div className="flex flex-row gap-2">
-          <BackButton destination={`/posts/details/${postId}`}/>
-          <h3 className="text-lg font-bold mb-4">Comments...</h3>
-        </div>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          comments && (
-            <ul>
-              {comments.map((comment) => (
-                <li
-                  key={comment._id}
-                  className="border p-2 mb-2 flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2">
-                    <p className="bg-soft-orange text-white px-2 py-1 rounded">
-                      {comment.userName}
-                    </p>
-                    <p className="text-black">{comment.content}</p>
-                  </div>
-                  <p className="text-gray-light">
-                    @{comment.createdAt && handleDate(comment.createdAt)}
-                  </p>
-                  {user && (user.user && user.user._id === comment.userId ? (
-                    <div className="flex flex-row gap-2">
-                      <Link
-                        to={`/posts/${postId}/comments/edit/${comment._id}`}
-                        className="flex flex-row"
-                      >
-                        <TbEdit className="text-green hover:underline text-3xl" />
-                      </Link>
-                      <button
-                         onClick={() => handleLikeComment(comment._id)}
-                        className="flex flex-row"
-                      >
-                        <GrLike className="text-gray-dark hover:underline text-2xl" />
-                      </button>
-                      <Link
-                        to={`/posts/${postId}/comments/delete/${comment._id}`}
-                        className="flex flex-row"
-                      >
-                        <MdDeleteForever className="text-red hover:underline text-3xl" />
-                      </Link>
+    <div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        comments && (
+          <ul>
+            {comments.slice(0, showAllComments ? comments.length : 3).map(
+              (comment, idx) =>
+                idx < 5 && (
+                  <li
+                    key={comment._id}
+                    className="w-full flex flex-row items-start gap-4 my-4"
+                  >
+                    {comment.userId === user.id && user.profileImage ? (
+                      <img
+                        src={comment.userId === user.id && user.profileImage}
+                        alt="commenter profile"
+                        className="rounded-full h-8 w-8"
+                      />
+                    ) : (
+                      <RxAvatar size={20} />
+                    )}
+                    <div className="flex flex-col bg-gray-100 rounded-lg p-2 w-full gap-2">
+                      <div className="flex flex-row items-center ">
+                        <p className="font-bold">
+                          {comment.userId === user.id &&
+                            user.firstName + " " + user.lastName}
+                        </p>
+                        <p className="mx-2 text-lg">•</p>
+                        <p className="text-gray-light text-base">
+                          {comment.createdAt && handleDate(comment.createdAt)}
+                        </p>
+                      </div>
+                      <p className="text-base text-gray-700">
+                        {comment.content}
+                      </p>
+
+                      {user && user && user.id === comment.userId && (
+                        <div className="flex flex-row items-center gap-4 text-gray-dark text-sm">
+                          <button
+                            // to={`/posts/${post}/comments/edit/${comment._id}`}
+                            onClick={handleViewCommentEditor}
+                            className="flex flex-row items-center gap-2 hover:underline hover:text-green-600 d"
+                          >
+                            <TiEdit className="text-green-600 hover:underline" />{" "}
+                            Edit
+                          </button>
+                          <p>|</p>
+                          <button
+                            onClick={() => handleLikeComment(comment._id)}
+                            className="flex flex-row items-center gap-2 hover:text-blue-600 hover:underline"
+                          >
+                            <GrLike className="text-blue-600" /> Like
+                          </button>
+                          <p>|</p>
+                          <button
+                            onClick={() => handleDeleteComment(comment._id)}
+                            className="flex flex-row items-center gap-2 hover:text-red-600 hover:underline "
+                          >
+                            <MdDeleteForever className="text-red-600 text-lg" />
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                      {showCommentEditor && <EditComment  commentId={comment._id} postId={post} />}
                     </div>
-                  ):(
-                    <>
-                    <button
-                      onClick={() => handleLikeComment(comment._id)}
-                      className="flex flex-row"
-                      >
-                        <GrLike className="text-gray-dark hover:underline text-2xl" />
-                      </button>
-                    </>
-                  ))}
-                </li>
-              ))}
-            </ul>
-          )
-        )}
-      </div>
-    </Modal>
+                  </li>
+                )
+            )}
+          </ul>
+        )
+      )}
+      {!showAllComments && comments && comments.length > 3 && (
+        <button
+          className="text-gray-600 ml-12 hover:text-black text-sm"
+          onClick={handleViewAllComments}
+        >
+          View All Comments...
+        </button>
+      )}
+    </div>
   );
 };
 

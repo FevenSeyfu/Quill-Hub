@@ -59,7 +59,7 @@ const CreatePosts = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const postData = {
       title,
@@ -75,10 +75,10 @@ const CreatePosts = () => {
       toast.error(message);
     }
     if (isSuccess || posts) {
-      dispatch(getPosts())
-      navigate("/posts/");
+      await dispatch(getPosts)
+      navigate(`/posts/user/${user.id}`);
     }
-    dispatch(reset());
+   
   };
   return (
     <>
@@ -149,6 +149,7 @@ const CreatePosts = () => {
             type="file"
             id="Image"
             name="Image"
+            accept="image/*"
             onChange={handleChange}
             className="mt-1 p-2 w-full border rounded-md"
           />
