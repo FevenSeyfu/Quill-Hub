@@ -1,8 +1,4 @@
-# CodSoft
-
-CodSoft is a repository containing two full-stack applications developed during a web developer internship. The applications include a Blogging Platform and a Project Management System.
-
-## Blogging Platform
+# Blogging Platform
 
 The Blogging Platform is designed to allow users to create, edit, and manage blog posts. It provides features such as user authentication, post creation, editing, and deletion. Users can also view and comment on posts.
 
