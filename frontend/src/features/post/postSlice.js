@@ -4,6 +4,7 @@ import postService from "./postService";
 
 const initialState = {
   posts: [],
+  recentPosts:[],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -44,8 +45,9 @@ export const getAllPosts = createAsyncThunk(
 export const getPosts = createAsyncThunk(
   'posts/getPosts',async (_,thunkAPI)=>{
     try{
-      const token =thunkAPI.getState().auth.user.token
-      return await postService.getPosts(token)
+      const userId = thunkAPI.getState().auth.user.id;
+      const token = thunkAPI.getState().auth.user.token;
+      return await postService.getPosts(userId, token);
     }catch(error){
       const message =
         (error.response && error.response.data && error.response.message) ||
@@ -116,6 +118,20 @@ export const searchPosts = createAsyncThunk(
         error.message ||
         error.toString();
 
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+export const getRecentPosts = createAsyncThunk(
+  'posts/recent',
+  async (_,thunkAPI) => {
+    try {
+      return await postService.getRecentPosts();
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -210,8 +226,9 @@ export const postSlice = createSlice({
       .addCase(deletePost.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
+        console.log( state.posts)
         state.posts = state.posts.filter(
-          (post) => post._id !== action.payload.id
+          (post) => post.id !== action.payload.id
         )
       })
       .addCase(deletePost.rejected, (state, action) => {
@@ -228,6 +245,19 @@ export const postSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(searchPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getRecentPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getRecentPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.recentPosts = action.payload;
+      })
+      .addCase(getRecentPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

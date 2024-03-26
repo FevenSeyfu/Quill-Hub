@@ -53,6 +53,7 @@ export const loginUser = async (request,response) => {
                 userName: user.userName,
                 firstName: user.firstName,
                 lastName: user.lastName,
+                profileImage: user.profileImage,
                 id:user._id,
                 email:user.email,
                 token: generateToken(user._id),

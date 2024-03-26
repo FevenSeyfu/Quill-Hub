@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const API_URL = 'https://quillhub-am0q.onrender.com';
-const POSTS_URL = `${API_URL}/posts/`;
-
+const API_URL = import.meta.env.VITE_API_URL;
+const POSTS_URL = `${API_URL}posts/`;
 
 // Create new post
 const createPost = async(postData,token) =>{
@@ -21,14 +20,14 @@ const getAllPosts =async()=>{
 }
 
 // get all user posts
-const getPosts =async(token)=>{
+const getPosts =async(userId,token)=>{
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(POSTS_URL,config)
-    return response.data
+    const response = await axios.get(`${POSTS_URL}/user/${userId}`, config);
+    return response.data;
 }
 
 // get post by id
@@ -61,7 +60,11 @@ const deletePost = async(postId,token)=>{
 const searchPosts = async (term) => {
     const response = await axios.get(`${POSTS_URL}search?term=${term}`);
     return response.data;
-  };
+};
+const getRecentPosts = async (term) => {
+    const response = await axios.get(`${POSTS_URL}/recent`);
+    return response.data;
+};
 
 const postService = {
     createPost,
@@ -70,6 +73,7 @@ const postService = {
     getAllPosts,
     deletePost,
     updatePost,
-    searchPosts
+    searchPosts,
+    getRecentPosts
 }
 export default postService

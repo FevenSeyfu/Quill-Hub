@@ -28,7 +28,7 @@ const App = () => {
     <>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path='/posts/' element={<MyPosts />} />
+        <Route path='/posts/user/:userId' element={<MyPosts />} />
         <Route path='/posts/create' element={<CreatePosts />} />
         <Route path='/posts/details/:id' element={<ShowPost />} />
         <Route path='/posts/edit/:id' element={<EditPost />} />
@@ -40,8 +40,8 @@ const App = () => {
 
         {/* for commenting system */}
         <Route path='/posts/:postId/comments/create' element={<CreateComment />} />
-        <Route path='/posts/comments/:postId/' element={<ShowComments />} />
-        <Route path='/posts/:postId/comments/edit/:commentId' element={<EditComment />} />
+        {/* <Route path='/posts/comments/:postId/' element={<ShowComments />} /> */}
+        {/* <Route path='/posts/:postId/comments/edit/:commentId' element={<EditComment />} /> */}
         <Route path='/posts/:postId/comments/delete/:commentId' element={<DeleteComment />} />
         <Route path='/posts/:postId/comments/:commentId/like' element={<LikeComment />} />
       </Routes>

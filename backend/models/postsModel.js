@@ -8,7 +8,16 @@ const postSchema = mongoose.Schema(
     authorName : {type: String},
     tags: { type: [String] },
     createdAt: { type: Date, default: Date.now },
-    Image: { type: String },
+    Image: { 
+      public_id:{
+        type:String,
+        required: true
+      },
+      url:{
+        type:String,
+        required: true
+      }
+     },
     category: { type: String },
     status: { type: String, default: "draft" },
     votesCount: { type: Number, default: 0 },

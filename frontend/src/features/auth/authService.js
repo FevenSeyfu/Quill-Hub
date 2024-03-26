@@ -1,9 +1,10 @@
-import axios from 'axios'
+import axios from 'axios';
+const BASE_URL =import.meta.env.VITE_API_URL;
+const USERS_URL = `${BASE_URL}/users/`;
 
-const API_URL = 'https://quillhub-am0q.onrender.com/users/'
 
 const register = async(userData)=>{
-    const response =await axios.post(API_URL,userData)
+    const response =await axios.post(USERS_URL,userData)
 
     if(response.data){
         localStorage.setItem('user',JSON.stringify(response.data))
@@ -13,7 +14,7 @@ const register = async(userData)=>{
 }
 
 const login = async(userData)=>{
-    const response =await axios.post(API_URL + 'login',userData)
+    const response =await axios.post(USERS_URL + 'login',userData)
 
     if(response.data){
         localStorage.setItem('user',JSON.stringify(response.data))

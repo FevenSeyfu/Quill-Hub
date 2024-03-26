@@ -63,7 +63,7 @@ const Header = ({ headerName }) => {
             onClick={() => setMenuOpen(!isMenuOpen)}
             className="focus:outline-none hover:underline hover:text-soft-orange"
           >
-            <RxAvatar size={30} />
+            {user? (<img src={user.profileImage} alt="Profile Image" className="h-8 w-8 rounded-full"/>) : (<RxAvatar size={30} />)}
           </button>
           {isMenuOpen && (
           <div className="absolute top-8 right-4 border-2  rounded-md shadow-2xl w-40 p-4 z-50 bg-soft-white">
@@ -76,7 +76,7 @@ const Header = ({ headerName }) => {
                 Profile
               </Link>
               <Link
-                to="/posts"
+                to={`/posts/user/${user.id}`}
                 className="flex items-center mb-2 hover:underline hover:text-soft-orange"
               >
                 <FaBook className="mr-2" />
