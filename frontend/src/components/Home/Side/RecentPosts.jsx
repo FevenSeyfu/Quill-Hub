@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IoChevronDown } from "react-icons/io5";
+import { IoChevronDown,IoChevronUp } from "react-icons/io5";
 import { getRecentPosts, reset } from "../../../features/post/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,6 +35,10 @@ const RecentPosts = () => {
   const handleExpandClick = () => {
     setVisiblePosts(recentPosts.length);
     setExpandRecentPosts(true);
+  };
+  const handleDropExpand = () => {
+    setVisiblePosts(2);
+    setExpandRecentPosts(false);
   };
 
   const handleDate = (dateInput) => {
@@ -99,12 +103,19 @@ const RecentPosts = () => {
           </div>
         </div>
       ))}
-      {recentPosts.length > 2 && !expandRecentPosts && (
+      {recentPosts.length > 2 && !expandRecentPosts ? (
         <button
-          className="text-blue-500 hover:underline cursor-pointer px-32"
+          className="text-gray-500 hover:underline cursor-pointer px-32"
           onClick={handleExpandClick}
         >
           <IoChevronDown size={30} />
+        </button>
+      ):(
+        <button
+          className="text-gray-500 hover:underline cursor-pointer px-32"
+          onClick={handleDropExpand}
+        >
+          <IoChevronUp size={30} />
         </button>
       )}
     </div>
