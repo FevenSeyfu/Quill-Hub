@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const COMMENTS_URL = `${API_URL}/comments/`;
+const COMMENTS_URL = `${API_URL}comments/`;
 
 // Create new Comment
 const createComment = async(commentData,token) =>{

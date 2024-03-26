@@ -16,5 +16,6 @@ router.get('/:id', getPost)
 router.put('/:id', protect, updatePost)
 // route to Delete a post
 router.delete('/:id', protect, deletePost)
+// route to fetch recent posts
 
 export default router;
