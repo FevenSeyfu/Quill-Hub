@@ -133,3 +133,14 @@ export const searchPosts = async (request, response) => {
     response.status(500).send({ message: "Server Error" });
   }
 };
+
+// recent posts 
+export const getRecentPosts = async(request,response) =>{
+  try{
+    const posts = await Post.find().sort({createdAt:-1}).limit(5)
+    response.status(200).send(posts)
+  }catch(err){
+    console.log("Server could not fetch recent posts")
+    response.status(500).send({message:err.message})
+  }
+}
