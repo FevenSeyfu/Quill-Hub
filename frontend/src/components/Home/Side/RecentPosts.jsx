@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoChevronDown,IoChevronUp } from "react-icons/io5";
 import { getRecentPosts, reset } from "../../../features/post/postSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 
 const SkeletonPost = () => {
   return (
@@ -16,6 +17,7 @@ const SkeletonPost = () => {
 };
 const RecentPosts = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [visiblePosts, setVisiblePosts] = useState(2);
   const [expandRecentPosts, setExpandRecentPosts] = useState(false);
 
@@ -40,7 +42,9 @@ const RecentPosts = () => {
     setVisiblePosts(2);
     setExpandRecentPosts(false);
   };
-
+  const showPostDetails = (id) => {
+    navigate(`/posts/details/${id}`);
+  };
   const handleDate = (dateInput) => {
     const months = [
       "Jan",
@@ -84,6 +88,7 @@ const RecentPosts = () => {
                 src={post.Image.url}
                 alt={`Recent Post ${post._id}`}
                 className="w-full h-20 object-cover rounded"
+                onClick={()=>showPostDetails(post._id)}
               />
             ) : (
               <div className="bg-black rounded-lg overflow-hidden items-center h-3/6 w-full">
@@ -108,14 +113,14 @@ const RecentPosts = () => {
           className="text-gray-500 hover:underline cursor-pointer px-32"
           onClick={handleExpandClick}
         >
-          <IoChevronDown size={30} />
+          <IoChevronDown size={20} />
         </button>
       ):(
         <button
           className="text-gray-500 hover:underline cursor-pointer px-32"
           onClick={handleDropExpand}
         >
-          <IoChevronUp size={30} />
+          <IoChevronUp size={20} />
         </button>
       )}
     </div>
