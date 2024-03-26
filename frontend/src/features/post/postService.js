@@ -60,7 +60,11 @@ const deletePost = async(postId,token)=>{
 const searchPosts = async (term) => {
     const response = await axios.get(`${POSTS_URL}search?term=${term}`);
     return response.data;
-  };
+};
+const getRecentPosts = async (term) => {
+    const response = await axios.get(`${POSTS_URL}/recent`);
+    return response.data;
+};
 
 const postService = {
     createPost,
@@ -69,6 +73,7 @@ const postService = {
     getAllPosts,
     deletePost,
     updatePost,
-    searchPosts
+    searchPosts,
+    getRecentPosts
 }
 export default postService
