@@ -62,7 +62,7 @@ const searchPosts = async (term) => {
     return response.data;
 };
 const getRecentPosts = async (term) => {
-    const response = await axios.get(`${POSTS_URL}/recent`);
+    const response = await axios.get(`${POSTS_URL}recent`);
     return response.data;
 };
 
