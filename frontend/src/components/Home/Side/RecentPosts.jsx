@@ -3,6 +3,17 @@ import { IoChevronDown } from "react-icons/io5";
 import { getRecentPosts, reset } from "../../../features/post/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 
+const SkeletonPost = () => {
+  return (
+    <div className="flex mb-4 animate-pulse">
+      <div className="w-1/3 h-20 bg-gray-200 rounded"></div>
+      <div className="w-2/3 pl-4 space-y-2">
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+      </div>
+    </div>
+  );
+};
 const RecentPosts = () => {
   const dispatch = useDispatch();
   const [visiblePosts, setVisiblePosts] = useState(2);
@@ -60,6 +71,7 @@ const RecentPosts = () => {
   return (
     <div className="recent-posts">
       <h2 className="text-xl font-2 my-3">Recent Posts</h2>
+      {isLoading && Array.from({ length: 2 }).map((_, index) => <SkeletonPost key={index} />)}
       {recentPosts.slice(0, visiblePosts).map((post) => (
         <div key={post._id} className="flex mb-4">
           <div className="w-1/3">
