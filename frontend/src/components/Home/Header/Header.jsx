@@ -27,7 +27,7 @@ const Header = ({ headerName }) => {
   };
   let sidebarHidden= window.innerWidth <= 768;
   return (
-    <div className="flex items-center justify-between align-center">
+    <div className="flex items-center justify-between align-center px-4">
         <div className="flex flex-col w-full lg:hidden">
             <Link to="/" className="flex flex-row items-center">
             <img src={Logo} alt="Logo" className="w-24 h-16"/>

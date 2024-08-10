@@ -43,24 +43,24 @@ const PostCard = ({ post, commentsCount }) => {
   };
 
   return (
-    <div className="w-full min-h-fit rounded-lg overflow-hidden shadow-md shadow-gray relative">
+    <div className="w-full rounded-lg overflow-hidden shadow-md shadow-gray relative">
       <div className="absolute top-0 left-0 bg-soft-orange text-soft-white px-2 py-1 m-2  rounded-lg">
         {tags[0]}
       </div>
       {Image.url ? (
         <img
-          className="rounded-lg overflow-hidden items-center h-3/6 w-full"
+          className="rounded-md overflow-hidden items-center h-1/2 w-full"
           src={Image.url}
           alt={title}
         />
       ) : (
-        <div className="bg-black rounded-lg overflow-hidden items-center h-3/6 w-full">
+        <div className="bg-black rounded-lg overflow-hidden items-center h-1/2 w-full">
           <div className="text-white pt-20  text-lg text-center p-4">
             {title.toUpperCase()}
           </div>
         </div>
       )}
-      <div className="flex flex-col">
+      <div className="flex flex-col h-1/2 px-2 py-3">
         <div className="p-2">
           <h2 className="font-bold text-gray overflow-ellipsis overflow-hidden whitespace-nowrap">
             {title.toUpperCase()}
@@ -78,14 +78,14 @@ const PostCard = ({ post, commentsCount }) => {
             <p className="text-gray-500 text-sm">
               Date: {createdAt && handleDate(createdAt)}
             </p>
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row items-center gap-4">
               <p className="flex flex-row items-center gap-1 text-gray-500 text-sm">
                 <FaHeart className="text-red-600 text-base" />
-                {votesCount} Likes
+                {votesCount}
               </p>
               <p className="flex flex-row items-center text-gray-500 text-sm">
                 <FaCommentDots className="text-gray-700 pr-1 text-lg" />
-                {commentsCount} Comments
+                {commentsCount}
               </p>
             </div>
           </div>

@@ -17,7 +17,7 @@ const PostsList = ({ posts }) => {
         return comments.payload.length;
       } catch (error) {
         toast.error("Error fetching Comments:", error);
-        return 0
+        return 0;
       }
     };
 
@@ -31,12 +31,10 @@ const PostsList = ({ posts }) => {
 
       await Promise.all(countsPromises);
       setCommentsCounts(counts);
-    
     };
 
     fetchCommentsCountsForPosts();
-   
-  }, [ posts]);
+  }, [posts]);
 
   return (
     <div
@@ -44,17 +42,16 @@ const PostsList = ({ posts }) => {
         posts.length === 1
           ? "grid-cols-1 w-full"
           : "md:grid-cols-2 w-full lg:grid-cols-3"
-      } gap-2 p-4`}
+      } gap-2 gap-y-4 p-4 h-auto`}
     >
       {isLoading ? (
         <Spinner />
-      ) :  (
+      ) : (
         posts.map((post) => (
           <PostCard
             key={post._id}
             post={post}
             commentsCount={commentsCounts[post._id] || 0}
-            className="max-h-[300px]"
           />
         ))
       )}

@@ -9,7 +9,7 @@ const SideBar = () => {
   const { user } = useSelector((state) => state.auth);
   return (
     <>
-    <div className={`hidden lg:flex flex-col justify-between bg-purple-telemagnet w-64 h-full fixed left-0 top-0 text-white`}>
+    <div className={`hidden lg:flex flex-col justify-between bg-purple-telemagnet w-auto px-4 h-full fixed left-0 top-0 text-white`}>
       <div className='flex flex-col justify-around items-center m-2'>
         <Link to="/">
           <img src={Logo} alt="Logo" className="w-24 h-16"/>
