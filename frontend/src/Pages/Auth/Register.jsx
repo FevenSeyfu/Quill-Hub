@@ -28,6 +28,7 @@ const Register = () => {
     profileImage,
     password,
   } = formData;
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -64,6 +65,7 @@ const Register = () => {
               ...prevState,
               profileImage: reader.result,
             }));
+            setImagePreview(reader.result);
           };
 
           reader.readAsDataURL(compressedFile);
@@ -172,6 +174,15 @@ const Register = () => {
                 required={field.required}
               />
             ))}
+            {imagePreview && (
+              <div className="flex justify-center mb-4">
+                <img
+                  src={imagePreview}
+                  alt="Profile Preview"
+                  className="w-24 h-24 rounded-full object-cover"
+                />
+              </div>
+            )}
             <button
               type="submit"
               className="w-3/6 text-white  bg-soft-orange rounded-2xl py-2 ml-20"
