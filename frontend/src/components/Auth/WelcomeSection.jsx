@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as Illustration } from "../../assets/Illustration.svg";
+import Illustration from "../../assets/Illustration.svg?react";
 
 const WelcomeSection = () => {
   return (
@@ -11,8 +11,8 @@ const WelcomeSection = () => {
           and explore a world of possibilities.
         </p>
       </div>
-      <div className="px-20">
-        <Illustration className="h-16 w-16"/>
+      <div className="px-16">
+        <Illustration className="w-[100%] h-auto"/>
       </div>
     </div>
   );
