@@ -15,7 +15,7 @@ const WelcomeSection = () => {
         <Illustration className="w-[100%] h-auto"/>
       </div>
     </div>
-  );
+  ); 
 };
 
 export default WelcomeSection;

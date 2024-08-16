@@ -59,7 +59,7 @@ const Login = () => {
             <img
               src={logoCircle}
               alt="Logo"
-              className="w-32 h-32 rounded-full object-contain"
+              className="w-24 h-24 rounded-full object-contain"
             />
           </div>
           <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
