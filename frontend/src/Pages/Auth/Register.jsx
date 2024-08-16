@@ -5,8 +5,8 @@ import {useSelector,useDispatch} from 'react-redux'
 import {toast} from 'react-toastify'
 import { register,reset } from "../../features/auth/authSlice.js";
 import imageCompression from 'browser-image-compression';
-import { Illustration } from "../../assets/Illustration.jsx";
 import logoCircle from '../../assets/logo-circle.png'
+import WelcomeSection from "../../components/Auth/WelcomeSection.jsx";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -79,18 +79,7 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-purple-telemagnet">
       <div className="max-w-6xl w-5/6  flex rounded-2xl  bg-soft-white shadow-md ">
-        <div className="hidden md:block  md:w-4/5   rounded-lg text-soft-white  bg-soft-orange">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-4">Welcome</h2>
-            <p className="text-gray-600 mb-4">
-              Enjoy the benefits of our platform by signing in. Join our
-              community and explore a world of possibilities.
-            </p>
-          </div>
-          <div className="px-20">
-            <Illustration className="w-full h-full "/>
-          </div>
-        </div>
+      <WelcomeSection />
 
         <div className="w-full px-2 md:w-3/6 mx-4 md:mb-0 ">
           <div className="flex items-center justify-center mb-2 mt-2">

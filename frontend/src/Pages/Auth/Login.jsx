@@ -4,8 +4,8 @@ import Spinner from "../../components/Spinner.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login, reset } from "../../features/auth/authSlice.js";
-import { Illustration } from "../../assets/Illustration.jsx";
 import logoCircle from '../../assets/logo-circle.png'
+import WelcomeSection from "../../components/Auth/WelcomeSection.jsx";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -131,18 +131,7 @@ const Login = () => {
           </p>
         </div>
         {/* Right side - Welcome message and illustration */}
-        <div className="hidden md:block w-full md:w-4/6 pt-8  rounded-lg text-soft-white  bg-soft-orange">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-2">Welcome</h2>
-            <p className="text-gray-600 mb-4">
-              Enjoy the benefits of our platform by signing in. Join our
-              community and explore a world of possibilities.
-            </p>
-          </div>
-          <div className="px-20">
-            <Illustration className="w-full h-full"/>
-          </div>
-        </div>
+        <WelcomeSection />
       </div>
     </div>
   );
