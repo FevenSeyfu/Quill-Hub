@@ -8,6 +8,7 @@ import imageCompression from "browser-image-compression";
 import logoCircle from "../../assets/logo-circle.png";
 import WelcomeSection from "../../components/Auth/WelcomeSection.jsx";
 import InputField from "../../components/Utility/InputField.jsx";
+import Button from "../../components/Utility/Button/Button.jsx";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -148,10 +149,10 @@ const Register = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-purple-telemagnet">
+    <div className="min-h-screen  flex items-center justify-center bg-purple-telemagnet">
       <div className="max-w-6xl w-5/6  flex rounded-2xl  bg-soft-white shadow-md ">
         <WelcomeSection />
-        <div className="w-full px-2 md:w-3/6 mx-4 md:mb-0 ">
+        <div className="w-full px-2 md:w-[70%] mx-4 md:mb-0 ">
           <div className="flex items-center justify-center mb-2 mt-2">
             <img
               src={logoCircle}
@@ -162,33 +163,40 @@ const Register = () => {
           <h2 className="text-2xl font-bold mb-2 text-center">Register</h2>
           {isLoading ? <Spinner /> : ""}
           <form onSubmit={onSubmit}>
-            {formFields.map((field, index) => (
-              <InputField
-                key={index}
-                label={field.label}
-                type={field.type}
-                id={field.id}
-                name={field.name}
-                value={field.type === "file" ? undefined : formData[field.name]}
-                onChange={onChange}
-                required={field.required}
-              />
-            ))}
+            <div className="flex flex-wrap gap-x-4">
+              {formFields.map((field, index) => (
+                <InputField
+                  key={index}
+                  label={field.label}
+                  type={field.type}
+                  id={field.id}
+                  name={field.name}
+                  value={
+                    field.type === "file" ? undefined : formData[field.name]
+                  }
+                  onChange={onChange}
+                  required={field.required}
+                />
+              ))}
+            </div>
             {imagePreview && (
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-start mb-2">
                 <img
                   src={imagePreview}
                   alt="Profile Preview"
-                  className="w-24 h-24 rounded-full object-cover"
+                  className="w-24 h-auto object-cover"
                 />
               </div>
             )}
-            <button
-              type="submit"
-              className="w-3/6 text-white  bg-soft-orange rounded-2xl py-2 ml-20"
-            >
-              Register
-            </button>
+            <div className="w-full flex justify-center">
+              <Button
+                type="submit"
+                onClick={onSubmit}
+              >
+                Register
+              </Button>
+            </div>
+          </form>
             <p className="text-sm text-gray mt-2">
               Already have an account?
               <Link
@@ -198,7 +206,6 @@ const Register = () => {
                 Login
               </Link>
             </p>
-          </form>
         </div>
       </div>
     </div>

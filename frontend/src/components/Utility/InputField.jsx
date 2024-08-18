@@ -2,7 +2,7 @@ import React from 'react';
 
 const InputField = ({ label, type, id, name, value, onChange, required }) => {
   return (
-    <div>
+    <div className='flex flex-col w-auto my-2'>
       <label htmlFor={id} className="block text-sm font-medium text-gray">
         {label}
       </label>
@@ -11,7 +11,7 @@ const InputField = ({ label, type, id, name, value, onChange, required }) => {
           type={type}
           id={id}
           name={name}
-          className="mt-1 p-2 w-full border-2 focus:border-2 rounded-md"
+          className="mt-1 p-2  border border-purple-telemagnet  focus:border-2 focus:border-purple-telemagnet rounded-md outline-none"
           onChange={onChange}
           required={required}
         />
@@ -20,7 +20,7 @@ const InputField = ({ label, type, id, name, value, onChange, required }) => {
           type={type}
           id={id}
           name={name}
-          className="mt-1 p-2 w-full border-2 focus:border-2 rounded-md"
+          className="mt-1 p-2 border border-purple-telemagnet focus:border-2 focus:outline-purple-telemagnet rounded-md"
           value={value}
           onChange={onChange}
           required={required}
