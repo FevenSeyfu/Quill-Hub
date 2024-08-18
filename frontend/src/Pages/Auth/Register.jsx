@@ -9,6 +9,7 @@ import logoCircle from "../../assets/logo-circle.png";
 import WelcomeSection from "../../components/Auth/WelcomeSection.jsx";
 import InputField from "../../components/Utility/InputField.jsx";
 import Button from "../../components/Utility/Button/Button.jsx";
+import PrimaryLink from "../../components/Utility/PrimaryLink.jsx";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -149,10 +150,10 @@ const Register = () => {
   ];
 
   return (
-    <div className="min-h-screen  flex items-center justify-center bg-purple-telemagnet">
-      <div className="max-w-6xl w-5/6  flex rounded-2xl  bg-soft-white shadow-md ">
+    <div className="min-h-screen  flex items-center justify-center bg-white">
+      <div className="max-w-6xl w-5/6  flex rounded-2xl  bg-soft-white shadow-md border border-purple-telemagnet">
         <WelcomeSection />
-        <div className="w-full px-2 md:w-[70%] mx-4 md:mb-0 ">
+        <div className="w-full px-2 py-4 md:w-[75%] mx-4 md:mb-0 ">
           <div className="flex items-center justify-center mb-2 mt-2">
             <img
               src={logoCircle}
@@ -162,11 +163,18 @@ const Register = () => {
           </div>
           <h2 className="text-2xl font-bold mb-2 text-center">Register</h2>
           {isLoading ? <Spinner /> : ""}
-          <form onSubmit={onSubmit}>
-            <div className="flex flex-wrap gap-x-4">
-              {formFields.map((field, index) => (
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-wrap justify-between gap-y-4"
+          >
+            {formFields.map((field, index) => (
+              <div
+                key={index}
+                className={`${
+                  field.type === "file" ? "w-full" : "w-[calc(50%-1rem)]"
+                }`}
+              >
                 <InputField
-                  key={index}
                   label={field.label}
                   type={field.type}
                   id={field.id}
@@ -176,9 +184,10 @@ const Register = () => {
                   }
                   onChange={onChange}
                   required={field.required}
+                  placeholder={`Enter ${field.label}`}
                 />
-              ))}
-            </div>
+              </div>
+            ))}
             {imagePreview && (
               <div className="flex justify-start mb-2">
                 <img
@@ -188,24 +197,14 @@ const Register = () => {
                 />
               </div>
             )}
-            <div className="w-full flex justify-center">
-              <Button
-                type="submit"
-                onClick={onSubmit}
-              >
-                Register
-              </Button>
-            </div>
+            <Button type="submit" onClick={onSubmit} disabled="true">
+              Register
+            </Button>
           </form>
-            <p className="text-sm text-gray mt-2">
-              Already have an account?
-              <Link
-                to="/users/login"
-                className="text-soft-orange hover:underline"
-              >
-                Login
-              </Link>
-            </p>
+          <p className="text-center pr-6 text-lg text-gray mt-2">
+            Already have an account?{" "}
+            <PrimaryLink to="/users/login">Login</PrimaryLink>
+          </p>
         </div>
       </div>
     </div>
